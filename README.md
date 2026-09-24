@@ -1,4 +1,4 @@
-# Jarvis for Coastline Auto Detailing
+# Morgan's Daily Sheet (Jarvis for Coastline Auto Detailing)
 
 A personal assistant and business tracker for Morgan and Coastline Auto Detailing.
 
