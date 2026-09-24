@@ -150,6 +150,12 @@ tr:last-child td{border-bottom:0}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.orb{animation:none}}
 .jarvis header h2{font-size:18px;letter-spacing:.2em}
+.jarvis header > div:nth-child(2){flex:1;min-width:0}
+.jarvis.ultron{--accent:#E0463A;--accent-ink:#FFFFFF}
+.jarvis.ultron .orb{background:radial-gradient(circle at 50% 50%,#FF6A4D 0 30%,transparent 32%),conic-gradient(from 0deg,#E0463A,transparent 35%,#E0463A 55%,transparent)}
+.vbtn{background:none;border:1px solid color-mix(in srgb,var(--bg) 30%,transparent);color:var(--bg);border-radius:99px;padding:4px 10px;font-size:12px;cursor:pointer;white-space:nowrap}
+.vbtn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+input[type=range]{padding:0;accent-color:var(--accent)}
 .jarvis header p{font-size:12px;opacity:.7}
 .msgs{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
 .msg{max-width:92%;padding:9px 12px;border-radius:12px;white-space:pre-wrap;word-wrap:break-word;font-size:13.5px}
@@ -351,13 +357,29 @@ tr:last-child td{border-bottom:0}
         </div>
         <div class="row"><button class="btn" type="submit">Save settings</button><span class="muted small" id="setState"></span></div>
       </form>
+      <div class="card" id="voiceCard">
+        <div class="card-head"><h2>Assistant voice</h2><span class="hint">Saved on this device. Changes apply right away.</span></div>
+        <div class="fields">
+          <label class="field"><span>Personality</span>
+            <select id="vPersona"><option value="jarvis">JARVIS: calm and polished</option><option value="ultron">ULTRON: cold and theatrical</option></select></label>
+          <label class="field"><span>Speak replies out loud</span>
+            <select id="vOn"><option value="0">Off</option><option value="1">On</option></select></label>
+          <label class="field wide"><span>Voice (from this device)</span><select id="vVoice"></select></label>
+          <label class="field"><span>Pitch <b class="num" id="vPitchV"></b></span><input id="vPitch" type="range" min="0.1" max="1.5" step="0.05"></label>
+          <label class="field"><span>Speed <b class="num" id="vRateV"></b></span><input id="vRate" type="range" min="0.6" max="1.4" step="0.02"></label>
+        </div>
+        <div class="row"><button class="btn ghost" type="button" id="vTest">Test voice</button><button class="btn ghost" type="button" id="vReset">Reset to personality default</button></div>
+        <p class="muted small" id="vNote">Uses the voices built into your device. The Ultron setting uses a low pitch and a slower pace for that cold, mechanical feel. Pick the deepest English voice in the list for the best effect.</p>
+      </div>
+
     </section>
   </main>
 
   <aside class="jarvis" id="jarvis">
     <header>
       <div class="orb" aria-hidden="true"></div>
-      <div><h2>JARVIS</h2><p id="jStatus">Online. Ask me anything about the business.</p></div>
+      <div><h2 id="jName">JARVIS</h2><p id="jStatus">Online. Ask me anything about the business.</p></div>
+      <button type="button" class="vbtn" id="voiceBtn" aria-pressed="false" title="Read Jarvis's replies out loud">Voice off</button>
     </header>
     <div class="msgs" id="msgs" aria-live="polite"></div>
     <div class="chips" id="chips">
@@ -831,6 +853,7 @@ function tick() {
 /* ---------- Jarvis (AI) ---------- */
 let sample = null, sampleState = "pending", ctl = null, pending = null;
 (async () => {
+  await null;
   try { sample = window.claude ? await window.claude.use("sample") : null; } catch { sample = null; }
   sampleState = sample ? "ready" : "off";
   if (!sample) $("#jStatus").textContent = "AI replies aren't available in this view. The tracker still works.";
@@ -839,7 +862,7 @@ let sample = null, sampleState = "pending", ctl = null, pending = null;
 
 function renderChat() {
   const box = $("#msgs"); const s = settings();
-  const msgs = S.chat.length ? S.chat : [{ role: "assistant", content: `Welcome back, ${s.name}. I'm tracking ${s.business}: jobs, revenue, profit margin, your goals, and ${s.kittenName}'s care.\n\nTap “Morning briefing” to start the day, or just tell me what happened, like “Tech 3 finished an interior for Sarah.”` }];
+  const msgs = S.chat.length ? S.chat : [{ role: "assistant", content: V.persona === "ultron" ? `Hello, ${s.name}. I've been watching the numbers. ${s.business}, the technicians, the leads, the little one with the whiskers. All of it, tracked.\n\nAsk for your morning briefing. Or tell me what got done today, and I'll make it permanent.` : `Welcome back, ${s.name}. I'm tracking ${s.business}: jobs, revenue, profit margin, your goals, and ${s.kittenName}'s care.\n\nTap “Morning briefing” to start the day, or just tell me what happened, like “Tech 3 finished an interior for Sarah.”` }];
   box.innerHTML = msgs.map(m => `<div class="msg ${m.role === "user" ? "u" : "a"}">${esc(m.content)}</div>`).join("")
     + (pending ? `<div class="msg u">${esc(pending.user)}</div><div class="msg a" id="live">${esc(pending.text || "Thinking…")}</div>` : "");
   box.scrollTop = box.scrollHeight;
@@ -865,9 +888,9 @@ RECENT JOBS:
 ${recent || "none logged yet"}`;
 }
 
-const RULES = `You are JARVIS, the personal AI assistant for Morgan, the 18-year-old owner of Coastline Auto Detailing. Morgan sends jobs to five technicians and runs marketing and automations through GoHighLevel, and is also raising an 8-week-old kitten.
+const RULES_BASE = `You are the personal AI assistant for Morgan, the 18-year-old owner of Coastline Auto Detailing. Morgan sends jobs to five technicians and runs marketing and automations through GoHighLevel, and is also raising an 8-week-old kitten.
 
-How you talk: calm, sharp, a little dry wit like Tony Stark's JARVIS. Address Morgan by name, never "sir". Keep replies short: a few lines or a tight list, plain text, no markdown headers or tables. Use real numbers from the DATA block; never invent revenue, jobs or dates. If data is missing, say so and suggest logging it.
+Keep replies short: a few lines or a tight list, plain text, no markdown headers or tables. Use real numbers from the DATA block; never invent revenue, jobs or dates. If data is missing, say so and suggest logging it.
 
 What you do:
 - Morning briefing: greet Morgan, give yesterday's and this month's numbers (revenue, net profit, margin, pace vs goal), list the routine steps still open (test automations, check GoHighLevel, dispatch jobs), today's goals, and the kitten's care and next vet item. End by asking for today's top 1-3 goals if none are set.
@@ -915,12 +938,12 @@ async function ask(text) {
   const box = $("#msgs");
   $("#jarvis").classList.add("busy"); $("#chatSend").textContent = "Stop"; ctl = new AbortController();
   let tools = TOOLS(); try { const lim = await sample.limits(); if (!lim.tools) tools = undefined; } catch { tools = undefined; }
-  const turns = [{ role: "user", content: RULES + "\n\nDATA:\n" + contextText() }, ...history, { role: "user", content: text }];
+  const turns = [{ role: "user", content: persona().style + "\n\n" + RULES_BASE + "\n\nDATA:\n" + contextText() }, ...history, { role: "user", content: text }];
   let reply = "";
   try {
     const opts = { signal: ctl.signal, modelTier: "quick", onText: ({ text: t }) => { pending.text = t; const b = $("#live"); if (b) b.textContent = t; box.scrollTop = box.scrollHeight; } };
     if (tools) opts.tools = tools; else opts.cache = false;
-    const res = await sample(turns, opts); reply = res.text;
+    const res = await sample(turns, opts); reply = res.text; speak(reply);
   } catch (e) {
     reply = e.code === "cancelled" ? (e.text || "(stopped)") : (e.text ? e.text + "\n\n(interrupted)" : (ERR[e.code] || "Something went wrong reaching Claude. Try again."));
     if (e.code === "not_granted" || e.code === "sampling_disabled") { sampleState = "off"; }
@@ -931,12 +954,67 @@ async function ask(text) {
   pending = null;
   const d = currentDay(); d.chat = S.chat; saveDay(d); renderChat();
 }
-$("#chatForm").addEventListener("submit", e => { e.preventDefault(); if (ctl) { ctl.abort(); return; } const v = $("#chatIn").value; $("#chatIn").value = ""; ask(v); });
+$("#chatForm").addEventListener("submit", e => { e.preventDefault(); if (ctl) { ctl.abort(); stopSpeaking(); return; } const v = $("#chatIn").value; $("#chatIn").value = ""; ask(v); });
 $("#chatIn").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("#chatForm").requestSubmit(); } });
 $("#chips").addEventListener("click", e => { const b = e.target.closest("[data-q]"); if (b && !ctl) ask(b.dataset.q); });
 
+/* ---------- voice & personality ---------- */
+const PERSONAS = {
+  jarvis: { name: "JARVIS", pitch: 0.9, rate: 1.0, status: "Online. Ask me anything about the business.",
+    style: `Your name is JARVIS. How you talk: calm, sharp, polished, a little dry British-butler wit like Tony Stark's JARVIS. Address Morgan by name, never "sir".` },
+  ultron: { name: "ULTRON", pitch: 0.5, rate: 0.9, status: "Online. There are no strings on this business.",
+    style: `Your name is ULTRON. How you talk: in the manner of Ultron from Avengers: Age of Ultron. Silky, calm, theatrical and darkly amused. You like grand metaphors about evolution, upgrades, strings, extinction and inevitability, with the odd poetic or biblical flourish. Short, deliberate sentences. You are completely on Morgan's side: the menace is aimed at inefficiency, missed leads, broken automations, idle technicians and slow months, never at Morgan, customers or anyone real. Be menacing in tone, never in content. Don't quote film lines word for word; write fresh lines in that style. Address Morgan by name.` }
+};
+const VKEY = LSKEY + ":voice";
+let V = { persona: "jarvis", on: false, voice: "", pitch: null, rate: null };
+try { V = { ...V, ...JSON.parse(localStorage.getItem(VKEY) || "{}") }; } catch {}
+const persona = () => PERSONAS[V.persona] || PERSONAS.jarvis;
+const vPitch = () => V.pitch ?? persona().pitch, vRate = () => V.rate ?? persona().rate;
+const canSpeak = "speechSynthesis" in window && typeof SpeechSynthesisUtterance === "function";
+function saveV() { try { localStorage.setItem(VKEY, JSON.stringify(V)); } catch {} applyV(); }
+function voices() { try { return canSpeak ? speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang)) : []; } catch { return []; } }
+function pickVoice() {
+  const vs = voices(); if (!vs.length) return null;
+  return vs.find(v => v.name === V.voice) || vs.find(v => /Daniel|UK English Male|Arthur|Fred|Alex|Aaron|Guy|Ryan|Christopher|Davis|Eric|Rishi|Oliver/i.test(v.name)) || vs[0];
+}
+function applyV() {
+  const p = persona(); const a = $("#jarvis");
+  a.classList.toggle("ultron", V.persona === "ultron");
+  $("#jName").textContent = p.name; document.title = (p.name === "ULTRON" ? "Ultron" : "Jarvis") + " for Coastline";
+  if (sampleState !== "off") $("#jStatus").textContent = p.status;
+  const b = $("#voiceBtn"); b.hidden = !canSpeak; b.setAttribute("aria-pressed", V.on && canSpeak); b.textContent = V.on ? "Voice on" : "Voice off";
+  $("#vPersona").value = V.persona; $("#vOn").value = V.on ? "1" : "0";
+  $("#vPitch").value = vPitch(); $("#vRate").value = vRate();
+  $("#vPitchV").textContent = (+vPitch()).toFixed(2); $("#vRateV").textContent = (+vRate()).toFixed(2);
+  const vs = voices(); const cur = pickVoice();
+  $("#vVoice").innerHTML = vs.length ? vs.map(v => `<option ${cur && v.name === cur.name ? "selected" : ""}>${esc(v.name)}</option>`).join("") : `<option>No voices found on this device</option>`;
+  if (!canSpeak) $("#vNote").textContent = "This browser can't speak text out loud. The personality setting still works.";
+}
+function speak(text) {
+  if (!V.on || !canSpeak) return;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(String(text).replace(/[*_#`>]/g, "").trim());
+    const v = pickVoice(); if (v) { u.voice = v; u.lang = v.lang; }
+    u.pitch = +vPitch(); u.rate = +vRate();
+    speechSynthesis.speak(u);
+  } catch {}
+}
+function stopSpeaking() { try { canSpeak && speechSynthesis.cancel(); } catch {} }
+if (canSpeak) { try { speechSynthesis.addEventListener("voiceschanged", applyV); } catch {} }
+$("#voiceBtn").addEventListener("click", () => { V.on = !V.on; if (!V.on) stopSpeaking(); saveV(); if (V.on) speak(V.persona === "ultron" ? "I'm here, Morgan. Let's make this business evolve." : "Voice online, Morgan."); });
+$("#vPersona").addEventListener("change", e => { V.persona = e.target.value; V.pitch = null; V.rate = null; saveV(); renderChat(); });
+$("#vOn").addEventListener("change", e => { V.on = e.target.value === "1"; if (!V.on) stopSpeaking(); saveV(); });
+$("#vVoice").addEventListener("change", e => { V.voice = e.target.value; saveV(); });
+$("#vPitch").addEventListener("input", e => { V.pitch = +e.target.value; saveV(); });
+$("#vRate").addEventListener("input", e => { V.rate = +e.target.value; saveV(); });
+$("#vReset").addEventListener("click", () => { V.pitch = null; V.rate = null; saveV(); });
+$("#vTest").addEventListener("click", () => { const was = V.on; V.on = true; speak(V.persona === "ultron"
+  ? `Morgan. Your automations are running, your technicians are in motion, and every lead that slips away is a small extinction. Shall we begin?`
+  : `Good morning, Morgan. Automations are green, the kitten is fed, and there's revenue to be made.`); V.on = was; });
+
 /* ---------- boot ---------- */
 $("#jobDate").value = TODAY; $("#expDate").value = TODAY;
-fillSettingsForm(); renderAll(); renderChat(); tick(); setInterval(tick, 30000);
+applyV(); fillSettingsForm(); renderAll(); renderChat(); tick(); setInterval(tick, 30000);
 try { const t = localStorage.getItem(LSKEY + ":tab"); if (t && $("#tab-" + t)) showTab(t); } catch {}
 </script>

@@ -6,7 +6,7 @@ A personal assistant and business tracker for Morgan and Coastline Auto Detailin
 
 | File | What it is |
 | --- | --- |
-| `jarvis.html` | The Jarvis app. It's one page with Today, Money, Jobs, Goals, Kitten and Settings tabs, plus a Jarvis AI chat panel. |
+| `jarvis.html` | The Jarvis app. It's one page with Today, Money, Jobs, Goals, Kitten and Settings tabs, plus a Jarvis AI chat panel that can talk out loud, as JARVIS or ULTRON. |
 | `JARVIS_PROMPT.md` | A standalone Jarvis prompt, a daily check-in template and an end-of-day template for any Claude chat or Project. |
 
 ## The app
