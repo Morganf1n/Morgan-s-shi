@@ -162,18 +162,21 @@ tr:last-child td{border-bottom:0}
 .jarvis{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--ink);color:var(--bg);border-radius:14px;display:flex;flex-direction:column;height:calc(100vh - 110px);min-height:460px;max-height:860px;overflow:hidden}
 @media (max-width:980px){.jarvis{position:static;height:620px}}
 .jarvis header{padding:14px 16px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid color-mix(in srgb,var(--bg) 14%,transparent)}
-.orb{width:28px;height:28px;border-radius:50%;flex:none;background:radial-gradient(circle at 50% 50%,var(--accent) 0 28%,transparent 30%),conic-gradient(from 0deg,var(--accent),transparent 40%,var(--accent) 60%,transparent);animation:spin 6s linear infinite}
-.jarvis.busy .orb{animation-duration:1.2s}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media (prefers-reduced-motion:reduce){.orb{animation:none}}
 .jarvis header h2{font-size:18px;letter-spacing:.2em}
-.jarvis header > div:nth-child(2){flex:1;min-width:0}
+.jarvis header > div:first-child{flex:1;min-width:0}
 .jarvis.ultron{--accent:#E0463A;--accent-ink:#FFFFFF}
-.jarvis.ultron .orb{background:radial-gradient(circle at 50% 50%,#FF6A4D 0 30%,transparent 32%),conic-gradient(from 0deg,#E0463A,transparent 35%,#E0463A 55%,transparent)}
 .vbtn{background:none;border:1px solid color-mix(in srgb,var(--bg) 30%,transparent);color:var(--bg);border-radius:99px;padding:4px 10px;font-size:12px;cursor:pointer;white-space:nowrap}
 .vbtn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
 input[type=range]{padding:0;accent-color:var(--accent)}
 .jarvis header p{font-size:12px;opacity:.7}
+.core{position:relative;flex:0 0 250px;min-height:0;overflow:hidden;background:#04161c}
+.jarvis.ultron .core{background:#2a0808}
+.core canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.core .caption{position:absolute;left:16px;right:16px;bottom:18px;font-size:13.5px;line-height:1.45;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.9),0 0 2px rgba(0,0,0,.8);white-space:pre-wrap;max-height:36%;overflow-y:auto;display:none}
+.jarvis.corefull .core{flex:1}
+.jarvis.corefull .core .caption{display:block}
+.jarvis.corefull .msgs{display:none}
 .msgs{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
 .msg{max-width:92%;padding:9px 12px;border-radius:12px;white-space:pre-wrap;word-wrap:break-word;font-size:13.5px}
 .msg.a{background:color-mix(in srgb,var(--bg) 9%,transparent);align-self:flex-start;border-top-left-radius:4px}
@@ -430,10 +433,11 @@ input[type=range]{padding:0;accent-color:var(--accent)}
 
   <aside class="jarvis" id="jarvis">
     <header>
-      <div class="orb" aria-hidden="true"></div>
       <div><h2 id="jName">JARVIS</h2><p id="jStatus">Online. Ask me anything about the business.</p></div>
+      <button type="button" class="vbtn" id="viewBtn" title="Switch between the full core and the chat history">Show chat</button>
       <button type="button" class="vbtn" id="voiceBtn" aria-pressed="false" title="Read Jarvis's replies out loud">Voice off</button>
     </header>
+    <div class="core" id="core"><canvas id="coreCanvas" aria-hidden="true"></canvas><div class="caption" id="caption" aria-live="polite"></div></div>
     <div class="msgs" id="msgs" aria-live="polite"></div>
     <div class="chips" id="chips">
       <button type="button" data-q="Give me my morning briefing.">Morning briefing</button>
@@ -969,7 +973,10 @@ function renderChat() {
   box.innerHTML = msgs.map(m => `<div class="msg ${m.role === "user" ? "u" : "a"}">${esc(m.content)}</div>`).join("")
     + (pending ? `<div class="msg u">${esc(pending.user)}</div><div class="msg a" id="live">${esc(pending.text || "Thinking…")}</div>` : "");
   box.scrollTop = box.scrollHeight;
+  const last = pending ? (pending.text || "Thinking…") : (msgs.filter(m => m.role !== "user").pop() || {}).content || "";
+  setCaption(last);
 }
+function setCaption(t) { const c = $("#caption"); if (!c) return; c.textContent = t; c.scrollTop = c.scrollHeight; }
 
 function contextText() {
   const s = settings(); const now = new Date(); const mk = monthKey(now); const st = monthStats(mk); const p = pace(mk); const d = currentDay(); const a = kittenAge(); const nv = nextVet();
@@ -1047,21 +1054,21 @@ async function ask(text) {
   text = String(text || "").trim(); if (!text) return;
   if (!sample) { toast(sampleState === "pending" ? "Jarvis is still starting up. Try again in a second." : "AI replies aren't available here."); return; }
   const history = S.chat.filter(m => m.role === "user" || m.role === "assistant").slice(-14);
-  pending = { user: text, text: "" }; renderChat();
+  pending = { user: text, text: "" }; renderChat(); Core.set("thinking");
   const box = $("#msgs");
   $("#jarvis").classList.add("busy"); $("#chatSend").textContent = "Stop"; ctl = new AbortController();
   let tools = TOOLS(); try { const lim = await sample.limits(); if (!lim.tools) tools = undefined; } catch { tools = undefined; }
   const turns = [{ role: "user", content: persona().style + "\n\n" + RULES_BASE + "\n\nDATA:\n" + contextText() }, ...history, { role: "user", content: text }];
   let reply = "";
   try {
-    const opts = { signal: ctl.signal, modelTier: "quick", onText: ({ text: t }) => { pending.text = t; const b = $("#live"); if (b) b.textContent = t; box.scrollTop = box.scrollHeight; } };
+    const opts = { signal: ctl.signal, modelTier: "quick", onText: ({ text: t }) => { pending.text = t; const b = $("#live"); if (b) b.textContent = t; setCaption(t); Core.pulse(0.25); box.scrollTop = box.scrollHeight; } };
     if (tools) opts.tools = tools; else opts.cache = false;
     const res = await sample(turns, opts); reply = res.text; speak(reply);
   } catch (e) {
     reply = e.code === "cancelled" ? (e.text || "(stopped)") : (e.text ? e.text + "\n\n(interrupted)" : (ERR[e.code] || "Something went wrong reaching Claude. Try again."));
     if (e.code === "not_granted" || e.code === "sampling_disabled") { sampleState = "off"; }
   } finally {
-    $("#jarvis").classList.remove("busy"); $("#chatSend").textContent = "Send"; ctl = null;
+    $("#jarvis").classList.remove("busy"); if (Core.state === "thinking") Core.set("idle"); $("#chatSend").textContent = "Send"; ctl = null;
   }
   S.chat = [...S.chat, { role: "user", content: text }, { role: "assistant", content: reply }].slice(-40);
   pending = null;
@@ -1090,6 +1097,84 @@ function pickVoice() {
   const vs = voices(); if (!vs.length) return null;
   return vs.find(v => v.name === V.voice) || vs.find(v => /Daniel|UK English Male|Arthur|Fred|Alex|Aaron|Guy|Ryan|Christopher|Davis|Eric|Rishi|Oliver/i.test(v.name)) || vs[0];
 }
+/* ---------- animated core ---------- */
+const Core = (() => {
+  const cv = $("#coreCanvas"), ctx = cv.getContext("2d");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W = 0, H = 0, dpr = 1, energy = 0.3, boost = 0, t0 = performance.now();
+  const api = { state: "idle", set(s) { api.state = s; }, pulse(n) { boost = Math.min(1, boost + n); } };
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  // wireframe shell: tilted, wobbly rings on a sphere
+  const rings = Array.from({ length: 16 }, () => {
+    const ax = rnd(0, Math.PI), az = rnd(0, Math.PI * 2), rad = rnd(0.82, 1.06), wob = rnd(0.02, 0.09), freq = Math.floor(rnd(2, 6)), phase = rnd(0, 6.28);
+    const start = rnd(0, 6.28), span = Math.random() < 0.4 ? rnd(1.6, 4.2) : 6.3;
+    return { ax, az, rad, wob, freq, phase, start, span };
+  });
+  const rays = Array.from({ length: 170 }, () => ({ a: rnd(0, 6.28), len: rnd(0.25, 1.35), w: rnd(0.3, 1.4), sp: rnd(0.5, 3), ph: rnd(0, 6.28) }));
+  const dust = Array.from({ length: 140 }, () => ({ a: rnd(0, 6.28), r: rnd(0.15, 1.45), s: rnd(-0.12, 0.12), z: rnd(0.4, 1.6), ph: rnd(0, 6.28) }));
+  function size() { const b = cv.getBoundingClientRect(); dpr = Math.min(2, devicePixelRatio || 1); W = b.width; H = b.height; cv.width = Math.max(1, W * dpr); cv.height = Math.max(1, H * dpr); }
+  try { new ResizeObserver(size).observe(cv); } catch { addEventListener("resize", size); }
+  size();
+  function pal() {
+    return V.persona === "ultron"
+      ? { mid: "rgba(150,34,34,1)", edge: "rgba(34,6,7,1)", line: "255,92,74", ray: "255,190,180", glow: ["255,255,255", "255,214,210", "255,96,84"] }
+      : { mid: "rgba(18,86,96,1)", edge: "rgba(3,16,22,1)", line: "90,225,235", ray: "190,245,250", glow: ["255,255,255", "205,248,252", "60,200,215"] };
+  }
+  function frame(now) {
+    const t = (now - t0) / 1000; const p = pal();
+    const target = api.state === "speaking" ? 0.62 + 0.12 * Math.sin(t * 9) : api.state === "thinking" ? 0.5 + 0.18 * Math.sin(t * 5) : 0.3 + 0.04 * Math.sin(t * 1.3);
+    boost *= 0.9; energy += (target + boost * 0.5 - energy) * 0.12;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const cx = W / 2, cy = H / 2, R = Math.min(W, H) * 0.4;
+    const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.hypot(W, H) * 0.6);
+    bg.addColorStop(0, p.mid); bg.addColorStop(1, p.edge);
+    ctx.globalCompositeOperation = "source-over"; ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = "lighter";
+    // rays
+    for (const r of rays) {
+      const fl = 0.5 + 0.5 * Math.sin(t * r.sp + r.ph); const len = R * r.len * (0.55 + energy * 0.9) * (0.7 + 0.3 * fl);
+      ctx.strokeStyle = `rgba(${p.ray},${(0.08 + 0.3 * fl) * (0.6 + energy)})`; ctx.lineWidth = r.w;
+      ctx.beginPath(); ctx.moveTo(cx + Math.cos(r.a) * R * 0.08, cy + Math.sin(r.a) * R * 0.08); ctx.lineTo(cx + Math.cos(r.a) * len, cy + Math.sin(r.a) * len); ctx.stroke();
+    }
+    // wireframe shell
+    const rotY = t * 0.25, rotX = 0.35 + Math.sin(t * 0.2) * 0.2, cyR = Math.cos(rotY), syR = Math.sin(rotY), cxR = Math.cos(rotX), sxR = Math.sin(rotX);
+    const breathe = 1 + energy * 0.08 + Math.sin(t * 2) * 0.01;
+    for (const g of rings) {
+      ctx.beginPath(); const steps = 70;
+      const ca = Math.cos(g.ax), sa = Math.sin(g.ax), cz = Math.cos(g.az), sz = Math.sin(g.az);
+      for (let i = 0; i <= steps; i++) {
+        const u = g.start + g.span * i / steps; const rr = g.rad * breathe * (1 + g.wob * Math.sin(u * g.freq + g.phase + t * (0.6 + energy)));
+        let x = Math.cos(u) * rr, y = Math.sin(u) * rr, z = 0;
+        let y1 = y * ca - z * sa, z1 = y * sa + z * ca; let x2 = x * cz - y1 * sz, y2 = x * sz + y1 * cz; z = z1;
+        let x3 = x2 * cyR + z * syR, z3 = -x2 * syR + z * cyR; let y4 = y2 * cxR - z3 * sxR;
+        const X = cx + x3 * R, Y = cy + y4 * R; i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y);
+      }
+      ctx.strokeStyle = `rgba(${p.line},${0.28 + energy * 0.35})`; ctx.lineWidth = 1; ctx.stroke();
+    }
+    // dust
+    for (const d of dust) {
+      const a = d.a + t * d.s; const rr = R * d.r * (1 + energy * 0.05); const tw = 0.4 + 0.6 * Math.abs(Math.sin(t * d.z + d.ph));
+      ctx.fillStyle = `rgba(255,255,255,${0.15 + 0.6 * tw})`; ctx.fillRect(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr * 0.95, d.z, d.z);
+    }
+    // core glow
+    const gr = R * (0.7 + energy * 0.6); const cg = ctx.createRadialGradient(cx, cy, 0, cx, cy, gr);
+    cg.addColorStop(0, `rgba(${p.glow[0]},1)`); cg.addColorStop(0.12, `rgba(${p.glow[1]},0.95)`); cg.addColorStop(0.4, `rgba(${p.glow[2]},0.35)`); cg.addColorStop(1, `rgba(${p.glow[2]},0)`);
+    ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(cx, cy, gr, 0, 6.29); ctx.fill();
+    // level line along the bottom
+    ctx.globalCompositeOperation = "source-over";
+    const ly = H - 8, lw = W * 0.8, lx = (W - lw) / 2;
+    ctx.fillStyle = `rgba(${p.line},0.35)`; ctx.fillRect(lx, ly, lw, 1);
+    ctx.fillStyle = `rgba(${p.ray},0.95)`; ctx.fillRect(lx, ly - 0.5, lw * Math.min(1, energy * 1.2), 2);
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  if (reduce) setInterval(() => requestAnimationFrame(frame), 1000);
+  return api;
+})();
+const VIEWKEY = LSKEY + ":view";
+function setView(full) { $("#jarvis").classList.toggle("corefull", full); $("#viewBtn").textContent = full ? "Show chat" : "Show core"; try { localStorage.setItem(VIEWKEY, full ? "core" : "chat"); } catch {} renderChat(); }
+$("#viewBtn").addEventListener("click", () => setView(!$("#jarvis").classList.contains("corefull")));
+
 function applyV() {
   const p = persona(); const a = $("#jarvis");
   a.classList.toggle("ultron", V.persona === "ultron");
@@ -1110,6 +1195,8 @@ function speak(text) {
     const u = new SpeechSynthesisUtterance(String(text).replace(/[*_#`>]/g, "").trim());
     const v = pickVoice(); if (v) { u.voice = v; u.lang = v.lang; }
     u.pitch = +vPitch(); u.rate = +vRate();
+    u.onstart = () => Core.set("speaking"); u.onend = u.onerror = () => Core.set("idle");
+    u.onboundary = () => Core.pulse(0.45);
     speechSynthesis.speak(u);
   } catch {}
 }
@@ -1128,6 +1215,6 @@ $("#vTest").addEventListener("click", () => { const was = V.on; V.on = true; spe
 
 /* ---------- boot ---------- */
 $("#jobDate").value = TODAY; $("#expDate").value = TODAY;
-applyV(); fillSettingsForm(); renderAll(); renderChat(); tick(); setInterval(tick, 30000);
+applyV(); (() => { let v = "core"; try { v = localStorage.getItem(VIEWKEY) || "core"; } catch {} setView(v === "core"); })(); fillSettingsForm(); renderAll(); renderChat(); tick(); setInterval(tick, 30000);
 try { const t = localStorage.getItem(LSKEY + ":tab"); if (t && $("#tab-" + t)) showTab(t); } catch {}
 </script>
