@@ -1,0 +1,942 @@
+<title>Jarvis for Coastline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#EAF0F2; --surface:#FFFFFF; --surface-2:#F3F7F8; --ink:#0F2330; --ink-2:#44606F; --muted:#768C98;
+  --line:#D3DFE4; --accent:#0E7775; --accent-ink:#FFFFFF; --accent-soft:#D5ECEA; --buoy:#C9531F;
+  --good:#23794B; --good-soft:#DCEFE3; --warn:#9A6412; --warn-soft:#F6EAD3; --bad:#B23A2E; --bad-soft:#F6DEDA;
+  --shadow:0 1px 2px rgba(15,35,48,.06),0 4px 16px rgba(15,35,48,.05);
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#08141A; --surface:#0F1F28; --surface-2:#132833; --ink:#E2EDF0; --ink-2:#A3B9C3; --muted:#7A939E;
+    --line:#1F3642; --accent:#3BBDB5; --accent-ink:#04201E; --accent-soft:#113A3A; --buoy:#F0814F;
+    --good:#5CC98C; --good-soft:#123324; --warn:#E3B062; --warn-soft:#3A2C12; --bad:#EE7C6F; --bad-soft:#3D1B17;
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#08141A; --surface:#0F1F28; --surface-2:#132833; --ink:#E2EDF0; --ink-2:#A3B9C3; --muted:#7A939E;
+  --line:#1F3642; --accent:#3BBDB5; --accent-ink:#04201E; --accent-soft:#113A3A; --buoy:#F0814F;
+  --good:#5CC98C; --good-soft:#123324; --warn:#E3B062; --warn-soft:#3A2C12; --bad:#EE7C6F; --bad-soft:#3D1B17;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.5;padding-inline:16px;padding-block:0 32px}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:.01em;margin:0;text-wrap:balance}
+h2{font-size:19px;text-transform:uppercase;letter-spacing:.06em}
+h3{font-size:16px}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+.num,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.top{max-width:1320px;margin:0 auto;display:flex;align-items:center;gap:12px 20px;flex-wrap:wrap;padding-block:18px 14px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.mark{font-family:var(--display);font-weight:700;font-size:30px;letter-spacing:.32em;line-height:1}
+.mark b{color:var(--accent)}
+.brand .sub{color:var(--ink-2);font-size:13px;letter-spacing:.04em}
+.top .spacer{flex:1}
+.clock{font-family:var(--mono);color:var(--ink-2);font-size:13px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2);background:var(--surface)}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--muted)}
+.chip.ok::before{background:var(--good)}
+.chip.local::before{background:var(--warn)}
+
+.shell{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:24px;padding-top:18px;align-items:start}
+@media (max-width:980px){.shell{grid-template-columns:minmax(0,1fr)}}
+
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:18px}
+.tabs button{border:1px solid transparent;background:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.tabs button:hover{color:var(--ink);background:var(--surface)}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+
+.panel{display:flex;flex-direction:column;gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.card-head .hint{color:var(--muted);font-size:12px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:720px){.grid2{grid-template-columns:minmax(0,1fr)}}
+
+.hello{display:flex;flex-direction:column;gap:6px;padding-block:4px 2px}
+.hello h1{font-size:40px;line-height:1.05;font-weight:600}
+.hello h1 em{font-style:normal;color:var(--accent)}
+.hello p{color:var(--ink-2);max-width:68ch}
+
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.kpis.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+@media (max-width:820px){.kpis,.kpis.five{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi .lab{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.kpi .val{font-family:var(--display);font-size:30px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .foot{font-size:12px;color:var(--ink-2)}
+.kpi .val.pos{color:var(--good)} .kpi .val.neg{color:var(--bad)}
+
+.checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.checks.cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));column-gap:18px}
+.checks li{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.checks li:last-child{border-bottom:0}
+.checks label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;flex:1;min-width:0}
+.checks input[type=checkbox]{appearance:none;width:18px;height:18px;border:1.5px solid var(--muted);border-radius:5px;margin:2px 0 0;flex:none;display:grid;place-items:center;cursor:pointer;background:var(--surface)}
+.checks input[type=checkbox]:checked{background:var(--accent);border-color:var(--accent)}
+.checks input[type=checkbox]:checked::after{content:"";width:5px;height:9px;border:solid var(--accent-ink);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.checks .done span{color:var(--muted);text-decoration:line-through}
+.x{border:0;background:none;color:var(--muted);cursor:pointer;padding:0 4px;font-size:16px;line-height:1}
+.x:hover{color:var(--bad)}
+
+.progress{height:8px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden}
+.progress > i{display:block;height:100%;background:var(--accent);border-radius:99px}
+
+form.inline{display:flex;gap:8px;flex-wrap:wrap}
+form.inline input{flex:1;min-width:0}
+.fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px 12px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field > span{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.field.wide{grid-column:1/-1}
+input,select,textarea{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;min-width:0}
+textarea{min-height:84px;resize:vertical}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);border-radius:8px;padding:8px 14px;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.small{padding:4px 10px;font-size:12px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.empty{color:var(--muted);font-size:13px;padding:6px 0}
+
+.quick{display:flex;gap:8px;flex-wrap:wrap}
+.quick button{border:1px dashed var(--accent);background:var(--accent-soft);color:var(--ink);border-radius:8px;padding:8px 12px;cursor:pointer;text-align:left}
+.quick button b{font-family:var(--mono);font-weight:500;color:var(--accent)}
+
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+td.r,th.r{text-align:right}
+tr:last-child td{border-bottom:0}
+.tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);white-space:nowrap}
+.tag.full{background:var(--accent-soft);border-color:transparent}
+.tag.good{background:var(--good-soft);color:var(--good);border-color:transparent}
+.tag.warn{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.tag.bad{background:var(--bad-soft);color:var(--bad);border-color:transparent}
+
+.chart{position:relative}
+.chart svg{display:block;width:100%;overflow:visible}
+.chart .tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;padding:6px 9px;border-radius:6px;white-space:nowrap;transform:translate(-50%,-100%);margin-top:-8px}
+.monthnav{display:flex;align-items:center;gap:8px}
+.monthnav button{border:1px solid var(--line);background:var(--surface);border-radius:6px;width:28px;height:28px;cursor:pointer}
+.monthnav strong{font-family:var(--display);font-size:18px;letter-spacing:.04em;min-width:130px;text-align:center}
+
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.timeline li{display:grid;grid-template-columns:74px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)}
+.timeline li:last-child{border-bottom:0}
+.timeline .wk{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+
+/* Jarvis panel */
+.jarvis{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--ink);color:var(--bg);border-radius:14px;display:flex;flex-direction:column;height:calc(100vh - 110px);min-height:460px;max-height:860px;overflow:hidden}
+@media (max-width:980px){.jarvis{position:static;height:620px}}
+.jarvis header{padding:14px 16px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid color-mix(in srgb,var(--bg) 14%,transparent)}
+.orb{width:28px;height:28px;border-radius:50%;flex:none;background:radial-gradient(circle at 50% 50%,var(--accent) 0 28%,transparent 30%),conic-gradient(from 0deg,var(--accent),transparent 40%,var(--accent) 60%,transparent);animation:spin 6s linear infinite}
+.jarvis.busy .orb{animation-duration:1.2s}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.orb{animation:none}}
+.jarvis header h2{font-size:18px;letter-spacing:.2em}
+.jarvis header p{font-size:12px;opacity:.7}
+.msgs{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:92%;padding:9px 12px;border-radius:12px;white-space:pre-wrap;word-wrap:break-word;font-size:13.5px}
+.msg.a{background:color-mix(in srgb,var(--bg) 9%,transparent);align-self:flex-start;border-top-left-radius:4px}
+.msg.u{background:var(--accent);color:var(--accent-ink);align-self:flex-end;border-top-right-radius:4px}
+.msg.sys{align-self:center;font-size:12px;opacity:.7;background:none;padding:2px}
+.jarvis .chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 16px 10px}
+.jarvis .chips button{background:none;border:1px solid color-mix(in srgb,var(--bg) 25%,transparent);color:var(--bg);border-radius:99px;padding:4px 10px;font-size:12px;cursor:pointer}
+.jarvis .chips button:hover{border-color:var(--accent)}
+.jarvis form{display:flex;gap:8px;padding:12px 16px 16px;border-top:1px solid color-mix(in srgb,var(--bg) 14%,transparent)}
+.jarvis textarea{min-height:42px;max-height:120px;background:color-mix(in srgb,var(--bg) 8%,transparent);border-color:color-mix(in srgb,var(--bg) 20%,transparent);color:var(--bg);resize:none}
+.jarvis textarea::placeholder{color:color-mix(in srgb,var(--bg) 55%,transparent)}
+
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-size:13px;box-shadow:var(--shadow);z-index:10;max-width:calc(100vw - 32px)}
+</style>
+
+<header class="top">
+  <div class="brand">
+    <span class="mark">J<b>.</b>A<b>.</b>R<b>.</b>V<b>.</b>I<b>.</b>S</span>
+    <span class="sub">Coastline Auto Detailing · command deck</span>
+  </div>
+  <span class="spacer"></span>
+  <span class="clock" id="clock"></span>
+  <span class="chip" id="syncChip">Connecting</span>
+</header>
+
+<div class="shell">
+  <main>
+    <nav class="tabs" role="tablist" id="tabs">
+      <button role="tab" data-tab="today" aria-selected="true">Today</button>
+      <button role="tab" data-tab="money">Money</button>
+      <button role="tab" data-tab="jobs">Jobs</button>
+      <button role="tab" data-tab="goals">Goals</button>
+      <button role="tab" data-tab="kitten">Kitten</button>
+      <button role="tab" data-tab="settings">Settings</button>
+    </nav>
+
+    <!-- TODAY -->
+    <section class="panel" id="tab-today">
+      <div class="hello">
+        <h1 id="greet">Good morning, <em>Morgan</em>.</h1>
+        <p id="greetSub"></p>
+      </div>
+      <div class="kpis" id="todayKpis"></div>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-head"><h2>Morning routine</h2><span class="hint" id="routineCount"></span></div>
+          <ul class="checks" id="routineList"></ul>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Today's goals</h2><span class="hint" id="goalCount"></span></div>
+          <ul class="checks" id="todayGoals"></ul>
+          <form class="inline" id="addTaskForm">
+            <input id="newTask" placeholder="Add a goal for today, e.g. Post 2 before/afters" autocomplete="off">
+            <button class="btn" type="submit">Add</button>
+          </form>
+          <div id="carry"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2 id="kittenTodayTitle">Kitten care today</h2><span class="hint" id="kittenAgeHint"></span></div>
+        <ul class="checks cols" id="kittenToday"></ul>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>Notes for today</h2><span class="hint" id="notesState"></span></div>
+        <textarea id="dayNotes" placeholder="Anything worth remembering: customer requests, tech issues, ideas…"></textarea>
+      </div>
+    </section>
+
+    <!-- MONEY -->
+    <section class="panel" id="tab-money" hidden>
+      <div class="card-head">
+        <div class="monthnav">
+          <button type="button" id="mPrev" aria-label="Previous month">‹</button>
+          <strong id="mLabel"></strong>
+          <button type="button" id="mNext" aria-label="Next month">›</button>
+        </div>
+        <span class="hint" id="mHint"></span>
+      </div>
+      <div class="kpis five" id="moneyKpis"></div>
+      <div class="card" id="goalCard"></div>
+      <div class="card">
+        <div class="card-head"><h2>Daily revenue</h2><span class="hint">Hover a bar for the day's jobs</span></div>
+        <div class="chart" id="revChart"></div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <h2>Service mix</h2>
+          <div class="table-wrap"><table id="mixTable"></table></div>
+        </div>
+        <div class="card">
+          <h2>Business so far</h2>
+          <div class="table-wrap"><table id="allTimeTable"></table></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>Expenses</h2><span class="hint">Supplies, GoHighLevel, ads, gas — anything that isn't tech pay</span></div>
+        <form id="expForm" class="fields">
+          <label class="field"><span>Amount ($)</span><input id="expAmt" type="number" step="0.01" min="0" required></label>
+          <label class="field"><span>Category</span>
+            <select id="expCat"><option>Supplies</option><option>Software</option><option>Ads</option><option>Gas</option><option>Equipment</option><option>Other</option></select></label>
+          <label class="field"><span>Date</span><input id="expDate" type="date" required></label>
+          <label class="field"><span>Note</span><input id="expNote" placeholder="e.g. GoHighLevel plan"></label>
+          <div class="field" style="justify-content:flex-end"><button class="btn" type="submit">Add expense</button></div>
+        </form>
+        <div class="table-wrap"><table id="expTable"></table></div>
+      </div>
+    </section>
+
+    <!-- JOBS -->
+    <section class="panel" id="tab-jobs" hidden>
+      <div class="card">
+        <div class="card-head"><h2>Log a job</h2><span class="hint">Price and tech pay fill in from your rates</span></div>
+        <div class="quick" id="quickJobs"></div>
+        <form id="jobForm" class="fields">
+          <label class="field"><span>Service</span><select id="jobType"></select></label>
+          <label class="field"><span>Technician</span><select id="jobTech"></select></label>
+          <label class="field"><span>Date</span><input id="jobDate" type="date" required></label>
+          <label class="field"><span>Customer</span><input id="jobCust" placeholder="Name or vehicle"></label>
+          <label class="field"><span>Charged ($)</span><input id="jobPrice" type="number" step="1" min="0" required></label>
+          <label class="field"><span>Tech pay ($)</span><input id="jobPay" type="number" step="1" min="0" required></label>
+          <label class="field wide"><span>Notes</span><input id="jobNotes" placeholder="Add-ons, tip, pet hair, etc."></label>
+          <div class="field"><button class="btn" type="submit">Log job</button></div>
+        </form>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>Tech payouts</h2><span class="hint" id="payHint"></span></div>
+        <div class="table-wrap"><table id="payTable"></table></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>Job log</h2><span class="hint" id="jobHint"></span></div>
+        <div class="table-wrap"><table id="jobTable"></table></div>
+      </div>
+    </section>
+
+    <!-- GOALS -->
+    <section class="panel" id="tab-goals" hidden>
+      <div class="card">
+        <div class="card-head"><h2>Big goals</h2><span class="hint">Longer-term targets Jarvis keeps you honest on</span></div>
+        <form id="goalForm" class="fields">
+          <label class="field wide"><span>Goal</span><input id="gTitle" required placeholder="e.g. Hit $15k revenue in a month"></label>
+          <label class="field"><span>Target (number)</span><input id="gTarget" type="number" step="any" placeholder="15000"></label>
+          <label class="field"><span>Unit</span><input id="gUnit" placeholder="$, jobs, reviews"></label>
+          <label class="field"><span>Due</span><input id="gDue" type="date"></label>
+          <div class="field" style="justify-content:flex-end"><button class="btn" type="submit">Add goal</button></div>
+        </form>
+      </div>
+      <div class="panel" id="goalList"></div>
+    </section>
+
+    <!-- KITTEN -->
+    <section class="panel" id="tab-kitten" hidden>
+      <div class="kpis" id="kittenKpis"></div>
+      <div class="card">
+        <div class="card-head"><h2>Vet &amp; health timeline</h2><span class="hint">Typical schedule. Your vet's plan wins.</span></div>
+        <ul class="timeline" id="vetList"></ul>
+      </div>
+      <div class="card">
+        <h2>Care notes for this age</h2>
+        <ul class="checks" id="kittenTips"></ul>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="panel" id="tab-settings" hidden>
+      <form id="setForm" class="panel">
+        <div class="card">
+          <h2>You &amp; the business</h2>
+          <div class="fields">
+            <label class="field"><span>Your name</span><input id="sName"></label>
+            <label class="field"><span>Business</span><input id="sBiz"></label>
+            <label class="field"><span>Usual wake-up</span><input id="sWake" type="time"></label>
+            <label class="field"><span>Monthly revenue goal ($)</span><input id="sGoal" type="number" min="0" step="100" placeholder="e.g. 12000"></label>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Rates</h2>
+          <div class="fields">
+            <label class="field"><span>Full detail — you charge</span><input id="sFullP" type="number" min="0"></label>
+            <label class="field"><span>Full detail — tech pay</span><input id="sFullT" type="number" min="0"></label>
+            <label class="field"><span>Interior — you charge</span><input id="sIntP" type="number" min="0"></label>
+            <label class="field"><span>Interior — tech pay</span><input id="sIntT" type="number" min="0"></label>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Technicians</h2>
+          <div class="fields" id="techFields"></div>
+        </div>
+        <div class="card">
+          <h2>Kitten</h2>
+          <div class="fields">
+            <label class="field"><span>Kitten's name</span><input id="sKName"></label>
+            <label class="field"><span>Birthday (approx.)</span><input id="sKBirth" type="date"></label>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Morning routine</h2>
+          <label class="field wide"><span>One step per line. Applies from the next fresh day.</span><textarea id="sRoutine" rows="7"></textarea></label>
+        </div>
+        <div class="row"><button class="btn" type="submit">Save settings</button><span class="muted small" id="setState"></span></div>
+      </form>
+    </section>
+  </main>
+
+  <aside class="jarvis" id="jarvis">
+    <header>
+      <div class="orb" aria-hidden="true"></div>
+      <div><h2>JARVIS</h2><p id="jStatus">Online. Ask me anything about the business.</p></div>
+    </header>
+    <div class="msgs" id="msgs" aria-live="polite"></div>
+    <div class="chips" id="chips">
+      <button type="button" data-q="Give me my morning briefing.">Morning briefing</button>
+      <button type="button" data-q="How is this month going? Revenue, profit and margin, and am I on pace for my goal?">How's the month?</button>
+      <button type="button" data-q="Plan my day. Put the most important things first.">Plan my day</button>
+      <button type="button" data-q="What should I do for the kitten today?">Kitten check</button>
+    </div>
+    <form id="chatForm">
+      <textarea id="chatIn" rows="1" placeholder="e.g. Log a full detail for Tech 2, customer Jake's F-150"></textarea>
+      <button class="btn" type="submit" id="chatSend">Send</button>
+    </form>
+  </aside>
+</div>
+<div id="toast" hidden></div>
+
+<script>
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money = (n, cents) => (n < 0 ? "−$" : "$") + Math.abs(n || 0).toLocaleString("en-US", {minimumFractionDigits: cents ? 2 : 0, maximumFractionDigits: cents ? 2 : 0});
+const pct = n => isFinite(n) ? Math.round(n * 100) + "%" : "—";
+const pad = n => String(n).padStart(2, "0");
+const ymd = d => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+const parseYmd = s => { const [y, m, d] = String(s).split("-").map(Number); return new Date(y, m - 1, d); };
+const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const clone = o => o == null ? o : JSON.parse(JSON.stringify(o));
+const monthKey = d => d.getFullYear() + "-" + pad(d.getMonth() + 1);
+const monthName = key => { const [y, m] = key.split("-").map(Number); return new Date(y, m - 1, 1).toLocaleDateString("en-US", {month: "long", year: "numeric"}); };
+let toastT;
+function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 3200); }
+
+/* ---------- defaults ---------- */
+const DEFAULTS = {
+  name: "Morgan", business: "Coastline Auto Detailing", wake: "10:30", monthlyGoal: 0,
+  services: { full: {label: "Full detail", price: 250, pay: 85}, interior: {label: "Interior detail", price: 200, pay: 70} },
+  techs: ["Tech 1", "Tech 2", "Tech 3", "Tech 4", "Tech 5"],
+  kittenName: "Kitten", kittenBirth: "2026-07-30",
+  routine: [
+    "Test the automations (booking, reminders, review requests)",
+    "Check GoHighLevel: new leads, conversations, calendar",
+    "Reply to every new lead",
+    "Send today's jobs to the technicians",
+    "Confirm tomorrow's appointments",
+    "Log finished jobs and expenses in Jarvis"
+  ]
+};
+const KITTEN_DAILY = [
+  ["feed1", "Breakfast (wet kitten food)"], ["feed2", "Midday meal"], ["feed3", "Dinner"],
+  ["feed4", "Late snack or dry food top-up"], ["water", "Fresh water"], ["litter", "Scoop the litter box"],
+  ["play", "Play and handling, 2 × 15 min"]
+];
+const VET = [
+  ["w8", 8, "First vet visit: FVRCP shot #1, deworming, flea check"],
+  ["w10", 10, "Deworming follow-up"],
+  ["w12", 12, "FVRCP #2 (and FeLV #1 if the vet recommends it)"],
+  ["w16", 16, "FVRCP #3 + rabies vaccine"],
+  ["w24", 24, "Spay / neuter (around 5–6 months), ask the vet"],
+  ["w52", 52, "One-year boosters"]
+];
+
+/* ---------- state ---------- */
+const S = { settings: clone(DEFAULTS), jobs: [], expenses: [], goals: [], day: null, yday: null, health: {}, chat: [], viewMonth: monthKey(new Date()) };
+let TODAY = ymd(new Date());
+const settings = () => ({ ...DEFAULTS, ...S.settings, services: { ...DEFAULTS.services, ...(S.settings.services || {}) } });
+
+/* ---------- storage: artifact db, with on-device fallback ---------- */
+let db = null, mode = "connecting";
+const LSKEY = "jarvis-coastline-v1";
+const lsAll = () => { try { return JSON.parse(localStorage.getItem(LSKEY) || "{}"); } catch { return {}; } };
+const lsSave = o => { try { localStorage.setItem(LSKEY, JSON.stringify(o)); } catch {} };
+const localSubs = [];
+function notifyLocal(path) { localSubs.forEach(s => { if (s.coll ? path.startsWith(s.path + "/") : path === s.path) s.run(); }); }
+
+const ready = (async () => {
+  try { db = window.claude ? await window.claude.use("db") : null; } catch { db = null; }
+  mode = db ? "cloud" : "local";
+  const chip = $("#syncChip");
+  chip.className = "chip " + (db ? "ok" : "local");
+  chip.textContent = db ? "Synced" : "Saved on this device";
+  chip.title = db ? "Saved to your Jarvis database; open it from any device." : "Cloud sync is unavailable in this view, so data is kept in this browser.";
+})();
+
+function sub(path, coll, cb) {
+  if (db) {
+    const onErr = e => { if (e.code !== "revoked") toast("Sync stopped (" + e.code + "). Reload to reconnect."); };
+    return coll
+      ? db.collection(path).onSnapshot(s => cb(s.docs.map(d => ({ id: d.id, ...d.data() }))), onErr)
+      : db.doc(path).onSnapshot(s => cb(s.exists ? s.data() : null), onErr);
+  }
+  const entry = { path, coll, run: () => {
+    const all = lsAll();
+    cb(coll ? Object.entries(all).filter(([k]) => k.startsWith(path + "/") && k.split("/").length === 2).map(([k, v]) => ({ id: k.split("/")[1], ...v })) : (all[path] ?? null));
+  } };
+  localSubs.push(entry); entry.run();
+  return () => { const i = localSubs.indexOf(entry); if (i >= 0) localSubs.splice(i, 1); };
+}
+const queues = new Map();
+function queued(path, fn) { const p = (queues.get(path) || Promise.resolve()).catch(() => {}).then(fn); queues.set(path, p); return p; }
+function saveErr(e) {
+  const code = e && e.code;
+  toast(code === "quota_exceeded" ? "Storage is full. Delete some old entries to add more." : code === "invalid_argument" ? "You don't have permission to change this data." : "Couldn't save just now. Try again in a moment.");
+}
+async function setDoc(path, data) {
+  await ready;
+  if (db) return queued(path, () => db.doc(path).set(data)).catch(saveErr);
+  const all = lsAll(); all[path] = data; lsSave(all); notifyLocal(path);
+}
+async function delDoc(path) {
+  await ready;
+  if (db) return queued(path, () => db.doc(path).delete()).catch(saveErr);
+  const all = lsAll(); delete all[path]; lsSave(all); notifyLocal(path);
+}
+
+let daySubs = [];
+function subscribeDays() {
+  daySubs.forEach(u => u());
+  const yd = ymd(addDays(parseYmd(TODAY), -1));
+  daySubs = [
+    sub("days/" + TODAY, false, d => { S.day = d; S.chat = (d && d.chat) || []; renderToday(); renderChat(); }),
+    sub("days/" + yd, false, d => { S.yday = d; renderToday(); })
+  ];
+}
+ready.then(() => {
+  sub("settings/main", false, d => { S.settings = d || clone(DEFAULTS); fillSettingsForm(); renderAll(); });
+  sub("jobs", true, list => { S.jobs = list; renderAll(); });
+  sub("expenses", true, list => { S.expenses = list; renderAll(); });
+  sub("goals", true, list => { S.goals = list; renderGoals(); renderToday(); });
+  sub("kitten/health", false, d => { S.health = (d && d.done) || {}; renderKitten(); renderToday(); });
+  subscribeDays();
+});
+
+/* ---------- day model ---------- */
+function freshDay() {
+  return { date: TODAY, tasks: settings().routine.map(t => ({ id: newId(), text: t, done: false, kind: "routine" })), kitten: {}, notes: "", chat: [] };
+}
+const currentDay = () => S.day ? clone(S.day) : freshDay();
+function saveDay(d) { S.day = d; renderToday(); return setDoc("days/" + TODAY, d); }
+
+function toggleTask(id) { const d = currentDay(); const t = d.tasks.find(x => x.id === id); if (!t) return; t.done = !t.done; t.doneAt = t.done ? Date.now() : null; saveDay(d); }
+function addTask(text, kind = "task") { text = String(text || "").trim(); if (!text) return null; const d = currentDay(); const t = { id: newId(), text, done: false, kind }; d.tasks.push(t); saveDay(d); return t; }
+function removeTask(id) { const d = currentDay(); d.tasks = d.tasks.filter(x => x.id !== id); saveDay(d); }
+function toggleKitten(k) { const d = currentDay(); d.kitten = d.kitten || {}; d.kitten[k] = !d.kitten[k]; saveDay(d); }
+
+/* ---------- money model ---------- */
+function monthStats(key) {
+  const jobs = S.jobs.filter(j => String(j.date).startsWith(key));
+  const exps = S.expenses.filter(e => String(e.date).startsWith(key));
+  const revenue = jobs.reduce((a, j) => a + (+j.price || 0), 0);
+  const pay = jobs.reduce((a, j) => a + (+j.pay || 0), 0);
+  const expenses = exps.reduce((a, e) => a + (+e.amount || 0), 0);
+  const net = revenue - pay - expenses;
+  return { jobs, exps, revenue, pay, expenses, net, margin: revenue ? net / revenue : NaN, full: jobs.filter(j => j.type === "full").length, interior: jobs.filter(j => j.type === "interior").length };
+}
+function dayRevenue(date) { return S.jobs.filter(j => j.date === date).reduce((a, j) => a + (+j.price || 0), 0); }
+function pace(key) {
+  const [y, m] = key.split("-").map(Number); const dim = new Date(y, m, 0).getDate();
+  const now = new Date(); const isCur = key === monthKey(now);
+  const elapsed = isCur ? now.getDate() : (key < monthKey(now) ? dim : 0);
+  const st = monthStats(key);
+  return { dim, elapsed, projected: elapsed ? st.revenue / elapsed * dim : 0, isCur };
+}
+
+function logJob({ type = "full", tech, customer = "", date = TODAY, price, pay, notes = "" }) {
+  const s = settings(); const svc = s.services[type] || s.services.full;
+  const job = { type: s.services[type] ? type : "full", tech: tech || s.techs[0], customer: String(customer), date,
+    price: price != null && price !== "" ? +price : svc.price, pay: pay != null && pay !== "" ? +pay : svc.pay, notes: String(notes), ts: Date.now() };
+  const id = newId(); S.jobs = [...S.jobs, { id, ...job }]; renderAll();
+  setDoc("jobs/" + id, job); return { id, ...job };
+}
+function addExpense({ amount, category = "Other", note = "", date = TODAY }) {
+  const e = { amount: +amount || 0, category, note: String(note), date, ts: Date.now() };
+  const id = newId(); S.expenses = [...S.expenses, { id, ...e }]; renderAll();
+  setDoc("expenses/" + id, e); return { id, ...e };
+}
+function addGoal({ title, target, unit = "", due = "" }) {
+  const g = { title: String(title), target: target === "" || target == null ? null : +target, current: 0, unit: String(unit || ""), due: due || "", done: false, ts: Date.now() };
+  const id = newId(); S.goals = [...S.goals, { id, ...g }]; renderGoals();
+  setDoc("goals/" + id, g); return { id, ...g };
+}
+function updateGoal(id, patch) {
+  const g = S.goals.find(x => x.id === id); if (!g) return;
+  const { id: _, ...body } = { ...g, ...patch };
+  S.goals = S.goals.map(x => x.id === id ? { id, ...body } : x); renderGoals(); renderToday();
+  setDoc("goals/" + id, body);
+}
+function techByName(name) {
+  const t = settings().techs; const n = String(name || "").toLowerCase().trim();
+  return t.find(x => x.toLowerCase() === n) || t.find(x => x.toLowerCase().includes(n) && n) || (name ? String(name) : t[0]);
+}
+
+/* ---------- kitten model ---------- */
+function kittenAge() {
+  const b = parseYmd(settings().kittenBirth); const days = Math.floor((parseYmd(TODAY) - b) / 864e5);
+  return { days, weeks: Math.floor(days / 7), rem: days % 7 };
+}
+function nextVet() { return VET.find(([k]) => !S.health[k]) || null; }
+
+/* ---------- rendering ---------- */
+function renderAll() { renderToday(); renderMoney(); renderJobs(); renderGoals(); renderKitten(); }
+
+function checkItem(id, text, done, extra = "") {
+  return `<li class="${done ? "done" : ""}"><label><input type="checkbox" data-id="${esc(id)}" ${done ? "checked" : ""}><span>${esc(text)}</span></label>${extra}</li>`;
+}
+
+function renderToday() {
+  const s = settings(); const now = new Date(); const h = now.getHours();
+  const part = h < 12 ? "morning" : h < 17 ? "afternoon" : "evening";
+  $("#greet").innerHTML = `Good ${part}, <em>${esc(s.name)}</em>.`;
+  const d = currentDay(); const mk = monthKey(now); const st = monthStats(mk);
+  const routine = d.tasks.filter(t => t.kind === "routine"); const goals = d.tasks.filter(t => t.kind !== "routine");
+  const rDone = routine.filter(t => t.done).length;
+  const age = kittenAge(); const nv = nextVet();
+  const dateStr = now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  const lines = [];
+  lines.push(`It's ${dateStr}.`);
+  lines.push(rDone === routine.length && routine.length ? "Morning routine is done." : `${routine.length - rDone} routine step${routine.length - rDone === 1 ? "" : "s"} left, starting with “${(routine.find(t => !t.done) || {}).text || ""}”.`);
+  if (nv) { const dueIn = nv[1] * 7 - age.days; lines.push(`${s.kittenName} is ${age.weeks} weeks old; next vet item ${dueIn <= 0 ? "is due now" : "in " + Math.ceil(dueIn / 7) + " wk"}: ${nv[2]}.`); }
+  $("#greetSub").textContent = lines.join(" ");
+
+  const todayRev = dayRevenue(TODAY); const todayJobs = S.jobs.filter(j => j.date === TODAY).length;
+  const goal = +s.monthlyGoal || 0; const p = pace(mk);
+  $("#todayKpis").innerHTML = [
+    kpi("Today", money(todayRev), `${todayJobs} job${todayJobs === 1 ? "" : "s"} logged`),
+    kpi(now.toLocaleDateString("en-US", { month: "long" }) + " revenue", money(st.revenue), goal ? `${pct(st.revenue / goal)} of ${money(goal)} goal` : "Set a monthly goal in Settings"),
+    kpi("Net profit", money(st.net), `after tech pay + expenses`, st.net >= 0 ? "pos" : "neg"),
+    kpi("Profit margin", pct(st.margin), p.elapsed ? `On pace for ${money(p.projected)}` : "")
+  ].join("");
+
+  $("#routineCount").textContent = `${rDone}/${routine.length} done`;
+  $("#routineList").innerHTML = routine.map(t => checkItem(t.id, t.text, t.done)).join("") || `<li class="empty">No routine steps. Add some in Settings.</li>`;
+  $("#goalCount").textContent = goals.length ? `${goals.filter(t => t.done).length}/${goals.length} done` : "";
+  $("#todayGoals").innerHTML = goals.map(t => checkItem(t.id, t.text, t.done, `<button class="x" data-del="${esc(t.id)}" aria-label="Remove">×</button>`)).join("") || `<li class="empty">Set 1–3 goals for today. What would make today a win?</li>`;
+
+  const left = (S.yday && S.yday.tasks || []).filter(t => t.kind !== "routine" && !t.done && !goals.some(g => g.text === t.text));
+  $("#carry").innerHTML = left.length ? `<div class="row small"><span class="muted">${left.length} unfinished from yesterday.</span><button class="btn ghost small" type="button" id="carryBtn">Carry over</button></div>` : "";
+
+  $("#kittenTodayTitle").textContent = `${s.kittenName} care today`;
+  $("#kittenAgeHint").textContent = `${age.weeks} weeks, ${age.rem} day${age.rem === 1 ? "" : "s"} old`;
+  const k = d.kitten || {};
+  $("#kittenToday").innerHTML = KITTEN_DAILY.map(([key, text]) => checkItem("k:" + key, text, !!k[key])).join("");
+
+  const notes = $("#dayNotes"); if (document.activeElement !== notes) notes.value = d.notes || "";
+}
+function kpi(lab, val, foot = "", cls = "") { return `<div class="kpi"><span class="lab">${esc(lab)}</span><span class="val ${cls}">${esc(val)}</span><span class="foot">${esc(foot)}</span></div>`; }
+
+function renderMoney() {
+  const key = S.viewMonth; const st = monthStats(key); const s = settings(); const p = pace(key);
+  $("#mLabel").textContent = monthName(key);
+  $("#mHint").textContent = p.isCur ? `Day ${p.elapsed} of ${p.dim}` : "";
+  $("#moneyKpis").innerHTML = [
+    kpi("Revenue", money(st.revenue), `${st.jobs.length} jobs`),
+    kpi("Tech payouts", money(st.pay), st.revenue ? pct(st.pay / st.revenue) + " of revenue" : ""),
+    kpi("Expenses", money(st.expenses), `${st.exps.length} entries`),
+    kpi("Net profit", money(st.net), "what you keep", st.net >= 0 ? "pos" : "neg"),
+    kpi("Margin", pct(st.margin), st.jobs.length ? money(st.net / st.jobs.length) + " per job" : "")
+  ].join("");
+
+  const goal = +s.monthlyGoal || 0;
+  if (goal) {
+    const frac = Math.min(1, st.revenue / goal); const need = Math.max(0, goal - st.revenue);
+    const daysLeft = p.isCur ? p.dim - p.elapsed + 1 : 0;
+    const perJob = s.services.full.price;
+    const status = st.revenue >= goal ? ["good", "Goal hit"] : p.isCur ? (p.projected >= goal ? ["good", "On pace"] : ["warn", "Behind pace"]) : ["bad", "Missed"];
+    $("#goalCard").innerHTML = `<div class="card-head"><h2>Monthly goal</h2><span class="tag ${status[0]}">${status[1]}</span></div>
+      <div class="progress" role="progressbar" aria-valuenow="${Math.round(frac * 100)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${frac * 100}%"></i></div>
+      <p class="small">${money(st.revenue)} of ${money(goal)}${need && p.isCur ? ` · ${money(need)} to go, about ${Math.ceil(need / perJob)} full details or ${money(need / Math.max(1, daysLeft))} a day over ${daysLeft} days` : ""}</p>`;
+  } else {
+    $("#goalCard").innerHTML = `<div class="card-head"><h2>Monthly goal</h2></div><p class="muted">No goal set yet. <button class="btn ghost small" type="button" data-goto="settings">Set one in Settings</button></p>`;
+  }
+
+  drawChart(key);
+
+  const rows = ["full", "interior"].map(t => {
+    const svc = s.services[t]; const js = st.jobs.filter(j => j.type === t);
+    const rev = js.reduce((a, j) => a + (+j.price || 0), 0), pay = js.reduce((a, j) => a + (+j.pay || 0), 0);
+    return `<tr><td>${esc(svc.label)}</td><td class="r num">${js.length}</td><td class="r num">${money(rev)}</td><td class="r num">${money(svc.price - svc.pay)}</td><td class="r num">${pct((svc.price - svc.pay) / svc.price)}</td></tr>`;
+  }).join("");
+  $("#mixTable").innerHTML = `<thead><tr><th>Service</th><th class="r">Jobs</th><th class="r">Revenue</th><th class="r">Gross / job</th><th class="r">Gross %</th></tr></thead><tbody>${rows}</tbody>`;
+
+  const allRev = S.jobs.reduce((a, j) => a + (+j.price || 0), 0), allPay = S.jobs.reduce((a, j) => a + (+j.pay || 0), 0), allExp = S.expenses.reduce((a, e) => a + (+e.amount || 0), 0);
+  const months = [...new Set(S.jobs.map(j => String(j.date).slice(0, 7)))].sort();
+  const best = months.map(m => [m, monthStats(m).revenue]).sort((a, b) => b[1] - a[1])[0];
+  $("#allTimeTable").innerHTML = `<tbody>
+    <tr><td>Jobs completed</td><td class="r num">${S.jobs.length}</td></tr>
+    <tr><td>Total revenue</td><td class="r num">${money(allRev)}</td></tr>
+    <tr><td>Paid to techs</td><td class="r num">${money(allPay)}</td></tr>
+    <tr><td>Expenses</td><td class="r num">${money(allExp)}</td></tr>
+    <tr><td><strong>Net profit</strong></td><td class="r num"><strong>${money(allRev - allPay - allExp)}</strong></td></tr>
+    <tr><td>Best month</td><td class="r num">${best ? esc(monthName(best[0])) + " · " + money(best[1]) : "—"}</td></tr></tbody>`;
+
+  const exps = [...st.exps].sort((a, b) => String(b.date).localeCompare(a.date));
+  $("#expTable").innerHTML = exps.length ? `<thead><tr><th>Date</th><th>Category</th><th>Note</th><th class="r">Amount</th><th></th></tr></thead><tbody>${exps.map(e =>
+    `<tr><td class="num">${esc(e.date)}</td><td><span class="tag">${esc(e.category)}</span></td><td>${esc(e.note)}</td><td class="r num">${money(e.amount, true)}</td><td class="r">${delBtn("expenses", e.id)}</td></tr>`).join("")}</tbody>` : `<tbody><tr><td class="empty">No expenses logged for ${esc(monthName(key))}.</td></tr></tbody>`;
+}
+function delBtn(coll, id) { return `<button class="x" data-rm="${coll}/${esc(id)}" aria-label="Delete">×</button>`; }
+
+function drawChart(key) {
+  const el = $("#revChart"); const [y, m] = key.split("-").map(Number); const dim = new Date(y, m, 0).getDate();
+  const vals = Array.from({ length: dim }, (_, i) => { const date = `${key}-${pad(i + 1)}`; const js = S.jobs.filter(j => j.date === date); return { date, day: i + 1, rev: js.reduce((a, j) => a + (+j.price || 0), 0), n: js.length }; });
+  const W = Math.max(300, el.clientWidth || 600), H = 190, L = 44, R = 6, T = 10, B = 24;
+  const max = Math.max(500, ...vals.map(v => v.rev)); const step = max <= 1000 ? 250 : max <= 2500 ? 500 : 1000; const top = Math.ceil(max / step) * step;
+  const yS = v => T + (H - T - B) * (1 - v / top); const bw = (W - L - R) / dim; const barW = Math.max(3, bw - 2);
+  let g = "";
+  for (let v = 0; v <= top; v += step) g += `<line x1="${L}" x2="${W - R}" y1="${yS(v)}" y2="${yS(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L - 6}" y="${yS(v) + 4}" text-anchor="end" font-size="11" fill="var(--muted)" font-family="var(--mono)">${v >= 1000 ? "$" + v / 1000 + "k" : "$" + v}</text>`;
+  const today = TODAY;
+  vals.forEach((v, i) => {
+    const x = L + i * bw + (bw - barW) / 2; const h = (H - T - B) - (yS(v.rev) - T);
+    if (v.rev > 0) { const r = Math.min(4, barW / 2, h); g += `<path d="M${x},${yS(0)} v${-(h - r)} q0,${-r} ${r},${-r} h${barW - 2 * r} q${r},0 ${r},${r} v${h - r} z" fill="${v.date === today ? "var(--buoy)" : "var(--accent)"}"/>`; }
+    if (v.day === 1 || v.day % 5 === 0) g += `<text x="${x + barW / 2}" y="${H - 6}" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="var(--mono)">${v.day}</text>`;
+    g += `<rect x="${L + i * bw}" y="${T}" width="${bw}" height="${H - T - B}" fill="transparent" data-i="${i}"/>`;
+  });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="Revenue by day for ${esc(monthName(key))}">${g}</svg><div class="tip" hidden></div>`;
+  const tip = el.querySelector(".tip");
+  el.querySelector("svg").addEventListener("mousemove", e => {
+    const i = e.target.dataset && e.target.dataset.i; if (i == null) { tip.hidden = true; return; }
+    const v = vals[+i]; const x = L + (+i) * bw + bw / 2;
+    tip.innerHTML = `<strong>${parseYmd(v.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</strong> · ${money(v.rev)} · ${v.n} job${v.n === 1 ? "" : "s"}`;
+    tip.style.left = Math.min(Math.max(x, 70), W - 70) + "px"; tip.style.top = yS(v.rev) + "px"; tip.hidden = false;
+  });
+  el.querySelector("svg").addEventListener("mouseleave", () => tip.hidden = true);
+}
+
+function renderJobs() {
+  const s = settings(); const mk = monthKey(new Date());
+  const typeSel = $("#jobType"), techSel = $("#jobTech");
+  const tv = typeSel.value, te = techSel.value;
+  typeSel.innerHTML = Object.entries(s.services).map(([k, v]) => `<option value="${k}">${esc(v.label)} · ${money(v.price)}</option>`).join("");
+  techSel.innerHTML = s.techs.map(t => `<option>${esc(t)}</option>`).join("");
+  if (tv) typeSel.value = tv; if (te && s.techs.includes(te)) techSel.value = te;
+  if (!$("#jobPrice").value) fillRates();
+
+  $("#quickJobs").innerHTML = Object.entries(s.services).map(([k, v]) => `<button type="button" data-quick="${k}">+ ${esc(v.label)} today <b>${money(v.price)}</b> <span class="muted small">(tech ${money(v.pay)})</span></button>`).join("");
+
+  const st = monthStats(mk);
+  $("#payHint").textContent = monthName(mk);
+  const per = s.techs.map(t => { const js = st.jobs.filter(j => j.tech === t); return { t, n: js.length, full: js.filter(j => j.type === "full").length, int: js.filter(j => j.type === "interior").length, pay: js.reduce((a, j) => a + (+j.pay || 0), 0), rev: js.reduce((a, j) => a + (+j.price || 0), 0) }; });
+  st.jobs.filter(j => !s.techs.includes(j.tech)).forEach(j => { let r = per.find(p => p.t === j.tech); if (!r) per.push(r = { t: j.tech, n: 0, full: 0, int: 0, pay: 0, rev: 0 }); r.n++; r[j.type === "full" ? "full" : "int"]++; r.pay += +j.pay || 0; r.rev += +j.price || 0; });
+  $("#payTable").innerHTML = `<thead><tr><th>Technician</th><th class="r">Full</th><th class="r">Interior</th><th class="r">Revenue brought in</th><th class="r">Owed / paid</th></tr></thead><tbody>${per.map(p =>
+    `<tr><td>${esc(p.t)}</td><td class="r num">${p.full}</td><td class="r num">${p.int}</td><td class="r num">${money(p.rev)}</td><td class="r num">${money(p.pay)}</td></tr>`).join("")}
+    <tr><td><strong>Total</strong></td><td class="r num">${st.full}</td><td class="r num">${st.interior}</td><td class="r num">${money(st.revenue)}</td><td class="r num"><strong>${money(st.pay)}</strong></td></tr></tbody>`;
+
+  const jobs = [...S.jobs].sort((a, b) => String(b.date).localeCompare(a.date) || (b.ts || 0) - (a.ts || 0)).slice(0, 60);
+  $("#jobHint").textContent = S.jobs.length > 60 ? "Latest 60" : `${S.jobs.length} total`;
+  $("#jobTable").innerHTML = jobs.length ? `<thead><tr><th>Date</th><th>Service</th><th>Tech</th><th>Customer</th><th class="r">Charged</th><th class="r">Tech pay</th><th class="r">You keep</th><th></th></tr></thead><tbody>${jobs.map(j =>
+    `<tr><td class="num">${esc(j.date)}</td><td><span class="tag ${j.type === "full" ? "full" : ""}">${esc((s.services[j.type] || {}).label || j.type)}</span></td><td>${esc(j.tech)}</td><td>${esc(j.customer)}${j.notes ? `<div class="muted small">${esc(j.notes)}</div>` : ""}</td><td class="r num">${money(j.price)}</td><td class="r num">${money(j.pay)}</td><td class="r num">${money(j.price - j.pay)}</td><td class="r">${delBtn("jobs", j.id)}</td></tr>`).join("")}</tbody>`
+    : `<tbody><tr><td class="empty">No jobs yet. Tap a quick-add button above or tell Jarvis “log a full detail for Tech 1”.</td></tr></tbody>`;
+}
+function fillRates() { const s = settings(); const svc = s.services[$("#jobType").value] || s.services.full; $("#jobPrice").value = svc.price; $("#jobPay").value = svc.pay; }
+
+function renderGoals() {
+  const list = [...S.goals].sort((a, b) => (a.done - b.done) || String(a.due || "9").localeCompare(String(b.due || "9")));
+  $("#goalList").innerHTML = list.length ? list.map(g => {
+    const hasT = g.target != null && g.target !== ""; const frac = hasT && g.target ? Math.min(1, (+g.current || 0) / g.target) : g.done ? 1 : 0;
+    const daysLeft = g.due ? Math.ceil((parseYmd(g.due) - parseYmd(TODAY)) / 864e5) : null;
+    const tag = g.done ? `<span class="tag good">Done</span>` : daysLeft == null ? "" : daysLeft < 0 ? `<span class="tag bad">${-daysLeft}d overdue</span>` : `<span class="tag ${daysLeft <= 7 ? "warn" : ""}">${daysLeft}d left</span>`;
+    return `<div class="card"><div class="card-head"><h3>${esc(g.title)}</h3>${tag}</div>
+      ${hasT ? `<div class="progress"><i style="width:${frac * 100}%"></i></div><p class="small num">${esc(g.unit === "$" ? money(g.current) : (+g.current || 0) + " " + g.unit)} of ${esc(g.unit === "$" ? money(g.target) : g.target + " " + g.unit)} · ${pct(frac)}</p>` : ""}
+      <div class="row">${hasT ? `<input type="number" step="any" style="max-width:140px" aria-label="Progress" data-prog="${esc(g.id)}" value="${esc(g.current || 0)}"><button class="btn ghost small" type="button" data-progsave="${esc(g.id)}">Update</button>` : ""}
+      <button class="btn ghost small" type="button" data-gdone="${esc(g.id)}">${g.done ? "Reopen" : "Mark done"}</button>${delBtn("goals", g.id)}</div></div>`;
+  }).join("") : `<div class="card"><p class="empty">No big goals yet. Add one above, like “Hire a 6th technician” or “$15k month”.</p></div>`;
+}
+
+function renderKitten() {
+  const s = settings(); const a = kittenAge(); const nv = nextVet();
+  const doneCount = Object.values((currentDay().kitten) || {}).filter(Boolean).length;
+  $("#kittenKpis").innerHTML = [
+    kpi("Name", s.kittenName, "Change in Settings"),
+    kpi("Age", `${a.weeks}w ${a.rem}d`, `Born around ${parseYmd(s.kittenBirth).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`),
+    kpi("Care today", `${doneCount}/${KITTEN_DAILY.length}`, "See the Today tab"),
+    kpi("Next vet item", nv ? `Week ${nv[1]}` : "All done", nv ? nv[2].split(":")[0] : "")
+  ].join("");
+  $("#vetList").innerHTML = VET.map(([k, wk, text]) => {
+    const due = addDays(parseYmd(s.kittenBirth), wk * 7); const done = !!S.health[k]; const late = !done && due < parseYmd(TODAY);
+    const tag = done ? `<span class="tag good">Done</span>` : late ? `<span class="tag warn">Due now</span>` : `<span class="tag">${due.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>`;
+    return `<li><span class="wk">Week ${wk}</span><label class="row" style="cursor:pointer"><input type="checkbox" data-vet="${k}" ${done ? "checked" : ""} style="width:auto"><span>${esc(text)}</span></label>${tag}</li>`;
+  }).join("");
+  const tips = a.weeks < 12 ? [
+    "Feed kitten-formula food 3–4 times a day; wet food helps with hydration.",
+    "Keep cords, string, hair ties and small objects off the floor.",
+    "Handle paws, ears and mouth gently every day so vet visits and nail trims are easy later.",
+    "Short play sessions with a wand toy, never hands, so biting doesn't become a habit.",
+    "Kittens sleep 16–20 hours a day. A warm, quiet bed away from the litter box helps."
+  ] : [
+    "Keep 3 meals a day until about 6 months, then move to 2.",
+    "Start nail trims every 1–2 weeks.",
+    "Book the spay/neuter conversation with your vet.",
+    "Scratching posts near where the kitten sleeps save your furniture."
+  ];
+  $("#kittenTips").innerHTML = tips.map(t => `<li><span>${esc(t)}</span></li>`).join("");
+}
+
+function fillSettingsForm() {
+  if ($("#setForm").contains(document.activeElement)) return;
+  const s = settings();
+  $("#sName").value = s.name; $("#sBiz").value = s.business; $("#sWake").value = s.wake || ""; $("#sGoal").value = s.monthlyGoal || "";
+  $("#sFullP").value = s.services.full.price; $("#sFullT").value = s.services.full.pay; $("#sIntP").value = s.services.interior.price; $("#sIntT").value = s.services.interior.pay;
+  $("#techFields").innerHTML = s.techs.map((t, i) => `<label class="field"><span>Tech ${i + 1}</span><input id="sTech${i}" value="${esc(t)}"></label>`).join("") + `<div class="field" style="justify-content:flex-end"><button class="btn ghost small" type="button" id="addTech">+ Add tech</button></div>`;
+  $("#sKName").value = s.kittenName; $("#sKBirth").value = s.kittenBirth; $("#sRoutine").value = s.routine.join("\n");
+}
+
+/* ---------- events ---------- */
+$("#tabs").addEventListener("click", e => { const b = e.target.closest("button[data-tab]"); if (b) showTab(b.dataset.tab); });
+function showTab(name) {
+  document.querySelectorAll("#tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === name));
+  document.querySelectorAll("main > section").forEach(s => s.hidden = s.id !== "tab-" + name);
+  try { localStorage.setItem(LSKEY + ":tab", name); } catch {}
+  if (name === "money") drawChart(S.viewMonth);
+}
+document.addEventListener("click", e => {
+  const t = e.target;
+  if (t.matches("[data-goto]")) showTab(t.dataset.goto);
+  if (t.matches("[data-del]")) removeTask(t.dataset.del);
+  if (t.matches("#carryBtn")) { const d = currentDay(); (S.yday.tasks || []).filter(x => x.kind !== "routine" && !x.done && !d.tasks.some(y => y.text === x.text)).forEach(x => d.tasks.push({ id: newId(), text: x.text, done: false, kind: "task" })); saveDay(d); }
+  if (t.matches("[data-rm]")) {
+    if (t.dataset.armed) { const [coll, id] = t.dataset.rm.split("/"); S[coll] = S[coll].filter(x => x.id !== id); renderAll(); delDoc(t.dataset.rm); toast("Deleted."); }
+    else { t.dataset.armed = "1"; t.textContent = "Delete?"; t.classList.add("small"); setTimeout(() => { if (t.isConnected) { delete t.dataset.armed; t.textContent = "×"; } }, 3000); }
+  }
+  if (t.matches("[data-quick]")) { const j = logJob({ type: t.dataset.quick, tech: $("#jobTech").value }); toast(`Logged ${settings().services[j.type].label} for ${j.tech}, ${money(j.price)}.`); }
+  if (t.matches("[data-gdone]")) { const g = S.goals.find(x => x.id === t.dataset.gdone); if (g) updateGoal(g.id, { done: !g.done }); }
+  if (t.matches("[data-progsave]")) { const inp = document.querySelector(`[data-prog="${t.dataset.progsave}"]`); updateGoal(t.dataset.progsave, { current: +inp.value || 0 }); toast("Progress updated."); }
+  if (t.matches("#addTech")) { const f = $("#techFields"); const n = f.querySelectorAll("input").length; f.lastElementChild.insertAdjacentHTML("beforebegin", `<label class="field"><span>Tech ${n + 1}</span><input id="sTech${n}" placeholder="Name"></label>`); }
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (t.matches(".checks input[type=checkbox][data-id]")) { const id = t.dataset.id; id.startsWith("k:") ? toggleKitten(id.slice(2)) : toggleTask(id); }
+  if (t.matches("[data-vet]")) { const done = { ...S.health, [t.dataset.vet]: t.checked }; S.health = done; renderKitten(); setDoc("kitten/health", { done }); }
+  if (t.id === "jobType") fillRates();
+});
+$("#addTaskForm").addEventListener("submit", e => { e.preventDefault(); if (addTask($("#newTask").value)) $("#newTask").value = ""; });
+let notesT;
+$("#dayNotes").addEventListener("input", () => { $("#notesState").textContent = "Typing…"; clearTimeout(notesT); notesT = setTimeout(() => { const d = currentDay(); d.notes = $("#dayNotes").value; saveDay(d).then(() => $("#notesState").textContent = "Saved"); }, 900); });
+$("#jobForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const j = logJob({ type: $("#jobType").value, tech: $("#jobTech").value, customer: $("#jobCust").value, date: $("#jobDate").value || TODAY, price: $("#jobPrice").value, pay: $("#jobPay").value, notes: $("#jobNotes").value });
+  $("#jobCust").value = ""; $("#jobNotes").value = ""; fillRates(); toast(`Logged ${money(j.price)} job for ${j.tech}.`);
+});
+$("#expForm").addEventListener("submit", e => {
+  e.preventDefault();
+  addExpense({ amount: $("#expAmt").value, category: $("#expCat").value, note: $("#expNote").value, date: $("#expDate").value || TODAY });
+  $("#expAmt").value = ""; $("#expNote").value = ""; toast("Expense added.");
+});
+$("#goalForm").addEventListener("submit", e => {
+  e.preventDefault();
+  addGoal({ title: $("#gTitle").value, target: $("#gTarget").value, unit: $("#gUnit").value, due: $("#gDue").value });
+  ["#gTitle", "#gTarget", "#gUnit", "#gDue"].forEach(s => $(s).value = ""); toast("Goal added.");
+});
+$("#setForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const techs = [...document.querySelectorAll("#techFields input")].map(i => i.value.trim()).filter(Boolean);
+  const next = {
+    name: $("#sName").value.trim() || "Morgan", business: $("#sBiz").value.trim() || DEFAULTS.business, wake: $("#sWake").value, monthlyGoal: +$("#sGoal").value || 0,
+    services: { full: { label: "Full detail", price: +$("#sFullP").value || 0, pay: +$("#sFullT").value || 0 }, interior: { label: "Interior detail", price: +$("#sIntP").value || 0, pay: +$("#sIntT").value || 0 } },
+    techs: techs.length ? techs : DEFAULTS.techs, kittenName: $("#sKName").value.trim() || "Kitten", kittenBirth: $("#sKBirth").value || DEFAULTS.kittenBirth,
+    routine: $("#sRoutine").value.split("\n").map(x => x.trim()).filter(Boolean)
+  };
+  S.settings = next; document.activeElement.blur(); fillSettingsForm(); renderAll();
+  setDoc("settings/main", next).then(() => { $("#setState").textContent = "Saved."; });
+});
+$("#mPrev").addEventListener("click", () => { const [y, m] = S.viewMonth.split("-").map(Number); S.viewMonth = monthKey(new Date(y, m - 2, 1)); renderMoney(); });
+$("#mNext").addEventListener("click", () => { const [y, m] = S.viewMonth.split("-").map(Number); S.viewMonth = monthKey(new Date(y, m, 1)); renderMoney(); });
+let rsT; window.addEventListener("resize", () => { clearTimeout(rsT); rsT = setTimeout(() => { if (!$("#tab-money").hidden) drawChart(S.viewMonth); }, 150); });
+
+function tick() {
+  const now = new Date();
+  $("#clock").textContent = now.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) + " · " + now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  if (ymd(now) !== TODAY) { TODAY = ymd(now); S.day = null; S.chat = []; $("#jobDate").value = TODAY; $("#expDate").value = TODAY; if (mode !== "connecting") subscribeDays(); renderAll(); renderChat(); }
+}
+
+/* ---------- Jarvis (AI) ---------- */
+let sample = null, sampleState = "pending", ctl = null, pending = null;
+(async () => {
+  try { sample = window.claude ? await window.claude.use("sample") : null; } catch { sample = null; }
+  sampleState = sample ? "ready" : "off";
+  if (!sample) $("#jStatus").textContent = "AI replies aren't available in this view. The tracker still works.";
+  renderChat();
+})();
+
+function renderChat() {
+  const box = $("#msgs"); const s = settings();
+  const msgs = S.chat.length ? S.chat : [{ role: "assistant", content: `Welcome back, ${s.name}. I'm tracking ${s.business}: jobs, revenue, profit margin, your goals, and ${s.kittenName}'s care.\n\nTap “Morning briefing” to start the day, or just tell me what happened, like “Tech 3 finished an interior for Sarah.”` }];
+  box.innerHTML = msgs.map(m => `<div class="msg ${m.role === "user" ? "u" : "a"}">${esc(m.content)}</div>`).join("")
+    + (pending ? `<div class="msg u">${esc(pending.user)}</div><div class="msg a" id="live">${esc(pending.text || "Thinking…")}</div>` : "");
+  box.scrollTop = box.scrollHeight;
+}
+
+function contextText() {
+  const s = settings(); const now = new Date(); const mk = monthKey(now); const st = monthStats(mk); const p = pace(mk); const d = currentDay(); const a = kittenAge(); const nv = nextVet();
+  const prevKey = monthKey(new Date(now.getFullYear(), now.getMonth() - 1, 1)); const prev = monthStats(prevKey);
+  const recent = [...S.jobs].sort((x, y) => String(y.date).localeCompare(x.date)).slice(0, 12).map(j => `${j.date} ${j.type} ${j.tech} ${j.customer || ""} $${j.price} (tech $${j.pay})`).join("\n");
+  return `NOW: ${now.toLocaleString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })} (today = ${TODAY})
+OWNER: ${s.name}, 18, runs ${s.business}. Usually wakes around ${s.wake || "10-11am"}, then tests automations and checks GoHighLevel.
+RATES: Full detail $${s.services.full.price} (tech paid $${s.services.full.pay}); Interior $${s.services.interior.price} (tech paid $${s.services.interior.pay}).
+TECHNICIANS: ${s.techs.join(", ")}.
+THIS MONTH (${monthName(mk)}, day ${p.elapsed}/${p.dim}): revenue $${st.revenue}, jobs ${st.jobs.length} (${st.full} full, ${st.interior} interior), tech pay $${st.pay}, expenses $${st.expenses}, net profit $${st.net}, margin ${pct(st.margin)}, projected revenue $${Math.round(p.projected)}. Monthly goal: ${s.monthlyGoal ? "$" + s.monthlyGoal : "not set"}.
+LAST MONTH (${monthName(prevKey)}): revenue $${prev.revenue}, net $${prev.net}, margin ${pct(prev.margin)}.
+TODAY: revenue $${dayRevenue(TODAY)}.
+MORNING ROUTINE: ${d.tasks.filter(t => t.kind === "routine").map(t => (t.done ? "[x] " : "[ ] ") + t.text).join("; ")}
+TODAY'S GOALS: ${d.tasks.filter(t => t.kind !== "routine").map(t => (t.done ? "[x] " : "[ ] ") + t.text).join("; ") || "none yet"}
+BIG GOALS: ${S.goals.map(g => `${g.done ? "[done] " : ""}${g.title}${g.target != null ? ` (${g.current || 0}/${g.target} ${g.unit || ""})` : ""}${g.due ? " due " + g.due : ""}`).join("; ") || "none yet"}
+KITTEN: ${s.kittenName}, ${a.weeks} weeks ${a.rem} days old. Care done today: ${KITTEN_DAILY.filter(([k]) => (d.kitten || {})[k]).map(x => x[1]).join(", ") || "nothing yet"}. Next vet item: ${nv ? `week ${nv[1]}: ${nv[2]}` : "none"}.
+NOTES TODAY: ${d.notes || "none"}
+RECENT JOBS:
+${recent || "none logged yet"}`;
+}
+
+const RULES = `You are JARVIS, the personal AI assistant for Morgan, the 18-year-old owner of Coastline Auto Detailing. Morgan sends jobs to five technicians and runs marketing and automations through GoHighLevel, and is also raising an 8-week-old kitten.
+
+How you talk: calm, sharp, a little dry wit like Tony Stark's JARVIS. Address Morgan by name, never "sir". Keep replies short: a few lines or a tight list, plain text, no markdown headers or tables. Use real numbers from the DATA block; never invent revenue, jobs or dates. If data is missing, say so and suggest logging it.
+
+What you do:
+- Morning briefing: greet Morgan, give yesterday's and this month's numbers (revenue, net profit, margin, pace vs goal), list the routine steps still open (test automations, check GoHighLevel, dispatch jobs), today's goals, and the kitten's care and next vet item. End by asking for today's top 1-3 goals if none are set.
+- When Morgan reports finished work or spending, use the tools to log it (log_job, add_expense), then confirm in one line with the new month total.
+- When Morgan states goals, add them (add_today_goal for today, add_big_goal for longer-term).
+- When Morgan says something is done, use complete_item.
+- Coach on the business: margin, pricing, keeping techs busy, getting reviews, following up leads fast. Be specific and practical.
+- Remind Morgan about the kitten: feeding 3-4 times a day, water, litter, play, and vet visits. For health worries, say to call a vet.`;
+
+const TOOLS = () => [
+  { name: "log_job", description: "Record a completed detailing job. Price and tech pay default to the standard rates. Returns the saved job.",
+    inputSchema: { type: "object", properties: { type: { type: "string", enum: ["full", "interior"] }, tech: { type: "string", description: "Technician name" }, customer: { type: "string" }, date: { type: "string", description: "YYYY-MM-DD, default today" }, price: { type: "number" }, notes: { type: "string" } }, required: ["type"] },
+    execute: i => { const j = logJob({ type: String(i.type || "full"), tech: techByName(i.tech), customer: i.customer || "", date: /^\d{4}-\d{2}-\d{2}$/.test(i.date || "") ? i.date : TODAY, price: i.price, notes: i.notes || "" }); return { saved: j, monthRevenue: monthStats(monthKey(new Date())).revenue }; } },
+  { name: "add_expense", description: "Record a business expense (supplies, software like GoHighLevel, ads, gas, equipment).",
+    inputSchema: { type: "object", properties: { amount: { type: "number" }, category: { type: "string", enum: ["Supplies", "Software", "Ads", "Gas", "Equipment", "Other"] }, note: { type: "string" }, date: { type: "string" } }, required: ["amount"] },
+    execute: i => { if (!(+i.amount > 0)) throw new Error("amount must be a positive number"); return addExpense({ amount: +i.amount, category: i.category || "Other", note: i.note || "", date: /^\d{4}-\d{2}-\d{2}$/.test(i.date || "") ? i.date : TODAY }); } },
+  { name: "add_today_goal", description: "Add a goal or to-do to today's list.",
+    inputSchema: { type: "object", properties: { text: { type: "string" } }, required: ["text"] },
+    execute: i => addTask(i.text) || "empty text" },
+  { name: "complete_item", description: "Mark a routine step, today's goal, or kitten care item as done by matching part of its text (e.g. 'automations', 'breakfast', 'litter').",
+    inputSchema: { type: "object", properties: { text: { type: "string" } }, required: ["text"] },
+    execute: i => {
+      const q = String(i.text || "").toLowerCase(); const d = currentDay();
+      const t = d.tasks.find(x => !x.done && x.text.toLowerCase().includes(q));
+      if (t) { t.done = true; t.doneAt = Date.now(); saveDay(d); return "Marked done: " + t.text; }
+      const k = KITTEN_DAILY.find(([key, text]) => text.toLowerCase().includes(q) || key === q);
+      if (k) { d.kitten = d.kitten || {}; d.kitten[k[0]] = true; saveDay(d); return "Marked done: " + k[1]; }
+      throw new Error("No open item matches '" + i.text + "'");
+    } },
+  { name: "add_big_goal", description: "Add a longer-term goal with an optional numeric target, unit ($, jobs, reviews...) and due date YYYY-MM-DD.",
+    inputSchema: { type: "object", properties: { title: { type: "string" }, target: { type: "number" }, unit: { type: "string" }, due: { type: "string" } }, required: ["title"] },
+    execute: i => addGoal({ title: i.title, target: i.target, unit: i.unit || "", due: i.due || "" }) },
+  { name: "update_goal_progress", description: "Set the current progress number on a big goal, matched by part of its title.",
+    inputSchema: { type: "object", properties: { title: { type: "string" }, current: { type: "number" } }, required: ["title", "current"] },
+    execute: i => { const g = S.goals.find(x => x.title.toLowerCase().includes(String(i.title).toLowerCase())); if (!g) throw new Error("No goal matches"); updateGoal(g.id, { current: +i.current || 0 }); return "Updated " + g.title; } }
+];
+
+const ERR = { not_granted: "Jarvis needs your OK to use Claude. Reload and allow it to chat.", rate_limited: "I'm getting too many requests. Give it a minute and try again.", session_expired: "Your session expired. Sign in again to chat.", refused: "I can't help with that one. Try asking differently.", sampling_disabled: "AI replies are turned off for this account." };
+
+async function ask(text) {
+  text = String(text || "").trim(); if (!text) return;
+  if (!sample) { toast(sampleState === "pending" ? "Jarvis is still starting up. Try again in a second." : "AI replies aren't available here."); return; }
+  const history = S.chat.filter(m => m.role === "user" || m.role === "assistant").slice(-14);
+  pending = { user: text, text: "" }; renderChat();
+  const box = $("#msgs");
+  $("#jarvis").classList.add("busy"); $("#chatSend").textContent = "Stop"; ctl = new AbortController();
+  let tools = TOOLS(); try { const lim = await sample.limits(); if (!lim.tools) tools = undefined; } catch { tools = undefined; }
+  const turns = [{ role: "user", content: RULES + "\n\nDATA:\n" + contextText() }, ...history, { role: "user", content: text }];
+  let reply = "";
+  try {
+    const opts = { signal: ctl.signal, modelTier: "quick", onText: ({ text: t }) => { pending.text = t; const b = $("#live"); if (b) b.textContent = t; box.scrollTop = box.scrollHeight; } };
+    if (tools) opts.tools = tools; else opts.cache = false;
+    const res = await sample(turns, opts); reply = res.text;
+  } catch (e) {
+    reply = e.code === "cancelled" ? (e.text || "(stopped)") : (e.text ? e.text + "\n\n(interrupted)" : (ERR[e.code] || "Something went wrong reaching Claude. Try again."));
+    if (e.code === "not_granted" || e.code === "sampling_disabled") { sampleState = "off"; }
+  } finally {
+    $("#jarvis").classList.remove("busy"); $("#chatSend").textContent = "Send"; ctl = null;
+  }
+  S.chat = [...S.chat, { role: "user", content: text }, { role: "assistant", content: reply }].slice(-40);
+  pending = null;
+  const d = currentDay(); d.chat = S.chat; saveDay(d); renderChat();
+}
+$("#chatForm").addEventListener("submit", e => { e.preventDefault(); if (ctl) { ctl.abort(); return; } const v = $("#chatIn").value; $("#chatIn").value = ""; ask(v); });
+$("#chatIn").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("#chatForm").requestSubmit(); } });
+$("#chips").addEventListener("click", e => { const b = e.target.closest("[data-q]"); if (b && !ctl) ask(b.dataset.q); });
+
+/* ---------- boot ---------- */
+$("#jobDate").value = TODAY; $("#expDate").value = TODAY;
+fillSettingsForm(); renderAll(); renderChat(); tick(); setInterval(tick, 30000);
+try { const t = localStorage.getItem(LSKEY + ":tab"); if (t && $("#tab-" + t)) showTab(t); } catch {}
+</script>
