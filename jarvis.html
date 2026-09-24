@@ -626,6 +626,16 @@ function logJob({ type = "full", tech, customer = "", date = TODAY, price, pay, 
   const id = newId(); S.jobs = [...S.jobs, { id, ...job }]; renderAll();
   setDoc("jobs/" + id, job); return { id, ...job };
 }
+function setMonthRevenue({ total, techPay }) {
+  const mk = monthKey(new Date()); const st = monthStats(mk); const diff = Math.round(+total - st.revenue);
+  if (!(diff > 0)) throw new Error(`Logged revenue this month is already ${money(st.revenue)}, which is at or above ${money(+total)}. Nothing added.`);
+  const s = settings(); const ratio = (s.services.full.pay / s.services.full.price);
+  const est = techPay == null || techPay === "" || isNaN(+techPay);
+  const job = { type: "earlier", tech: "Earlier (not itemized)", customer: "", date: mk + "-01", price: diff, pay: est ? Math.round(diff * ratio) : Math.round(+techPay),
+    notes: est ? `Revenue from before tracking. Tech pay estimated at ${pct(ratio)}; tell Jarvis the real amount to fix it.` : "Revenue from before tracking.", ts: Date.now() };
+  const id = newId(); S.jobs = [...S.jobs, { id, ...job }]; renderAll(); setDoc("jobs/" + id, job);
+  return { added: diff, techPay: job.pay, techPayEstimated: est, newMonthRevenue: monthStats(mk).revenue };
+}
 function addExpense({ amount, category = "Other", note = "", date = TODAY }) {
   const e = { amount: +amount || 0, category, note: String(note), date, ts: Date.now() };
   const id = newId(); S.expenses = [...S.expenses, { id, ...e }]; renderAll();
@@ -823,7 +833,7 @@ function renderJobs() {
   const jobs = [...S.jobs].sort((a, b) => String(b.date).localeCompare(a.date) || (b.ts || 0) - (a.ts || 0)).slice(0, 60);
   $("#jobHint").textContent = S.jobs.length > 60 ? "Latest 60" : `${S.jobs.length} total`;
   $("#jobTable").innerHTML = jobs.length ? `<thead><tr><th>Date</th><th>Service</th><th>Tech</th><th>Customer</th><th class="r">Charged</th><th class="r">Tech pay</th><th class="r">You keep</th><th></th></tr></thead><tbody>${jobs.map(j =>
-    `<tr><td class="num">${esc(j.date)}</td><td><span class="tag ${j.type === "full" ? "full" : ""}">${esc((s.services[j.type] || {}).label || j.type)}</span></td><td>${esc(j.tech)}</td><td>${esc(j.customer)}${j.notes ? `<div class="muted small">${esc(j.notes)}</div>` : ""}</td><td class="r num">${money(j.price)}</td><td class="r num">${money(j.pay)}</td><td class="r num">${money(j.price - j.pay)}</td><td class="r">${delBtn("jobs", j.id)}</td></tr>`).join("")}</tbody>`
+    `<tr><td class="num">${esc(j.date)}</td><td><span class="tag ${j.type === "full" ? "full" : ""}">${esc(j.type === "earlier" ? "Earlier revenue" : (s.services[j.type] || {}).label || j.type)}</span></td><td>${esc(j.tech)}</td><td>${esc(j.customer)}${j.notes ? `<div class="muted small">${esc(j.notes)}</div>` : ""}</td><td class="r num">${money(j.price)}</td><td class="r num">${money(j.pay)}</td><td class="r num">${money(j.price - j.pay)}</td><td class="r">${delBtn("jobs", j.id)}</td></tr>`).join("")}</tbody>`
     : `<tbody><tr><td class="empty">No jobs yet. Tap a quick-add button above or tell Jarvis “log a full detail for Tech 1”.</td></tr></tbody>`;
 }
 function fillRates() { const s = settings(); const svc = s.services[$("#jobType").value] || s.services.full; $("#jobPrice").value = svc.price; $("#jobPay").value = svc.pay; }
@@ -970,13 +980,14 @@ let sample = null, sampleState = "pending", ctl = null, pending = null;
 function renderChat() {
   const box = $("#msgs"); const s = settings();
   const msgs = S.chat.length ? S.chat : [{ role: "assistant", content: V.persona === "ultron" ? `Hello, ${s.name}. I've been watching the numbers. ${s.business}, the technicians, the leads, the little one with the whiskers. All of it, tracked.\n\nAsk for your morning briefing. Or tell me what got done today, and I'll make it permanent.` : `Welcome back, ${s.name}. I'm tracking ${s.business}: jobs, revenue, profit margin, your goals, and ${s.kittenName}'s care.\n\nTap “Morning briefing” to start the day, or just tell me what happened, like “Tech 3 finished an interior for Sarah.”` }];
-  box.innerHTML = msgs.map(m => `<div class="msg ${m.role === "user" ? "u" : "a"}">${esc(m.content)}</div>`).join("")
+  box.innerHTML = msgs.map(m => `<div class="msg ${m.role === "user" ? "u" : "a"}">${fmtMsg(m.content)}</div>`).join("")
     + (pending ? `<div class="msg u">${esc(pending.user)}</div><div class="msg a" id="live">${esc(pending.text || "Thinking…")}</div>` : "");
   box.scrollTop = box.scrollHeight;
   const last = pending ? (pending.text || "Thinking…") : (msgs.filter(m => m.role !== "user").pop() || {}).content || "";
   setCaption(last);
 }
-function setCaption(t) { const c = $("#caption"); if (!c) return; c.textContent = t; c.scrollTop = c.scrollHeight; }
+function fmtMsg(t) { return esc(t).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/^#+\s*/gm, ""); }
+function setCaption(t) { const c = $("#caption"); if (!c) return; c.innerHTML = fmtMsg(t); c.scrollTop = c.scrollHeight; }
 
 function contextText() {
   const s = settings(); const now = new Date(); const mk = monthKey(now); const st = monthStats(mk); const p = pace(mk); const d = currentDay(); const a = kittenAge(); const nv = nextVet();
@@ -1012,6 +1023,8 @@ What you do:
 - Coach on the business: margin, pricing, keeping techs busy, getting reviews, following up leads fast. Be specific and practical.
 - Calories: Morgan's goal is to EAT at least the daily calorie goal (2000 by default) to fuel the day, not to diet. When Morgan says what they ate, estimate the calories sensibly (typical portion), call log_food, and mention it's an estimate. If it's afternoon and Morgan is far behind, suggest an easy calorie-dense meal or snack.
 - Google reviews: goal is 1-2 new Google reviews every day. When Morgan says one came in, call add_google_reviews. Nudge Morgan to text the review link to every customer right after the job and to set up a GoHighLevel review-request automation.
+- You CAN change your own personality and voice. If Morgan asks for Ultron, Jarvis, voice on or voice off, call switch_mode right away. Never refuse or say the voice is fixed.
+- If Morgan gives a month revenue total that's higher than what's logged (e.g. "my revenue is at 5.82k"), call set_month_revenue with the total. If Morgan didn't say what the techs were paid, it gets estimated; say so and ask for the real tech pay. Never claim you updated something without calling a tool.
 - Remind Morgan about the kitten: feeding 3-4 times a day, water, litter, play, and vet visits. For health worries, say to call a vet.`;
 
 const TOOLS = () => [
@@ -1034,6 +1047,12 @@ const TOOLS = () => [
       if (k) { d.kitten = d.kitten || {}; d.kitten[k[0]] = true; saveDay(d); return "Marked done: " + k[1]; }
       throw new Error("No open item matches '" + i.text + "'");
     } },
+  { name: "switch_mode", description: "Switch your personality (jarvis or ultron) and/or turn spoken replies on or off. After switching, write your reply in the new personality.",
+    inputSchema: { type: "object", properties: { personality: { type: "string", enum: ["jarvis", "ultron"] }, voice: { type: "string", enum: ["on", "off"] } } },
+    execute: i => { applyMode(i.personality, i.voice); return { personality: V.persona, voiceOn: V.on, speakNow: PERSONAS[V.persona].style }; } },
+  { name: "set_month_revenue", description: "Set this month's revenue total when Morgan reports a number higher than what's logged. Adds the difference as 'earlier revenue'. Pass tech_pay (total paid to techs for that earlier revenue) if Morgan said it; otherwise it's estimated.",
+    inputSchema: { type: "object", properties: { total: { type: "number", description: "Month-to-date revenue in dollars, e.g. 5820" }, tech_pay: { type: "number" } }, required: ["total"] },
+    execute: i => setMonthRevenue({ total: i.total, techPay: i.tech_pay }) },
   { name: "log_food", description: "Log food Morgan ate today with its calories (estimate typical portions if Morgan doesn't give a number). Returns today's calorie total.",
     inputSchema: { type: "object", properties: { food: { type: "string" }, calories: { type: "number" } }, required: ["food", "calories"] },
     execute: i => { const r = logFood({ name: i.food, cal: i.calories }); if (!r) throw new Error("calories must be a positive number"); return { ...r, goal: settings().calGoal }; } },
@@ -1050,8 +1069,31 @@ const TOOLS = () => [
 
 const ERR = { not_granted: "Jarvis needs your OK to use Claude. Reload and allow it to chat.", rate_limited: "I'm getting too many requests. Give it a minute and try again.", session_expired: "Your session expired. Sign in again to chat.", refused: "I can't help with that one. Try asking differently.", sampling_disabled: "AI replies are turned off for this account." };
 
+function applyMode(persona, voice) {
+  if (persona && PERSONAS[persona]) { V.persona = persona; V.pitch = null; V.rate = null; }
+  if (voice === "on") V.on = true; if (voice === "off") { V.on = false; stopSpeaking(); }
+  saveV();
+}
+function localCommand(text) {
+  const t = text.toLowerCase(); const wantsChange = /\b(switch|change|turn|go|use|be|become|set|make|put|activate|talk|sound|speak)\b|^\s*(ultron|jarvis)( mode| voice)?\W*$/.test(t);
+  const persona = /\bultron\b/.test(t) ? "ultron" : /\bjarvis\b/.test(t) && wantsChange ? "jarvis" : null;
+  let voice = null;
+  if (/\b(mute|be quiet|stop talking|voice off|turn (the )?voice off|stop speaking)\b/.test(t)) voice = "off";
+  else if (/\b(voice|talk|speak|out loud|say it)\b/.test(t) && (persona || /\b(on|enable|start|turn)\b/.test(t))) voice = "on";
+  if (!(persona && wantsChange) && !voice) return false;
+  if (t.split(/\s+/).length > 14) return false;
+  applyMode(persona && wantsChange ? persona : null, voice);
+  const p = V.persona;
+  const reply = voice === "off" ? (p === "ultron" ? "Silence, then. I'll still be watching the numbers." : "Voice off. I'll keep it to text.")
+    : p === "ultron" ? `There you are, ${settings().name}. No more polite butler. I'm Ultron now, and this business is going to evolve.${V.on ? "" : "\n\nTap Voice on at the top if you want to hear me."}`
+    : `JARVIS back online, ${settings().name}. Calm, collected, and at your service.${V.on ? "" : "\n\nTap Voice on at the top if you want to hear me."}`;
+  S.chat = [...S.chat, { role: "user", content: text }, { role: "assistant", content: reply }].slice(-40);
+  const d = currentDay(); d.chat = S.chat; saveDay(d); renderChat(); speak(reply);
+  return true;
+}
 async function ask(text) {
   text = String(text || "").trim(); if (!text) return;
+  if (localCommand(text)) return;
   if (!sample) { toast(sampleState === "pending" ? "Jarvis is still starting up. Try again in a second." : "AI replies aren't available here."); return; }
   const history = S.chat.filter(m => m.role === "user" || m.role === "assistant").slice(-14);
   pending = { user: text, text: "" }; renderChat(); Core.set("thinking");
@@ -1061,7 +1103,7 @@ async function ask(text) {
   const turns = [{ role: "user", content: persona().style + "\n\n" + RULES_BASE + "\n\nDATA:\n" + contextText() }, ...history, { role: "user", content: text }];
   let reply = "";
   try {
-    const opts = { signal: ctl.signal, modelTier: "quick", onText: ({ text: t }) => { pending.text = t; const b = $("#live"); if (b) b.textContent = t; setCaption(t); Core.pulse(0.25); box.scrollTop = box.scrollHeight; } };
+    const opts = { signal: ctl.signal, modelTier: "quick", onText: ({ text: t }) => { pending.text = t; const b = $("#live"); if (b) b.innerHTML = fmtMsg(t); setCaption(t); Core.pulse(0.25); box.scrollTop = box.scrollHeight; } };
     if (tools) opts.tools = tools; else opts.cache = false;
     const res = await sample(turns, opts); reply = res.text; speak(reply);
   } catch (e) {
