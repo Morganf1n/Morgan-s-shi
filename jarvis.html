@@ -448,7 +448,6 @@ input[type=range]{padding:0;accent-color:var(--accent)}
   <aside class="jarvis" id="jarvis">
     <header>
       <div><h2 id="jName">JARVIS</h2><p id="jStatus">Online. Ask me anything about the business.</p></div>
-      <button type="button" class="vbtn" id="viewBtn" title="Switch between the full core and the chat history">Show chat</button>
       <button type="button" class="vbtn" id="voiceBtn" aria-pressed="false" title="Read Jarvis's replies out loud">Voice off</button>
     </header>
     <div class="core" id="core"><canvas id="coreCanvas" aria-hidden="true"></canvas><div class="caption" id="caption" aria-live="polite"></div></div>
@@ -1226,9 +1225,7 @@ const Core = (() => {
   if (reduce) setInterval(() => requestAnimationFrame(frame), 1000);
   return api;
 })();
-const VIEWKEY = LSKEY + ":view";
-function setView(full) { $("#jarvis").classList.toggle("corefull", full); $("#viewBtn").textContent = full ? "Show chat" : "Show core"; try { localStorage.setItem(VIEWKEY, full ? "core" : "chat"); } catch {} renderChat(); }
-$("#viewBtn").addEventListener("click", () => setView(!$("#jarvis").classList.contains("corefull")));
+function setView(full) { $("#jarvis").classList.toggle("corefull", full); renderChat(); }
 
 function applyV() {
   const p = persona(); const a = $("#jarvis");
@@ -1271,6 +1268,6 @@ $("#vTest").addEventListener("click", () => { const was = V.on; V.on = true; spe
 
 /* ---------- boot ---------- */
 $("#jobDate").value = TODAY; $("#expDate").value = TODAY;
-applyV(); (() => { let v = "core"; try { v = localStorage.getItem(VIEWKEY) || "core"; } catch {} setView(v === "core"); })(); fillSettingsForm(); renderAll(); renderChat(); tick(); setInterval(tick, 30000);
+applyV(); setView(true); fillSettingsForm(); renderAll(); renderChat(); tick(); setInterval(tick, 30000);
 try { const t = localStorage.getItem(LSKEY + ":tab"); if (t && $("#tab-" + t)) showTab(t); } catch {}
 </script>
