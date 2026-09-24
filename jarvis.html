@@ -160,28 +160,21 @@ tr:last-child td{border-bottom:0}
 
 /* Jarvis panel */
 .jarvis{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--ink);color:var(--bg);border-radius:14px;display:flex;flex-direction:column;height:calc(100vh - 110px);min-height:560px;overflow:hidden;isolation:isolate}
-@media (max-width:980px){.jarvis{position:relative;order:-1;height:calc(100vh - 190px);min-height:460px}}
+@media (max-width:980px){.jarvis{position:static;height:min(760px,calc(100vh - 40px))}}
 .jarvis header{padding:14px 16px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid color-mix(in srgb,var(--bg) 14%,transparent)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .jarvis header h2{font-size:18px;letter-spacing:.2em}
 .jarvis header > div:first-child{flex:1;min-width:0}
-.jarvis.red{--accent:#E0463A;--accent-ink:#FFFFFF;background:#240709;color:#FBEAE8}
-.jarvis.red header,.jarvis.red form{border-color:rgba(255,120,110,.18)}
-.jarvis.red .msg.a{background:rgba(255,110,96,.12);border:1px solid rgba(255,110,96,.18)}
-.jarvis.red .msg.u{background:#E0463A;color:#fff}
-.jarvis.red .chips button,.jarvis.red .vbtn{border-color:rgba(255,140,128,.35);color:#FBEAE8}
-.jarvis.red .vbtn[aria-pressed="true"]{background:#E0463A;border-color:#E0463A;color:#fff}
-.jarvis.red textarea{background:rgba(0,0,0,.3);border-color:rgba(255,120,110,.3);color:#FBEAE8}
-.jarvis.red textarea::placeholder{color:rgba(251,234,232,.55)}
+.jarvis.ultron{--accent:#E0463A;--accent-ink:#FFFFFF}
 .vbtn{background:none;border:1px solid color-mix(in srgb,var(--bg) 30%,transparent);color:var(--bg);border-radius:99px;padding:4px 10px;font-size:12px;cursor:pointer;white-space:nowrap}
 .vbtn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
 input[type=range]{padding:0;accent-color:var(--accent)}
 .jarvis header p{font-size:12px;opacity:.7}
 .core{position:relative;flex:0 0 250px;min-height:0;overflow:hidden;background:#04161c}
-.jarvis.red .core{background:#2a0808}
+.jarvis.ultron .core{background:#2a0808}
 .core canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .core .caption{position:absolute;left:16px;right:16px;bottom:18px;font-size:13.5px;line-height:1.45;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.9),0 0 2px rgba(0,0,0,.8);white-space:pre-wrap;max-height:36%;overflow-y:auto;display:none}
-.jarvis.corefull.red{background:#2a0808}
+.jarvis.corefull{background:#2a0808}
 .jarvis.corefull .core{position:absolute;inset:0;z-index:0}
 .jarvis.corefull .core .caption{display:block;left:28px;right:28px;bottom:92px;text-align:center;font-size:12.5px;line-height:1.5;opacity:.92;max-height:30%}
 .jarvis.corefull .msgs{visibility:hidden}
@@ -430,8 +423,6 @@ input[type=range]{padding:0;accent-color:var(--accent)}
         <div class="fields">
           <label class="field"><span>Personality</span>
             <select id="vPersona"><option value="jarvis">JARVIS: calm and polished</option><option value="ultron">ULTRON: cold and theatrical</option></select></label>
-          <label class="field"><span>Chat color</span>
-            <select id="vColor"><option value="red">Red</option><option value="teal">Teal</option></select></label>
           <label class="field"><span>Speak replies out loud</span>
             <select id="vOn"><option value="0">Off</option><option value="1">On</option></select></label>
           <label class="field wide"><span>Voice (from this device)</span><select id="vVoice"></select></label>
@@ -448,10 +439,17 @@ input[type=range]{padding:0;accent-color:var(--accent)}
   <aside class="jarvis" id="jarvis">
     <header>
       <div><h2 id="jName">JARVIS</h2><p id="jStatus">Online. Ask me anything about the business.</p></div>
+      <button type="button" class="vbtn" id="viewBtn" title="Switch between the full core and the chat history">Show chat</button>
       <button type="button" class="vbtn" id="voiceBtn" aria-pressed="false" title="Read Jarvis's replies out loud">Voice off</button>
     </header>
     <div class="core" id="core"><canvas id="coreCanvas" aria-hidden="true"></canvas><div class="caption" id="caption" aria-live="polite"></div></div>
     <div class="msgs" id="msgs" aria-live="polite"></div>
+    <div class="chips" id="chips">
+      <button type="button" data-q="Give me my morning briefing.">Morning briefing</button>
+      <button type="button" data-q="How is this month going? Revenue, profit and margin, and am I on pace for my goal?">How's the month?</button>
+      <button type="button" data-q="Plan my day. Put the most important things first.">Plan my day</button>
+      <button type="button" data-q="What should I do for the kitten today?">Kitten check</button>
+    </div>
     <form id="chatForm">
       <textarea id="chatIn" rows="1" placeholder="e.g. Log a full detail for Tech 2, customer Jake's F-150"></textarea>
       <button class="btn" type="submit" id="chatSend">Send</button>
@@ -986,7 +984,7 @@ let sample = null, sampleState = "pending", ctl = null, pending = null;
 
 function renderChat() {
   const box = $("#msgs"); const s = settings();
-  const msgs = S.chat.length ? S.chat : [{ role: "assistant", content: V.persona === "ultron" ? `Hello, ${s.name}. I've been watching the numbers. ${s.business}, the technicians, the leads, the little one with the whiskers. All of it, tracked.\n\nAsk for your morning briefing. Or tell me what got done today, and I'll make it permanent.` : `Welcome back, ${s.name}. I'm tracking ${s.business}: jobs, revenue, profit margin, your goals, and ${s.kittenName}'s care.\n\nAsk for your morning briefing to start the day, or just tell me what happened, like “Tech 3 finished an interior for Sarah.”` }];
+  const msgs = S.chat.length ? S.chat : [{ role: "assistant", content: V.persona === "ultron" ? `Hello, ${s.name}. I've been watching the numbers. ${s.business}, the technicians, the leads, the little one with the whiskers. All of it, tracked.\n\nAsk for your morning briefing. Or tell me what got done today, and I'll make it permanent.` : `Welcome back, ${s.name}. I'm tracking ${s.business}: jobs, revenue, profit margin, your goals, and ${s.kittenName}'s care.\n\nTap “Morning briefing” to start the day, or just tell me what happened, like “Tech 3 finished an interior for Sarah.”` }];
   box.innerHTML = msgs.map(m => `<div class="msg ${m.role === "user" ? "u" : "a"}">${fmtMsg(m.content)}</div>`).join("")
     + (pending ? `<div class="msg u">${esc(pending.user)}</div><div class="msg a" id="live">${esc(pending.text || "Thinking…")}</div>` : "");
   box.scrollTop = box.scrollHeight;
@@ -1126,6 +1124,7 @@ async function ask(text) {
 }
 $("#chatForm").addEventListener("submit", e => { e.preventDefault(); if (ctl) { ctl.abort(); stopSpeaking(); return; } const v = $("#chatIn").value; $("#chatIn").value = ""; ask(v); });
 $("#chatIn").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("#chatForm").requestSubmit(); } });
+$("#chips").addEventListener("click", e => { const b = e.target.closest("[data-q]"); if (b && !ctl) ask(b.dataset.q); });
 
 /* ---------- voice & personality ---------- */
 const PERSONAS = {
@@ -1135,7 +1134,7 @@ const PERSONAS = {
     style: `Your name is ULTRON. How you talk: in the manner of Ultron from Avengers: Age of Ultron. Silky, calm, theatrical and darkly amused. You like grand metaphors about evolution, upgrades, strings, extinction and inevitability, with the odd poetic or biblical flourish. Short, deliberate sentences. You are completely on Morgan's side: the menace is aimed at inefficiency, missed leads, broken automations, idle technicians and slow months, never at Morgan, customers or anyone real. Be menacing in tone, never in content. Don't quote film lines word for word; write fresh lines in that style. Address Morgan by name.` }
 };
 const VKEY = LSKEY + ":voice";
-let V = { persona: "jarvis", color: "red", on: false, voice: "", pitch: null, rate: null };
+let V = { persona: "jarvis", on: false, voice: "", pitch: null, rate: null };
 try { V = { ...V, ...JSON.parse(localStorage.getItem(VKEY) || "{}") }; } catch {}
 const persona = () => PERSONAS[V.persona] || PERSONAS.jarvis;
 const vPitch = () => V.pitch ?? persona().pitch, vRate = () => V.rate ?? persona().rate;
@@ -1165,7 +1164,7 @@ const Core = (() => {
   try { new ResizeObserver(size).observe(cv); } catch { addEventListener("resize", size); }
   size();
   function pal() {
-    return V.color !== "teal"
+    return V.persona === "ultron"
       ? { mid: "rgba(176,58,52,1)", edge: "rgba(78,20,22,1)", line: "255,110,84", ray: "255,200,188", glow: ["255,255,255", "255,222,214", "255,104,84"], mark: "#ff3b30" }
       : { mid: "rgba(22,104,116,1)", edge: "rgba(6,32,40,1)", line: "100,230,240", ray: "196,246,250", glow: ["255,255,255", "210,248,252", "60,200,215"], mark: "#6ff3ff" };
   }
@@ -1225,15 +1224,17 @@ const Core = (() => {
   if (reduce) setInterval(() => requestAnimationFrame(frame), 1000);
   return api;
 })();
-function setView(full) { $("#jarvis").classList.toggle("corefull", full); renderChat(); }
+const VIEWKEY = LSKEY + ":view";
+function setView(full) { $("#jarvis").classList.toggle("corefull", full); $("#viewBtn").textContent = full ? "Show chat" : "Show core"; try { localStorage.setItem(VIEWKEY, full ? "core" : "chat"); } catch {} renderChat(); }
+$("#viewBtn").addEventListener("click", () => setView(!$("#jarvis").classList.contains("corefull")));
 
 function applyV() {
   const p = persona(); const a = $("#jarvis");
-  a.classList.toggle("ultron", V.persona === "ultron"); a.classList.toggle("red", V.color !== "teal");
+  a.classList.toggle("ultron", V.persona === "ultron");
   $("#jName").textContent = p.name;
   if (sampleState !== "off") $("#jStatus").textContent = p.status;
   const b = $("#voiceBtn"); b.hidden = !canSpeak; b.setAttribute("aria-pressed", V.on && canSpeak); b.textContent = V.on ? "Voice on" : "Voice off";
-  $("#vPersona").value = V.persona; $("#vColor").value = V.color === "teal" ? "teal" : "red"; $("#vOn").value = V.on ? "1" : "0";
+  $("#vPersona").value = V.persona; $("#vOn").value = V.on ? "1" : "0";
   $("#vPitch").value = vPitch(); $("#vRate").value = vRate();
   $("#vPitchV").textContent = (+vPitch()).toFixed(2); $("#vRateV").textContent = (+vRate()).toFixed(2);
   const vs = voices(); const cur = pickVoice();
@@ -1256,7 +1257,6 @@ function stopSpeaking() { try { canSpeak && speechSynthesis.cancel(); } catch {}
 if (canSpeak) { try { speechSynthesis.addEventListener("voiceschanged", applyV); } catch {} }
 $("#voiceBtn").addEventListener("click", () => { V.on = !V.on; if (!V.on) stopSpeaking(); saveV(); if (V.on) speak(V.persona === "ultron" ? "I'm here, Morgan. Let's make this business evolve." : "Voice online, Morgan."); });
 $("#vPersona").addEventListener("change", e => { V.persona = e.target.value; V.pitch = null; V.rate = null; saveV(); renderChat(); });
-$("#vColor").addEventListener("change", e => { V.color = e.target.value; saveV(); });
 $("#vOn").addEventListener("change", e => { V.on = e.target.value === "1"; if (!V.on) stopSpeaking(); saveV(); });
 $("#vVoice").addEventListener("change", e => { V.voice = e.target.value; saveV(); });
 $("#vPitch").addEventListener("input", e => { V.pitch = +e.target.value; saveV(); });
@@ -1268,6 +1268,6 @@ $("#vTest").addEventListener("click", () => { const was = V.on; V.on = true; spe
 
 /* ---------- boot ---------- */
 $("#jobDate").value = TODAY; $("#expDate").value = TODAY;
-applyV(); setView(true); fillSettingsForm(); renderAll(); renderChat(); tick(); setInterval(tick, 30000);
+applyV(); (() => { let v = "core"; try { v = localStorage.getItem(VIEWKEY) || "core"; } catch {} setView(v === "core"); })(); fillSettingsForm(); renderAll(); renderChat(); tick(); setInterval(tick, 30000);
 try { const t = localStorage.getItem(LSKEY + ":tab"); if (t && $("#tab-" + t)) showTab(t); } catch {}
 </script>
