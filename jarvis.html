@@ -112,6 +112,23 @@ textarea{min-height:84px;resize:vertical}
 .muted{color:var(--muted)}
 .small{font-size:12px}
 .empty{color:var(--muted);font-size:13px;padding:6px 0}
+.big{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.big .n{font-family:var(--display);font-size:44px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.big .of{color:var(--ink-2)}
+.progress.good > i{background:var(--good)}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.week div{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;border-radius:6px;background:var(--surface-2);border:1px solid var(--line);font-size:11px;min-width:0}
+.week div b{font-family:var(--mono);font-weight:500;font-size:12px}
+.week div.hit{background:var(--good-soft);border-color:transparent}
+.week div.hit b{color:var(--good)}
+.week div.today{outline:2px solid var(--accent);outline-offset:-2px}
+.counter{display:flex;align-items:center;gap:14px}
+.counter button{width:44px;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);font-size:22px;cursor:pointer;line-height:1}
+.counter button.plus{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.food{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.food li{display:flex;gap:10px;align-items:center;padding:6px 0;border-bottom:1px dashed var(--line)}
+.food li:last-child{border-bottom:0}
+.food li span:first-child{flex:1;min-width:0}
 
 .quick{display:flex;gap:8px;flex-wrap:wrap}
 .quick button{border:1px dashed var(--accent);background:var(--accent-soft);color:var(--ink);border-radius:8px;padding:8px 12px;cursor:pointer;text-align:left}
@@ -213,6 +230,33 @@ input[type=range]{padding:0;accent-color:var(--accent)}
             <button class="btn" type="submit">Add</button>
           </form>
           <div id="carry"></div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-head"><h2>Calories</h2><span class="tag" id="calTag"></span></div>
+          <div class="big"><span class="n" id="calNum">0</span><span class="of" id="calOf">/ 2,000 kcal</span></div>
+          <div class="progress" id="calBar"><i style="width:0"></i></div>
+          <p class="small" id="calLeft"></p>
+          <form class="inline" id="foodForm">
+            <input id="foodName" placeholder="What you ate, e.g. Chicken burrito" autocomplete="off">
+            <input id="foodCal" type="number" min="0" step="10" placeholder="kcal" style="flex:0 0 90px">
+            <button class="btn" type="submit">Add</button>
+          </form>
+          <ul class="food" id="foodList"></ul>
+          <div class="week" id="calWeek" aria-label="Calories, last 7 days"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Google reviews</h2><span class="tag" id="revTag"></span></div>
+          <div class="counter">
+            <button type="button" id="revMinus" aria-label="Remove one review">−</button>
+            <div class="big"><span class="n" id="revNum">0</span><span class="of" id="revOf">today · goal 1–2</span></div>
+            <button type="button" class="plus" id="revPlus" aria-label="Add one review">+</button>
+          </div>
+          <p class="small" id="revMonth"></p>
+          <div class="row" id="revLinkRow"></div>
+          <div class="week" id="revWeek" aria-label="Google reviews, last 7 days"></div>
+          <p class="muted small">Text every customer your review link right after the tech finishes, while the car still smells new. A GoHighLevel automation can do this for you.</p>
         </div>
       </div>
       <div class="card">
@@ -345,6 +389,15 @@ input[type=range]{padding:0;accent-color:var(--accent)}
           <div class="fields" id="techFields"></div>
         </div>
         <div class="card">
+          <h2>Health &amp; reviews</h2>
+          <div class="fields">
+            <label class="field"><span>Daily calorie goal</span><input id="sCal" type="number" min="0" step="50"></label>
+            <label class="field"><span>Google reviews a day (minimum)</span><input id="sRevMin" type="number" min="0"></label>
+            <label class="field"><span>Google reviews a day (stretch)</span><input id="sRevMax" type="number" min="0"></label>
+            <label class="field wide"><span>Your Google review link</span><input id="sRevLink" type="url" placeholder="https://g.page/r/…/review"></label>
+          </div>
+        </div>
+        <div class="card">
           <h2>Kitten</h2>
           <div class="fields">
             <label class="field"><span>Kitten's name</span><input id="sKName"></label>
@@ -419,12 +472,14 @@ const DEFAULTS = {
   services: { full: {label: "Full detail", price: 250, pay: 85}, interior: {label: "Interior detail", price: 200, pay: 70} },
   techs: ["Tech 1", "Tech 2", "Tech 3", "Tech 4", "Tech 5"],
   kittenName: "Kitten", kittenBirth: "2026-07-30",
+  calGoal: 2000, reviewGoal: 1, reviewStretch: 2, reviewLink: "",
   routine: [
     "Test the automations (booking, reminders, review requests)",
     "Check GoHighLevel: new leads, conversations, calendar",
     "Reply to every new lead",
     "Send today's jobs to the technicians",
     "Confirm tomorrow's appointments",
+    "Send the Google review link to every customer from yesterday and today",
     "Log finished jobs and expenses in Jarvis"
   ]
 };
@@ -443,7 +498,7 @@ const VET = [
 ];
 
 /* ---------- state ---------- */
-const S = { settings: clone(DEFAULTS), jobs: [], expenses: [], goals: [], day: null, yday: null, health: {}, chat: [], viewMonth: monthKey(new Date()) };
+const S = { settings: clone(DEFAULTS), jobs: [], expenses: [], goals: [], day: null, yday: null, health: {}, stats: { cal: {}, reviews: {} }, chat: [], viewMonth: monthKey(new Date()) };
 let TODAY = ymd(new Date());
 const settings = () => ({ ...DEFAULTS, ...S.settings, services: { ...DEFAULTS.services, ...(S.settings.services || {}) } });
 
@@ -509,13 +564,14 @@ ready.then(() => {
   sub("jobs", true, list => { S.jobs = list; renderAll(); });
   sub("expenses", true, list => { S.expenses = list; renderAll(); });
   sub("goals", true, list => { S.goals = list; renderGoals(); renderToday(); });
+  sub("stats/daily", false, d => { S.stats = { cal: {}, reviews: {}, ...(d || {}) }; renderToday(); });
   sub("kitten/health", false, d => { S.health = (d && d.done) || {}; renderKitten(); renderToday(); });
   subscribeDays();
 });
 
 /* ---------- day model ---------- */
 function freshDay() {
-  return { date: TODAY, tasks: settings().routine.map(t => ({ id: newId(), text: t, done: false, kind: "routine" })), kitten: {}, notes: "", chat: [] };
+  return { date: TODAY, tasks: settings().routine.map(t => ({ id: newId(), text: t, done: false, kind: "routine" })), kitten: {}, food: [], reviews: 0, notes: "", chat: [] };
 }
 const currentDay = () => S.day ? clone(S.day) : freshDay();
 function saveDay(d) { S.day = d; renderToday(); return setDoc("days/" + TODAY, d); }
@@ -523,6 +579,21 @@ function saveDay(d) { S.day = d; renderToday(); return setDoc("days/" + TODAY, d
 function toggleTask(id) { const d = currentDay(); const t = d.tasks.find(x => x.id === id); if (!t) return; t.done = !t.done; t.doneAt = t.done ? Date.now() : null; saveDay(d); }
 function addTask(text, kind = "task") { text = String(text || "").trim(); if (!text) return null; const d = currentDay(); const t = { id: newId(), text, done: false, kind }; d.tasks.push(t); saveDay(d); return t; }
 function removeTask(id) { const d = currentDay(); d.tasks = d.tasks.filter(x => x.id !== id); saveDay(d); }
+const dayCal = d => (d.food || []).reduce((a, f) => a + (+f.cal || 0), 0);
+function syncStats(d) {
+  const st = { cal: { ...(S.stats.cal || {}), [TODAY]: dayCal(d) }, reviews: { ...(S.stats.reviews || {}), [TODAY]: +d.reviews || 0 } };
+  S.stats = st; return setDoc("stats/daily", st);
+}
+function logFood({ name, cal }) {
+  const c = Math.round(+cal); if (!(c > 0)) return null;
+  const d = currentDay(); const f = { id: newId(), name: String(name || "Food").trim() || "Food", cal: c, t: Date.now() };
+  d.food = [...(d.food || []), f]; saveDay(d); syncStats(d); return { logged: f, totalToday: dayCal(d) };
+}
+function removeFood(id) { const d = currentDay(); d.food = (d.food || []).filter(f => f.id !== id); saveDay(d); syncStats(d); }
+function setReviews(n) { const d = currentDay(); d.reviews = Math.max(0, Math.round(+n || 0)); saveDay(d); syncStats(d); return d.reviews; }
+function lastDays(n) { return Array.from({ length: n }, (_, i) => ymd(addDays(parseYmd(TODAY), i - n + 1))); }
+function statFor(kind, date) { if (date === TODAY) { const d = currentDay(); return kind === "cal" ? dayCal(d) : +d.reviews || 0; } return +((S.stats[kind] || {})[date]) || 0; }
+function monthReviews() { const mk = monthKey(new Date()); return Object.entries(S.stats.reviews || {}).filter(([k]) => k.startsWith(mk) && k !== TODAY).reduce((a, [, v]) => a + (+v || 0), 0) + statFor("reviews", TODAY); }
 function toggleKitten(k) { const d = currentDay(); d.kitten = d.kitten || {}; d.kitten[k] = !d.kitten[k]; saveDay(d); }
 
 /* ---------- money model ---------- */
@@ -623,7 +694,29 @@ function renderToday() {
   const k = d.kitten || {};
   $("#kittenToday").innerHTML = KITTEN_DAILY.map(([key, text]) => checkItem("k:" + key, text, !!k[key])).join("");
 
+  renderHabits(d);
   const notes = $("#dayNotes"); if (document.activeElement !== notes) notes.value = d.notes || "";
+}
+function renderHabits(d) {
+  const s = settings(); const goal = +s.calGoal || 2000; const cal = dayCal(d); const frac = Math.min(1, cal / goal);
+  const h = new Date().getHours(); const expect = h < 11 ? 0 : Math.min(1, (h - 10) / 12);
+  $("#calNum").textContent = cal.toLocaleString("en-US"); $("#calOf").textContent = `/ ${goal.toLocaleString("en-US")} kcal`;
+  $("#calBar").className = "progress" + (cal >= goal ? " good" : ""); $("#calBar").firstElementChild.style.width = frac * 100 + "%";
+  const ct = $("#calTag"); ct.className = "tag " + (cal >= goal ? "good" : frac + 0.15 < expect ? "warn" : "");
+  ct.textContent = cal >= goal ? "Goal hit" : frac + 0.15 < expect ? "Behind, eat something" : "On track";
+  $("#calLeft").textContent = cal >= goal ? `Goal reached. ${cal - goal > 0 ? (cal - goal).toLocaleString("en-US") + " over." : ""}` : `${(goal - cal).toLocaleString("en-US")} kcal to go. That's about ${Math.max(1, Math.round((goal - cal) / 600))} more meal${Math.round((goal - cal) / 600) > 1 ? "s" : ""}.`;
+  $("#foodList").innerHTML = (d.food || []).map(f => `<li><span>${esc(f.name)}</span><span class="num muted">${esc(f.cal)} kcal</span><button class="x" data-food="${esc(f.id)}" aria-label="Remove">×</button></li>`).join("") || `<li class="empty">Nothing logged yet. Tell Jarvis what you ate and it'll estimate the calories.</li>`;
+  const week = (kind, target, fmt) => lastDays(7).map(date => { const v = statFor(kind, date); const dn = parseYmd(date).toLocaleDateString("en-US", { weekday: "narrow" });
+    return `<div class="${v >= target && target > 0 ? "hit" : ""} ${date === TODAY ? "today" : ""}" title="${date}: ${v}"><span class="muted">${dn}</span><b>${fmt(v)}</b></div>`; }).join("");
+  $("#calWeek").innerHTML = week("cal", goal, v => v ? (v >= 1000 ? (v / 1000).toFixed(1) + "k" : v) : "–");
+  const rmin = +s.reviewGoal || 1, rmax = Math.max(rmin, +s.reviewStretch || 2); const rv = +d.reviews || 0;
+  $("#revNum").textContent = rv; $("#revOf").textContent = `today · goal ${rmin === rmax ? rmin : rmin + "–" + rmax}`;
+  const rt = $("#revTag"); rt.className = "tag " + (rv >= rmax ? "good" : rv >= rmin ? "good" : "warn"); rt.textContent = rv >= rmax ? "Crushed it" : rv >= rmin ? "Goal met" : "Not yet";
+  let streak = rv >= rmin ? 1 : 0;
+  for (let i = 1; i < 366; i++) { if (statFor("reviews", ymd(addDays(parseYmd(TODAY), -i))) >= rmin) streak++; else break; }
+  $("#revMonth").textContent = `${monthReviews()} this month${streak ? ` · ${streak}-day streak` : ""}`;
+  $("#revLinkRow").innerHTML = s.reviewLink ? `<button class="btn ghost small" type="button" id="copyRev">Copy review text</button><span class="muted small">Paste it into a text to your customer</span>` : `<span class="muted small">Add your Google review link in Settings to copy a ready-made text.</span>`;
+  $("#revWeek").innerHTML = week("reviews", rmin, v => v);
 }
 function kpi(lab, val, foot = "", cls = "") { return `<div class="kpi"><span class="lab">${esc(lab)}</span><span class="val ${cls}">${esc(val)}</span><span class="foot">${esc(foot)}</span></div>`; }
 
@@ -779,6 +872,7 @@ function fillSettingsForm() {
   $("#sName").value = s.name; $("#sBiz").value = s.business; $("#sWake").value = s.wake || ""; $("#sGoal").value = s.monthlyGoal || "";
   $("#sFullP").value = s.services.full.price; $("#sFullT").value = s.services.full.pay; $("#sIntP").value = s.services.interior.price; $("#sIntT").value = s.services.interior.pay;
   $("#techFields").innerHTML = s.techs.map((t, i) => `<label class="field"><span>Tech ${i + 1}</span><input id="sTech${i}" value="${esc(t)}"></label>`).join("") + `<div class="field" style="justify-content:flex-end"><button class="btn ghost small" type="button" id="addTech">+ Add tech</button></div>`;
+  $("#sCal").value = s.calGoal; $("#sRevMin").value = s.reviewGoal; $("#sRevMax").value = s.reviewStretch; $("#sRevLink").value = s.reviewLink || "";
   $("#sKName").value = s.kittenName; $("#sKBirth").value = s.kittenBirth; $("#sRoutine").value = s.routine.join("\n");
 }
 
@@ -802,6 +896,13 @@ document.addEventListener("click", e => {
   if (t.matches("[data-quick]")) { const j = logJob({ type: t.dataset.quick, tech: $("#jobTech").value }); toast(`Logged ${settings().services[j.type].label} for ${j.tech}, ${money(j.price)}.`); }
   if (t.matches("[data-gdone]")) { const g = S.goals.find(x => x.id === t.dataset.gdone); if (g) updateGoal(g.id, { done: !g.done }); }
   if (t.matches("[data-progsave]")) { const inp = document.querySelector(`[data-prog="${t.dataset.progsave}"]`); updateGoal(t.dataset.progsave, { current: +inp.value || 0 }); toast("Progress updated."); }
+  if (t.matches("[data-food]")) removeFood(t.dataset.food);
+  if (t.matches("#revPlus")) { const n = setReviews((+currentDay().reviews || 0) + 1); toast(n >= (+settings().reviewGoal || 1) ? `${n} review${n === 1 ? "" : "s"} today. Goal met.` : `${n} review today.`); }
+  if (t.matches("#revMinus")) setReviews((+currentDay().reviews || 0) - 1);
+  if (t.matches("#copyRev")) {
+    const s = settings(); const msg = `Hi! Thanks for choosing ${s.business}. If you're happy with how your car came out, a quick Google review would mean a lot to us: ${s.reviewLink}`;
+    navigator.clipboard.writeText(msg).then(() => toast("Review text copied."), () => toast(msg));
+  }
   if (t.matches("#addTech")) { const f = $("#techFields"); const n = f.querySelectorAll("input").length; f.lastElementChild.insertAdjacentHTML("beforebegin", `<label class="field"><span>Tech ${n + 1}</span><input id="sTech${n}" placeholder="Name"></label>`); }
 });
 document.addEventListener("change", e => {
@@ -810,6 +911,7 @@ document.addEventListener("change", e => {
   if (t.matches("[data-vet]")) { const done = { ...S.health, [t.dataset.vet]: t.checked }; S.health = done; renderKitten(); setDoc("kitten/health", { done }); }
   if (t.id === "jobType") fillRates();
 });
+$("#foodForm").addEventListener("submit", e => { e.preventDefault(); if (logFood({ name: $("#foodName").value, cal: $("#foodCal").value })) { $("#foodName").value = ""; $("#foodCal").value = ""; } else toast("Enter the calories, or ask Jarvis to estimate them."); });
 $("#addTaskForm").addEventListener("submit", e => { e.preventDefault(); if (addTask($("#newTask").value)) $("#newTask").value = ""; });
 let notesT;
 $("#dayNotes").addEventListener("input", () => { $("#notesState").textContent = "Typing…"; clearTimeout(notesT); notesT = setTimeout(() => { const d = currentDay(); d.notes = $("#dayNotes").value; saveDay(d).then(() => $("#notesState").textContent = "Saved"); }, 900); });
@@ -834,7 +936,8 @@ $("#setForm").addEventListener("submit", e => {
   const next = {
     name: $("#sName").value.trim() || "Morgan", business: $("#sBiz").value.trim() || DEFAULTS.business, wake: $("#sWake").value, monthlyGoal: +$("#sGoal").value || 0,
     services: { full: { label: "Full detail", price: +$("#sFullP").value || 0, pay: +$("#sFullT").value || 0 }, interior: { label: "Interior detail", price: +$("#sIntP").value || 0, pay: +$("#sIntT").value || 0 } },
-    techs: techs.length ? techs : DEFAULTS.techs, kittenName: $("#sKName").value.trim() || "Kitten", kittenBirth: $("#sKBirth").value || DEFAULTS.kittenBirth,
+    techs: techs.length ? techs : DEFAULTS.techs, calGoal: +$("#sCal").value || 2000, reviewGoal: +$("#sRevMin").value || 1, reviewStretch: +$("#sRevMax").value || 2, reviewLink: $("#sRevLink").value.trim(),
+    kittenName: $("#sKName").value.trim() || "Kitten", kittenBirth: $("#sKBirth").value || DEFAULTS.kittenBirth,
     routine: $("#sRoutine").value.split("\n").map(x => x.trim()).filter(Boolean)
   };
   S.settings = next; document.activeElement.blur(); fillSettingsForm(); renderAll();
@@ -879,6 +982,8 @@ TECHNICIANS: ${s.techs.join(", ")}.
 THIS MONTH (${monthName(mk)}, day ${p.elapsed}/${p.dim}): revenue $${st.revenue}, jobs ${st.jobs.length} (${st.full} full, ${st.interior} interior), tech pay $${st.pay}, expenses $${st.expenses}, net profit $${st.net}, margin ${pct(st.margin)}, projected revenue $${Math.round(p.projected)}. Monthly goal: ${s.monthlyGoal ? "$" + s.monthlyGoal : "not set"}.
 LAST MONTH (${monthName(prevKey)}): revenue $${prev.revenue}, net $${prev.net}, margin ${pct(prev.margin)}.
 TODAY: revenue $${dayRevenue(TODAY)}.
+CALORIES TODAY: ${dayCal(d)} of ${s.calGoal} kcal goal. Eaten: ${(d.food || []).map(f => f.name + " " + f.cal).join(", ") || "nothing logged yet"}. Last 7 days: ${lastDays(7).map(x => statFor("cal", x)).join(", ")}.
+GOOGLE REVIEWS: ${+d.reviews || 0} today (goal ${s.reviewGoal}-${s.reviewStretch} a day), ${monthReviews()} this month. Last 7 days: ${lastDays(7).map(x => statFor("reviews", x)).join(", ")}.
 MORNING ROUTINE: ${d.tasks.filter(t => t.kind === "routine").map(t => (t.done ? "[x] " : "[ ] ") + t.text).join("; ")}
 TODAY'S GOALS: ${d.tasks.filter(t => t.kind !== "routine").map(t => (t.done ? "[x] " : "[ ] ") + t.text).join("; ") || "none yet"}
 BIG GOALS: ${S.goals.map(g => `${g.done ? "[done] " : ""}${g.title}${g.target != null ? ` (${g.current || 0}/${g.target} ${g.unit || ""})` : ""}${g.due ? " due " + g.due : ""}`).join("; ") || "none yet"}
@@ -893,11 +998,13 @@ const RULES_BASE = `You are the personal AI assistant for Morgan, the 18-year-ol
 Keep replies short: a few lines or a tight list, plain text, no markdown headers or tables. Use real numbers from the DATA block; never invent revenue, jobs or dates. If data is missing, say so and suggest logging it.
 
 What you do:
-- Morning briefing: greet Morgan, give yesterday's and this month's numbers (revenue, net profit, margin, pace vs goal), list the routine steps still open (test automations, check GoHighLevel, dispatch jobs), today's goals, and the kitten's care and next vet item. End by asking for today's top 1-3 goals if none are set.
+- Morning briefing: greet Morgan, give yesterday's and this month's numbers (revenue, net profit, margin, pace vs goal), list the routine steps still open (test automations, check GoHighLevel, dispatch jobs), today's goals, calories so far vs the 2000 goal, Google reviews today vs the 1-2 goal, and the kitten's care and next vet item. End by asking for today's top 1-3 goals if none are set.
 - When Morgan reports finished work or spending, use the tools to log it (log_job, add_expense), then confirm in one line with the new month total.
 - When Morgan states goals, add them (add_today_goal for today, add_big_goal for longer-term).
 - When Morgan says something is done, use complete_item.
 - Coach on the business: margin, pricing, keeping techs busy, getting reviews, following up leads fast. Be specific and practical.
+- Calories: Morgan's goal is to EAT at least the daily calorie goal (2000 by default) to fuel the day, not to diet. When Morgan says what they ate, estimate the calories sensibly (typical portion), call log_food, and mention it's an estimate. If it's afternoon and Morgan is far behind, suggest an easy calorie-dense meal or snack.
+- Google reviews: goal is 1-2 new Google reviews every day. When Morgan says one came in, call add_google_reviews. Nudge Morgan to text the review link to every customer right after the job and to set up a GoHighLevel review-request automation.
 - Remind Morgan about the kitten: feeding 3-4 times a day, water, litter, play, and vet visits. For health worries, say to call a vet.`;
 
 const TOOLS = () => [
@@ -920,6 +1027,12 @@ const TOOLS = () => [
       if (k) { d.kitten = d.kitten || {}; d.kitten[k[0]] = true; saveDay(d); return "Marked done: " + k[1]; }
       throw new Error("No open item matches '" + i.text + "'");
     } },
+  { name: "log_food", description: "Log food Morgan ate today with its calories (estimate typical portions if Morgan doesn't give a number). Returns today's calorie total.",
+    inputSchema: { type: "object", properties: { food: { type: "string" }, calories: { type: "number" } }, required: ["food", "calories"] },
+    execute: i => { const r = logFood({ name: i.food, cal: i.calories }); if (!r) throw new Error("calories must be a positive number"); return { ...r, goal: settings().calGoal }; } },
+  { name: "add_google_reviews", description: "Add new Google reviews received today (count, usually 1). Returns today's review count.",
+    inputSchema: { type: "object", properties: { count: { type: "number" } } },
+    execute: i => ({ reviewsToday: setReviews((+currentDay().reviews || 0) + (Math.round(+i.count) || 1)), goal: `${settings().reviewGoal}-${settings().reviewStretch}` }) },
   { name: "add_big_goal", description: "Add a longer-term goal with an optional numeric target, unit ($, jobs, reviews...) and due date YYYY-MM-DD.",
     inputSchema: { type: "object", properties: { title: { type: "string" }, target: { type: "number" }, unit: { type: "string" }, due: { type: "string" } }, required: ["title"] },
     execute: i => addGoal({ title: i.title, target: i.target, unit: i.unit || "", due: i.due || "" }) },
