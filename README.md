@@ -13,6 +13,7 @@ A personal assistant and business tracker for Morgan and Coastline Auto Detailin
 | `Glen_Mills_Launch.xlsx` | Glen Mills launch workbook: timeline, setup checklist with progress, tech recruiting tracker, subcontractor tracker, launch budget, sources. |
 | `Coastline_Glen_Mills_Business_Plan.docx` | Glen Mills second-location business plan (Word), with copyright notice. |
 | `Coastline_Growth_Plan_50k_100k.docx` | Growth plan from $15k to $50k and $100k a month (Word), with copyright notice. |
+| `WINTER_PLAN.md` | Winter plan (Nov 2026 – Feb 2027): interior specials, Google and Meta ads, coatings in cold weather, beating the competition, month-by-month targets. |
 | `Coastline_Pitches_and_Automations.xlsx` | Ready-to-use sales pitches and a GoHighLevel automation checklist. |
 
 ## The app
