@@ -10,6 +10,9 @@ A personal assistant and business tracker for Morgan and Coastline Auto Detailin
 | `JARVIS_PROMPT.md` | A standalone Jarvis prompt, a daily check-in template and an end-of-day template for any Claude chat or Project. |
 | `CONTENT_PLAYBOOK.md` | Hooks, niches, testimonial formats and a weekly posting plan for detailing videos. |
 | `GLEN_MILLS_LAUNCH.md` | Plan for the second location in Glen Mills, PA (March 2028): timeline, recruiting techs, subcontractor candidates and setup checklist. |
+| `Glen_Mills_Launch.xlsx` | Glen Mills launch workbook: timeline, setup checklist with progress, tech recruiting tracker, subcontractor tracker, launch budget, sources. |
+| `Coastline_Glen_Mills_Business_Plan.docx` | Glen Mills second-location business plan (Word), with copyright notice. |
+| `Coastline_Growth_Plan_50k_100k.docx` | Growth plan from $15k to $50k and $100k a month (Word), with copyright notice. |
 
 ## The app
 
