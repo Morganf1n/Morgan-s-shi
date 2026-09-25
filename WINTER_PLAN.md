@@ -23,6 +23,7 @@ Normal prices stay the same: full detail $250, interior $200 and exterior wash $
 | **Valentine's "Date-Night Ready":** interior plus a scent | Feb 7 – Feb 14 | $179 | $70 | $25 | $84 |
 
 **Add-ons.** Set your own prices for these. Have the tech offer one on every job:
+
 - pet hair removal
 - stain or seat extraction
 - ozone odor treatment
@@ -32,6 +33,7 @@ Normal prices stay the same: full detail $250, interior $200 and exterior wash $
 **Upsell on every interior.** Say: "Want the outside done too? It's only $71 more for the full detail." The math: a $179 interior plus $71 makes $250, the full detail price.
 
 **Why $179 and not cheaper:** some Athens detailers advertise interiors from about $80. You can't win at that price after paying $70 to the tech and $25 to Rapid Reach, and you don't need to. Win with the things they don't offer:
+
 - a reply within 5 minutes
 - same-week booking
 - a guarantee
@@ -43,12 +45,14 @@ Normal prices stay the same: full detail $250, interior $200 and exterior wash $
 ## 2. Google Ads
 
 **Keep Local Services Ads (LSA) running as the base.**
+
 - LSA can't show a special, so the offer comes up on the phone and in your texts.
 - Answer every lead within 5 minutes; that's the biggest factor in LSA ranking and bookings.
 - Mark booked jobs in LSA and dispute bad leads, which gets you credit back.
 - Ask every customer for a review. More reviews means a higher LSA ranking.
 
 **Add a small Google Search campaign for the interior special.**
+
 - **Budget:** $15–25 a day to start. Raise it if cost per booked job stays under about $40.
 - **Keywords (phrase and exact match):** "interior car detailing athens ga", "car detailing athens ga", "mobile detailing near me", "car interior cleaning near me", "pet hair removal car".
 - **Negative keywords:** jobs, hiring, salary, DIY, how to, car wash, cheap, free.
@@ -57,6 +61,7 @@ Normal prices stay the same: full detail $250, interior $200 and exterior wash $
 - **Ad copy:** "Winter Interior Reset $179 | We Come To You | 5-Star Athens Detailer | Book This Week".
 
 **Google Business Profile (free).**
+
 - Post an **Offer** every week with the current special, plus 2–3 before-and-after photos a week.
 - Reply to every review within 24 hours.
 
@@ -77,6 +82,7 @@ The coating campaign keeps running from October 14. From November 1, add a separ
 **Connect the form to GoHighLevel** so the instant-text automation fires within a minute.
 
 **Creatives.** Film on real jobs, vertical, 10–20 seconds. The first 2 seconds are the hook.
+
 1. "This is what 3 months of dogs does to a car…" (pet hair removal, gross to clean)
 2. "Holiday road trip mess? We come to your driveway." (kids' seats, crumbs, then the finish)
 3. Floor mat extraction with dirty water pouring out, a satisfying shot
@@ -85,6 +91,7 @@ The coating campaign keeps running from October 14. From November 1, add a separ
 6. For coatings: water beading plus "protect it before winter road grime"
 
 **The rules:**
+
 - Make 3–5 new creatives every 2 weeks, and turn off anything over about $15 per lead after $50 of spend.
 - Keep the winners running and raise their budget 20% at a time.
 
@@ -110,13 +117,7 @@ The coating campaign keeps running from October 14. From November 1, add a separ
 5. **Niche focus.** Be the "pet hair, kids' car seats and odor" interior specialists in Athens for winter, and the coating specialists for high-ticket work.
 6. **Follow-up.** Text every lead that didn't book at 24 hours and again at 3 days. Reactivate past customers every 60 days with the current special.
 7. **Referrals.** Give $25 off to both the customer and the friend they refer.
-8. **Fleet and B2B.** Winter is a good time to pitch these:
-   - car dealerships (year-end sales push in December)
-   - realtors (cars for showings)
-   - property managers
-   - local businesses with company vehicles
-
-   One recurring account can cover a slow week.
+8. **Fleet and B2B.** Winter is a good time to pitch car dealerships (year-end sales push in December), realtors (cars for showings), property managers and local businesses with company vehicles. One recurring account can cover a slow week.
 9. **Online booking.** Show instant prices on the landing page. Many competitors only take DMs.
 
 ---
