@@ -12,15 +12,17 @@
 
 Normal prices stay the same: full detail $250, interior $200 and exterior wash $170. Specials have an end date and a reason, so they don't train customers to wait for discounts.
 
-| Offer | When | Price | Tech pay | Rapid Reach | You keep |
-| --- | --- | --- | --- | --- | --- |
-| **Winter Interior Reset:** full interior, plus floor mat extraction for mud and salt, plus odor treatment | Nov 1 – Feb 28 | $250 | $70 | $25 | $155 |
-| **2-Car Driveway Deal:** 2 interiors at one address | All winter | $340 | $140 | $50 | $150 |
-| **Holiday Full Detail:** full detail plus free leather/vinyl conditioning | Nov 20 – Dec 24 | $250 | $85 | $25 | $140 |
-| **Gift card:** a $200 interior for $179 | Black Friday – Dec 24 | $179 paid upfront | $70 when redeemed | $25 | $84 |
-| **New Year Reset:** interior special | Jan 1 – Jan 31 | $199 | $70 | $25 | $104 |
-| **Tax-Refund Coating Package:** coating plus a free interior | Feb 1 – Feb 28 | Your coating price | — | — | — |
-| **Valentine's "Date-Night Ready":** interior plus a scent | Feb 7 – Feb 14 | $179 | $70 | $25 | $84 |
+| Offer | When | Price | Tech pay | Rapid Reach | You keep | Profit margin |
+| --- | --- | --- | --- | --- | --- | --- |
+| **Winter Interior Reset:** full interior, plus floor mat extraction for mud and salt, plus odor treatment | Nov 1 – Feb 28 | $250 | $70 | $25 | $155 | 62% |
+| **2-Car Driveway Deal:** 2 interiors at one address | All winter | $340 | $140 | $50 | $150 | 44% |
+| **Holiday Full Detail:** full detail plus free leather/vinyl conditioning | Nov 20 – Dec 24 | $250 | $85 | $25 | $140 | 56% |
+| **Gift card:** a $200 interior for $179 | Black Friday – Dec 24 | $179 paid upfront | $70 when redeemed | $25 | $84 | 47% |
+| **New Year Reset:** interior special | Jan 1 – Jan 31 | $199 | $70 | $25 | $104 | 52% |
+| **Tax-Refund Coating Package:** coating plus a free interior | Feb 1 – Feb 28 | Your coating price | — | — | — | — |
+| **Valentine's "Date-Night Ready":** interior plus a scent | Feb 7 – Feb 14 | $179 | $70 | $25 | $84 | 47% |
+
+Profit margin = what you keep ÷ price, before supplies, ads and software. The Winter Interior Reset has the best margin of any offer at 62%, compared with 52% on a regular $200 interior, so push it hardest.
 
 **Add-ons.** Set your own prices for these. Have the tech offer one on every job:
 
