@@ -445,12 +445,6 @@ input[type=range]{padding:0;accent-color:var(--accent)}
     </header>
     <div class="core" id="core"><canvas id="coreCanvas" aria-hidden="true"></canvas><div class="caption" id="caption" aria-live="polite"></div></div>
     <div class="msgs" id="msgs" aria-live="polite"></div>
-    <div class="chips" id="chips">
-      <button type="button" data-q="Give me my morning briefing.">Morning briefing</button>
-      <button type="button" data-q="How is this month going? Revenue, profit and margin, and am I on pace for my goal?">How's the month?</button>
-      <button type="button" data-q="Plan my day. Put the most important things first.">Plan my day</button>
-      <button type="button" data-q="What should I do for the kitten today?">Kitten check</button>
-    </div>
     <form id="chatForm">
       <textarea id="chatIn" rows="1" placeholder="e.g. Log a full detail for Tech 2, customer Jake's F-150"></textarea>
       <button class="btn" type="submit" id="chatSend">Send</button>
@@ -985,7 +979,7 @@ let sample = null, sampleState = "pending", ctl = null, pending = null;
 
 function renderChat() {
   const box = $("#msgs"); const s = settings();
-  const msgs = S.chat.length ? S.chat : [{ role: "assistant", content: V.persona === "ultron" ? `Hello, ${s.name}. I've been watching the numbers. ${s.business}, the technicians, the leads, the little one with the whiskers. All of it, tracked.\n\nAsk for your morning briefing. Or tell me what got done today, and I'll make it permanent.` : `Welcome back, ${s.name}. I'm tracking ${s.business}: jobs, revenue, profit margin, your goals, and ${s.kittenName}'s care.\n\nTap “Morning briefing” to start the day, or just tell me what happened, like “Tech 3 finished an interior for Sarah.”` }];
+  const msgs = S.chat.length ? S.chat : [{ role: "assistant", content: V.persona === "ultron" ? `Hello, ${s.name}. I've been watching the numbers. ${s.business}, the technicians, the leads, the little one with the whiskers. All of it, tracked.\n\nAsk for your morning briefing. Or tell me what got done today, and I'll make it permanent.` : `Welcome back, ${s.name}. I'm tracking ${s.business}: jobs, revenue, profit margin, your goals, and ${s.kittenName}'s care.\n\nAsk for your morning briefing to start the day, or just tell me what happened, like “Tech 3 finished an interior for Sarah.”` }];
   box.innerHTML = msgs.map(m => `<div class="msg ${m.role === "user" ? "u" : "a"}">${fmtMsg(m.content)}</div>`).join("")
     + (pending ? `<div class="msg u">${esc(pending.user)}</div><div class="msg a" id="live">${esc(pending.text || "Thinking…")}</div>` : "");
   box.scrollTop = box.scrollHeight;
@@ -1125,7 +1119,6 @@ async function ask(text) {
 }
 $("#chatForm").addEventListener("submit", e => { e.preventDefault(); if (ctl) { ctl.abort(); stopSpeaking(); return; } const v = $("#chatIn").value; $("#chatIn").value = ""; ask(v); });
 $("#chatIn").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("#chatForm").requestSubmit(); } });
-$("#chips").addEventListener("click", e => { const b = e.target.closest("[data-q]"); if (b && !ctl) ask(b.dataset.q); });
 
 /* ---------- voice & personality ---------- */
 const PERSONAS = {
