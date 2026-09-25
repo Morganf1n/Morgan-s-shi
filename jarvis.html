@@ -176,7 +176,7 @@ input[type=range]{padding:0;accent-color:var(--accent)}
 .core .caption{position:absolute;left:16px;right:16px;bottom:18px;font-size:13.5px;line-height:1.45;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.9),0 0 2px rgba(0,0,0,.8);white-space:pre-wrap;max-height:36%;overflow-y:auto;display:none}
 .jarvis.corefull{background:#2a0808}
 .jarvis.corefull .core{position:absolute;inset:0;z-index:0}
-.jarvis.corefull .core .caption{display:block;left:28px;right:28px;bottom:92px;text-align:center;font-size:12.5px;line-height:1.5;opacity:.92;max-height:30%}
+.jarvis.corefull .core .caption{display:block;left:28px;right:28px;bottom:92px;text-align:center;font-size:14.5px;line-height:1.55;opacity:.95;max-height:42%}
 .jarvis.corefull .msgs{visibility:hidden}
 .jarvis.corefull header,.jarvis.corefull form{position:relative;z-index:1;border-color:transparent;background:none}
 .jarvis.corefull header p{display:none}
@@ -1224,7 +1224,7 @@ const Core = (() => {
   if (reduce) setInterval(() => requestAnimationFrame(frame), 1000);
   return api;
 })();
-const VIEWKEY = LSKEY + ":view";
+const VIEWKEY = LSKEY + ":view2";
 function setView(full) { $("#jarvis").classList.toggle("corefull", full); $("#viewBtn").textContent = full ? "Show chat" : "Show core"; try { localStorage.setItem(VIEWKEY, full ? "core" : "chat"); } catch {} renderChat(); }
 $("#viewBtn").addEventListener("click", () => setView(!$("#jarvis").classList.contains("corefull")));
 
