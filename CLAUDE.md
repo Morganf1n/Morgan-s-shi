@@ -11,6 +11,7 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 - **Updating a file that's already in Drive:** the Drive tools can't edit an existing Doc or Sheet. Upload a new copy and tell Morgan which one is the latest.
 - **Send the Drive link** in your reply with each file.
 - **If the Google Drive connector isn't connected,** say so right away and give the file here instead. Morgan can reconnect it at claude.ai → Settings → Connectors.
+- **Google Sheets drops a leading apostrophe** from a cell (it reads it as "text"). Start quoted text with curly quotes “ ” instead of '.
 - **Don't touch Morgan's existing sheets** (the Rapid Reach "PPC LP Leads" sheet, Tech_Standards) unless asked.
 
 ## Files already in Drive
@@ -23,5 +24,6 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 | `Coastline_Growth_Plan_50k_100k.docx` | [Google Doc](https://docs.google.com/document/d/1qW6KT1_fvPrklR9UJvrPDTl7e8V3RphPVJ5GeN__sbA/edit) |
 | `WINTER_PLAN.md` / `Coastline_Winter_Plan_Nov_Feb.docx` | [Google Doc, latest (Sep 25: $250 / $199 + margins)](https://docs.google.com/document/d/1urTsDgSu0Tou3H2tH_ZNlHjsMqpvk_hnYdo7TuyHJpM/edit). Older copy with old prices: 11ceuhl_8WQIOG8ZqZPnj7dgdHi_6AJZFI2f0CllEnc8 |
 | `Coastline_Closing_Scripts.xlsx` | [Google Sheet](https://docs.google.com/spreadsheets/d/1X_rZulyDz0ocLHAo3HNZU9b1eesh3IyUWXlbpVCJY3o/edit) |
+| `Coastline_October_10k_Goals.xlsx` | [Google Sheet](https://docs.google.com/spreadsheets/d/1LdDdJbJHY2l8vvk8CnpRiECQTmyu5UMIAwBFoHoCH_U/edit) |
 
 Add a row here whenever you upload a new file.
