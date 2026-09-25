@@ -15,6 +15,8 @@ A personal assistant and business tracker for Morgan and Coastline Auto Detailin
 | `Coastline_Growth_Plan_50k_100k.docx` | Growth plan from $15k to $50k and $100k a month (Word), with copyright notice. |
 | `WINTER_PLAN.md` | Winter plan (Nov 2026 – Feb 2027): interior specials, Google and Meta ads, coatings in cold weather, beating the competition, month-by-month targets. |
 | `Coastline_Winter_Plan_Nov_Feb.docx` | The winter plan as a Word document, with copyright notice. |
+| `OCTOBER_10K_PLAN.md` | What to do in October to hit $10k: the math, daily non-negotiables, week-by-week focus. |
+| `DETAILING_SALES_RESEARCH.md` | Industry research on closing more deals, pricing (good/better/best, raising prices), Meta ads and repeat customers. |
 | `Coastline_October_10k_Goals.xlsx` | October $10k plan: goals with progress, weekly tracker, how to close more leads, price management, invoice money split (what you can spend outside the business), company goals. |
 | `Coastline_Closing_Scripts.xlsx` | What to say to 18 objections ("I'll hold off", "talk to my wife", "too expensive"...), 12 closing rules, follow-up texts and a close rate tracker. |
 | `Coastline_Pitches_and_Automations.xlsx` | Ready-to-use sales pitches and a GoHighLevel automation checklist. |

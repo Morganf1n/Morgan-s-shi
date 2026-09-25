@@ -599,6 +599,8 @@ let TODAY = ymd(new Date());
 function monthsBetween(a, b) { const [ya, ma] = a.split("-").map(Number), [yb, mb] = b.split("-").map(Number); return (yb - ya) * 12 + (mb - ma); }
 function goalFor(key) {
   const s = settings(); const pl = s.goalPlan;
+  const ov = +(s.goalOverrides || {})[key];
+  if (ov) return { goal: ov, stretch: ov, n: pl && pl.start ? monthsBetween(pl.start, key) : -1 };
   if (pl && pl.start && key >= pl.start) { const n = monthsBetween(pl.start, key); return { goal: (+pl.base || 0) + n * (+pl.step || 0), stretch: (+pl.base || 0) + n * (+pl.stretch || +pl.step || 0), n }; }
   return { goal: +s.monthlyGoal || 0, stretch: 0, n: -1 };
 }
@@ -1135,6 +1137,7 @@ $("#setForm").addEventListener("submit", e => {
     name: $("#sName").value.trim() || "Morgan", business: $("#sBiz").value.trim() || DEFAULTS.business, wake: $("#sWake").value, monthlyGoal: +$("#sGoal").value || 0,
     goalPlan: $("#sPlanStart").value ? { start: $("#sPlanStart").value, base: +$("#sPlanBase").value || 0, step: +$("#sPlanStep").value || 0, stretch: +$("#sPlanStretch").value || 0 } : null,
     focus: $("#sFocus").value.trim(),
+    goalOverrides: (S.settings || {}).goalOverrides || {},
     services: { full: { label: "Full detail", price: +$("#sFullP").value || 0, pay: +$("#sFullT").value || 0 }, interior: { label: "Interior detail", price: +$("#sIntP").value || 0, pay: +$("#sIntT").value || 0 }, exterior: { label: "Exterior wash", price: +$("#sExtP").value || 0, pay: +$("#sExtT").value || 0 } },
     jobFee: +$("#sFee").value || 0, jobFeeLabel: $("#sFeeLabel").value.trim() || "Lead",
     techs: techs.length ? techs : DEFAULTS.techs, calGoal: +$("#sCal").value || 2000, reviewGoal: +$("#sRevMin").value || 1, reviewStretch: +$("#sRevMax").value || 2, reviewLink: $("#sRevLink").value.trim(),
