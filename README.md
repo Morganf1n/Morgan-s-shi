@@ -13,6 +13,7 @@ A personal assistant and business tracker for Morgan and Coastline Auto Detailin
 | `Glen_Mills_Launch.xlsx` | Glen Mills launch workbook: timeline, setup checklist with progress, tech recruiting tracker, subcontractor tracker, launch budget, sources. |
 | `Coastline_Glen_Mills_Business_Plan.docx` | Glen Mills second-location business plan (Word), with copyright notice. |
 | `Coastline_Growth_Plan_50k_100k.docx` | Growth plan from $15k to $50k and $100k a month (Word), with copyright notice. |
+| `Coastline_Pitches_and_Automations.xlsx` | Ready-to-use sales pitches and a GoHighLevel automation checklist. |
 
 ## The app
 
@@ -29,3 +30,12 @@ A personal assistant and business tracker for Morgan and Coastline Auto Detailin
 When it's opened as a Claude artifact, data syncs to the artifact's database, so it's the same on every device you sign in on. When you open the file straight from disk, data stays in that browser only, and the AI chat is off.
 
 Put your technicians' real names, your monthly goal and your kitten's name and birthday in **Settings**.
+
+## AI agents (scheduled, push to phone)
+
+| Agent | When (ET) | What it does |
+| --- | --- | --- |
+| 1 · Posts Manager | Daily 12:51pm | What to post today on TikTok, Reels, Shorts and Facebook, with hook, caption, hashtags and examples |
+| 2 · Content | Hourly 10:37am–10:37pm, plus a deep report at 10:52am and 6:52pm | Viral hooks and real detailing videos to study, rotating topics |
+| 3 · Ops, Pitches & Amelia | 11:22am and 4:22pm | Amelia's food, water and litter status from Jarvis, pitch of the day, GoHighLevel automation of the day |
+| 4 · Finance | Nightly 9:22pm | Today's and this month's revenue, net profit, margin and pace vs goal from Jarvis |
