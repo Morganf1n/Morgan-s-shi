@@ -21,6 +21,6 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 | `Coastline_Pitches_and_Automations.xlsx` | [Google Sheet](https://docs.google.com/spreadsheets/d/15iTllTVpW3FtbSztmqXDFJ3opXGQ3tdMHwcc8o-SWrQ/edit) |
 | `Coastline_Glen_Mills_Business_Plan.docx` | [Google Doc](https://docs.google.com/document/d/1YxEa7EFyhGDmxe_Gy4J2vKah4pVIjl7YeVfXE1s2Oo8/edit) |
 | `Coastline_Growth_Plan_50k_100k.docx` | [Google Doc](https://docs.google.com/document/d/1qW6KT1_fvPrklR9UJvrPDTl7e8V3RphPVJ5GeN__sbA/edit) |
-| `WINTER_PLAN.md` / `Coastline_Winter_Plan_Nov_Feb.docx` | [Google Doc](https://docs.google.com/document/d/11ceuhl_8WQIOG8ZqZPnj7dgdHi_6AJZFI2f0CllEnc8/edit) |
+| `WINTER_PLAN.md` / `Coastline_Winter_Plan_Nov_Feb.docx` | [Google Doc, latest (Sep 25: $250 / $199 + margins)](https://docs.google.com/document/d/1urTsDgSu0Tou3H2tH_ZNlHjsMqpvk_hnYdo7TuyHJpM/edit). Older copy with old prices: 11ceuhl_8WQIOG8ZqZPnj7dgdHi_6AJZFI2f0CllEnc8 |
 
 Add a row here whenever you upload a new file.
