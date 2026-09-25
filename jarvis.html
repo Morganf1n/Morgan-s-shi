@@ -475,6 +475,8 @@ input[type=range]{padding:0;accent-color:var(--accent)}
             <label class="field"><span>Interior — tech pay</span><input id="sIntT" type="number" min="0"></label>
             <label class="field"><span>Exterior wash — you charge</span><input id="sExtP" type="number" min="0"></label>
             <label class="field"><span>Exterior wash — tech pay</span><input id="sExtT" type="number" min="0"></label>
+            <label class="field"><span>Lead fee per completed job ($)</span><input id="sFee" type="number" min="0"></label>
+            <label class="field"><span>Lead fee paid to</span><input id="sFeeLabel" placeholder="e.g. Rapid Reach"></label>
           </div>
         </div>
         <div class="card">
@@ -566,7 +568,7 @@ const DEFAULTS = {
   services: { full: {label: "Full detail", price: 250, pay: 85}, interior: {label: "Interior detail", price: 200, pay: 70}, exterior: {label: "Exterior wash", price: 170, pay: 40} },
   techs: ["Tech 1", "Tech 2", "Tech 3", "Tech 4", "Tech 5"],
   kittenName: "Kitten", kittenBirth: "2026-07-30",
-  calGoal: 2000, reviewGoal: 1, reviewStretch: 2, reviewLink: "",
+  calGoal: 2000, reviewGoal: 1, reviewStretch: 2, reviewLink: "", jobFee: 25, jobFeeLabel: "Rapid Reach",
   routine: [
     "Test the automations (booking, reminders, review requests)",
     "Check GoHighLevel: new leads, conversations, calendar",
@@ -727,14 +729,21 @@ function monthReviews() { const mk = monthKey(new Date()); return Object.entries
 function toggleKitten(k) { const d = currentDay(); d.kitten = d.kitten || {}; d.kitten[k] = !d.kitten[k]; saveDay(d); }
 
 /* ---------- money model ---------- */
+function feeOf(j) {
+  if (j.fee != null && j.fee !== "") return +j.fee || 0;
+  const s = settings(); const f = +s.jobFee || 0;
+  if (j.type === "earlier") return Math.round((+j.price || 0) / ((+s.services.full.price) || 250)) * f;
+  return f;
+}
 function monthStats(key) {
   const jobs = S.jobs.filter(j => String(j.date).startsWith(key));
   const exps = S.expenses.filter(e => String(e.date).startsWith(key));
   const revenue = jobs.reduce((a, j) => a + (+j.price || 0), 0);
   const pay = jobs.reduce((a, j) => a + (+j.pay || 0), 0);
   const expenses = exps.reduce((a, e) => a + (+e.amount || 0), 0);
-  const net = revenue - pay - expenses;
-  return { jobs, exps, revenue, pay, expenses, net, margin: revenue ? net / revenue : NaN, full: jobs.filter(j => j.type === "full").length, interior: jobs.filter(j => j.type === "interior").length, exterior: jobs.filter(j => j.type === "exterior").length };
+  const fees = jobs.reduce((a, j) => a + feeOf(j), 0);
+  const net = revenue - pay - fees - expenses;
+  return { jobs, exps, revenue, pay, fees, expenses, net, margin: revenue ? net / revenue : NaN, full: jobs.filter(j => j.type === "full").length, interior: jobs.filter(j => j.type === "interior").length, exterior: jobs.filter(j => j.type === "exterior").length };
 }
 function dayRevenue(date) { return S.jobs.filter(j => j.date === date).reduce((a, j) => a + (+j.price || 0), 0); }
 function pace(key) {
@@ -748,7 +757,7 @@ function pace(key) {
 function logJob({ type = "full", tech, customer = "", date = TODAY, price, pay, notes = "" }) {
   const s = settings(); const svc = s.services[type] || s.services.full;
   const job = { type: s.services[type] ? type : "full", tech: tech || s.techs[0], customer: String(customer), date,
-    price: price != null && price !== "" ? +price : svc.price, pay: pay != null && pay !== "" ? +pay : svc.pay, notes: String(notes), ts: Date.now() };
+    price: price != null && price !== "" ? +price : svc.price, pay: pay != null && pay !== "" ? +pay : svc.pay, fee: +s.jobFee || 0, notes: String(notes), ts: Date.now() };
   const id = newId(); S.jobs = [...S.jobs, { id, ...job }]; renderAll();
   setDoc("jobs/" + id, job); return { id, ...job };
 }
@@ -900,7 +909,7 @@ function renderMoney() {
   $("#moneyKpis").innerHTML = [
     kpi("Revenue", money(st.revenue), `${st.jobs.length} jobs`),
     kpi("Tech payouts", money(st.pay), st.revenue ? pct(st.pay / st.revenue) + " of revenue" : ""),
-    kpi("Expenses", money(st.expenses), `${st.exps.length} entries`),
+    kpi(`${s.jobFeeLabel || "Lead"} fees + expenses`, money(st.fees + st.expenses), `${money(st.fees)} fees · ${money(st.expenses)} other`),
     kpi("Net profit", money(st.net), "what you keep", st.net >= 0 ? "pos" : "neg"),
     kpi("Margin", pct(st.margin), st.jobs.length ? money(st.net / st.jobs.length) + " per job" : "")
   ].join("");
@@ -924,19 +933,20 @@ function renderMoney() {
   const rows = ["full", "interior", "exterior"].map(t => {
     const svc = s.services[t]; const js = st.jobs.filter(j => j.type === t);
     const rev = js.reduce((a, j) => a + (+j.price || 0), 0), pay = js.reduce((a, j) => a + (+j.pay || 0), 0);
-    return `<tr><td>${esc(svc.label)}</td><td class="r num">${js.length}</td><td class="r num">${money(rev)}</td><td class="r num">${money(svc.price - svc.pay)}</td><td class="r num">${pct((svc.price - svc.pay) / svc.price)}</td></tr>`;
+    return `<tr><td>${esc(svc.label)}</td><td class="r num">${js.length}</td><td class="r num">${money(rev)}</td><td class="r num">${money(svc.price - svc.pay - (+s.jobFee || 0))}</td><td class="r num">${pct((svc.price - svc.pay - (+s.jobFee || 0)) / svc.price)}</td></tr>`;
   }).join("");
-  $("#mixTable").innerHTML = `<thead><tr><th>Service</th><th class="r">Jobs</th><th class="r">Revenue</th><th class="r">Gross / job</th><th class="r">Gross %</th></tr></thead><tbody>${rows}</tbody>`;
+  $("#mixTable").innerHTML = `<thead><tr><th>Service</th><th class="r">Jobs</th><th class="r">Revenue</th><th class="r">You keep / job</th><th class="r">Keep %</th></tr></thead><tbody>${rows}</tbody>`;
 
-  const allRev = S.jobs.reduce((a, j) => a + (+j.price || 0), 0), allPay = S.jobs.reduce((a, j) => a + (+j.pay || 0), 0), allExp = S.expenses.reduce((a, e) => a + (+e.amount || 0), 0);
+  const allRev = S.jobs.reduce((a, j) => a + (+j.price || 0), 0), allPay = S.jobs.reduce((a, j) => a + (+j.pay || 0), 0), allExp = S.expenses.reduce((a, e) => a + (+e.amount || 0), 0), allFee = S.jobs.reduce((a, j) => a + feeOf(j), 0);
   const months = [...new Set(S.jobs.map(j => String(j.date).slice(0, 7)))].sort();
   const best = months.map(m => [m, monthStats(m).revenue]).sort((a, b) => b[1] - a[1])[0];
   $("#allTimeTable").innerHTML = `<tbody>
     <tr><td>Jobs completed</td><td class="r num">${S.jobs.length}</td></tr>
     <tr><td>Total revenue</td><td class="r num">${money(allRev)}</td></tr>
     <tr><td>Paid to techs</td><td class="r num">${money(allPay)}</td></tr>
+    <tr><td>${esc(settings().jobFeeLabel || "Lead")} fees</td><td class="r num">${money(allFee)}</td></tr>
     <tr><td>Expenses</td><td class="r num">${money(allExp)}</td></tr>
-    <tr><td><strong>Net profit</strong></td><td class="r num"><strong>${money(allRev - allPay - allExp)}</strong></td></tr>
+    <tr><td><strong>Net profit</strong></td><td class="r num"><strong>${money(allRev - allPay - allFee - allExp)}</strong></td></tr>
     <tr><td>Best month</td><td class="r num">${best ? esc(monthName(best[0])) + " · " + money(best[1]) : "—"}</td></tr></tbody>`;
 
   const exps = [...st.exps].sort((a, b) => String(b.date).localeCompare(a.date));
@@ -993,7 +1003,7 @@ function renderJobs() {
   const jobs = [...S.jobs].sort((a, b) => String(b.date).localeCompare(a.date) || (b.ts || 0) - (a.ts || 0)).slice(0, 60);
   $("#jobHint").textContent = S.jobs.length > 60 ? "Latest 60" : `${S.jobs.length} total`;
   $("#jobTable").innerHTML = jobs.length ? `<thead><tr><th>Date</th><th>Service</th><th>Tech</th><th>Customer</th><th class="r">Charged</th><th class="r">Tech pay</th><th class="r">You keep</th><th></th></tr></thead><tbody>${jobs.map(j =>
-    `<tr><td class="num">${esc(j.date)}</td><td><span class="tag ${j.type === "full" ? "full" : ""}">${esc(j.type === "earlier" ? "Earlier revenue" : (s.services[j.type] || {}).label || j.type)}</span></td><td>${esc(j.tech)}</td><td>${esc(j.customer)}${j.notes ? `<div class="muted small">${esc(j.notes)}</div>` : ""}</td><td class="r num">${money(j.price)}</td><td class="r num">${money(j.pay)}</td><td class="r num">${money(j.price - j.pay)}</td><td class="r">${delBtn("jobs", j.id)}</td></tr>`).join("")}</tbody>`
+    `<tr><td class="num">${esc(j.date)}</td><td><span class="tag ${j.type === "full" ? "full" : ""}">${esc(j.type === "earlier" ? "Earlier revenue" : (s.services[j.type] || {}).label || j.type)}</span></td><td>${esc(j.tech)}</td><td>${esc(j.customer)}${j.notes ? `<div class="muted small">${esc(j.notes)}</div>` : ""}</td><td class="r num">${money(j.price)}</td><td class="r num">${money(j.pay)}</td><td class="r num">${money(j.price - j.pay - feeOf(j))}</td><td class="r">${delBtn("jobs", j.id)}</td></tr>`).join("")}</tbody>`
     : `<tbody><tr><td class="empty">No jobs yet. Tap a quick-add button above or tell Jarvis “log a full detail for Tech 1”.</td></tr></tbody>`;
 }
 function fillRates() { const s = settings(); const svc = s.services[$("#jobType").value] || s.services.full; $("#jobPrice").value = svc.price; $("#jobPay").value = svc.pay; }
@@ -1046,7 +1056,7 @@ function fillSettingsForm() {
   $("#sName").value = s.name; $("#sBiz").value = s.business; $("#sWake").value = s.wake || ""; $("#sGoal").value = s.monthlyGoal || "";
   const pl = s.goalPlan || {}; $("#sPlanStart").value = pl.start || ""; $("#sPlanBase").value = pl.base || ""; $("#sPlanStep").value = pl.step || ""; $("#sPlanStretch").value = pl.stretch || "";
   $("#sFocus").value = s.focus || "";
-  $("#sFullP").value = s.services.full.price; $("#sFullT").value = s.services.full.pay; $("#sIntP").value = s.services.interior.price; $("#sIntT").value = s.services.interior.pay; $("#sExtP").value = s.services.exterior.price; $("#sExtT").value = s.services.exterior.pay;
+  $("#sFullP").value = s.services.full.price; $("#sFullT").value = s.services.full.pay; $("#sIntP").value = s.services.interior.price; $("#sIntT").value = s.services.interior.pay; $("#sExtP").value = s.services.exterior.price; $("#sExtT").value = s.services.exterior.pay; $("#sFee").value = s.jobFee ?? 0; $("#sFeeLabel").value = s.jobFeeLabel || "";
   $("#techFields").innerHTML = s.techs.map((t, i) => `<label class="field"><span>Tech ${i + 1}</span><input id="sTech${i}" value="${esc(t)}"></label>`).join("") + `<div class="field" style="justify-content:flex-end"><button class="btn ghost small" type="button" id="addTech">+ Add tech</button></div>`;
   $("#sCal").value = s.calGoal; $("#sRevMin").value = s.reviewGoal; $("#sRevMax").value = s.reviewStretch; $("#sRevLink").value = s.reviewLink || "";
   $("#sKName").value = s.kittenName; $("#sKBirth").value = s.kittenBirth; $("#sRoutine").value = s.routine.join("\n");
@@ -1126,6 +1136,7 @@ $("#setForm").addEventListener("submit", e => {
     goalPlan: $("#sPlanStart").value ? { start: $("#sPlanStart").value, base: +$("#sPlanBase").value || 0, step: +$("#sPlanStep").value || 0, stretch: +$("#sPlanStretch").value || 0 } : null,
     focus: $("#sFocus").value.trim(),
     services: { full: { label: "Full detail", price: +$("#sFullP").value || 0, pay: +$("#sFullT").value || 0 }, interior: { label: "Interior detail", price: +$("#sIntP").value || 0, pay: +$("#sIntT").value || 0 }, exterior: { label: "Exterior wash", price: +$("#sExtP").value || 0, pay: +$("#sExtT").value || 0 } },
+    jobFee: +$("#sFee").value || 0, jobFeeLabel: $("#sFeeLabel").value.trim() || "Lead",
     techs: techs.length ? techs : DEFAULTS.techs, calGoal: +$("#sCal").value || 2000, reviewGoal: +$("#sRevMin").value || 1, reviewStretch: +$("#sRevMax").value || 2, reviewLink: $("#sRevLink").value.trim(),
     kittenName: $("#sKName").value.trim() || "Kitten", kittenBirth: $("#sKBirth").value || DEFAULTS.kittenBirth,
     routine: $("#sRoutine").value.split("\n").map(x => x.trim()).filter(Boolean)
@@ -1191,7 +1202,7 @@ function contextText() {
 OWNER: ${s.name}, 18, runs ${s.business}. Usually wakes around ${s.wake || "10-11am"}, then tests automations and checks GoHighLevel.
 RATES: Full detail $${s.services.full.price} (tech paid $${s.services.full.pay}); Interior $${s.services.interior.price} (tech paid $${s.services.interior.pay}); Exterior wash $${s.services.exterior.price} (tech paid $${s.services.exterior.pay}).
 TECHNICIANS: ${s.techs.join(", ")}.
-THIS MONTH (${monthName(mk)}, day ${p.elapsed}/${p.dim}): revenue $${st.revenue}, jobs ${st.jobs.length} (${st.full} full, ${st.interior} interior, ${st.exterior} exterior), tech pay $${st.pay}, expenses $${st.expenses}, net profit $${st.net}, margin ${pct(st.margin)}, projected revenue $${Math.round(p.projected)}. Monthly goal: ${goalFor(mk).goal ? "$" + goalFor(mk).goal + (goalFor(mk).stretch > goalFor(mk).goal ? " (stretch $" + goalFor(mk).stretch + ")" : "") : "not set"}.
+THIS MONTH (${monthName(mk)}, day ${p.elapsed}/${p.dim}): revenue $${st.revenue}, jobs ${st.jobs.length} (${st.full} full, ${st.interior} interior, ${st.exterior} exterior), tech pay $${st.pay}, ${s.jobFeeLabel || "lead"} fees $${st.fees} ($${s.jobFee} per completed job), other expenses $${st.expenses}, net profit $${st.net}, margin ${pct(st.margin)}, projected revenue $${Math.round(p.projected)}. Monthly goal: ${goalFor(mk).goal ? "$" + goalFor(mk).goal + (goalFor(mk).stretch > goalFor(mk).goal ? " (stretch $" + goalFor(mk).stretch + ")" : "") : "not set"}.
 REVENUE PLAN: ${[0, 1, 2, 3].map(i => { const k = monthKey(new Date(now.getFullYear(), now.getMonth() + i, 1)); const g = goalFor(k); return g.goal ? monthName(k) + " $" + g.goal + (g.stretch > g.goal ? " (stretch $" + g.stretch + ")" : "") : ""; }).filter(Boolean).join("; ") || "none"}.
 MORGAN'S CURRENT FOCUS (from Settings, treat as Morgan's own notes): ${s.focus || "none written"}
 LAST MONTH (${monthName(prevKey)}): revenue $${prev.revenue}, net $${prev.net}, margin ${pct(prev.margin)}.
