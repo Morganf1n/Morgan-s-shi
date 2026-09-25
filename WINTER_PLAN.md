@@ -14,11 +14,11 @@ Normal prices stay the same: full detail $250, interior $200 and exterior wash $
 
 | Offer | When | Price | Tech pay | Rapid Reach | You keep |
 | --- | --- | --- | --- | --- | --- |
-| **Winter Interior Reset:** full interior, plus floor mat extraction for mud and salt, plus odor treatment | Nov 1 – Feb 28 | $179 (reg. $200) | $70 | $25 | $84 |
+| **Winter Interior Reset:** full interior, plus floor mat extraction for mud and salt, plus odor treatment | Nov 1 – Feb 28 | $250 | $70 | $25 | $155 |
 | **2-Car Driveway Deal:** 2 interiors at one address | All winter | $340 | $140 | $50 | $150 |
 | **Holiday Full Detail:** full detail plus free leather/vinyl conditioning | Nov 20 – Dec 24 | $250 | $85 | $25 | $140 |
 | **Gift card:** a $200 interior for $179 | Black Friday – Dec 24 | $179 paid upfront | $70 when redeemed | $25 | $84 |
-| **New Year Reset:** interior special | Jan 1 – Jan 31 | $179 | $70 | $25 | $84 |
+| **New Year Reset:** interior special | Jan 1 – Jan 31 | $199 | $70 | $25 | $104 |
 | **Tax-Refund Coating Package:** coating plus a free interior | Feb 1 – Feb 28 | Your coating price | — | — | — |
 | **Valentine's "Date-Night Ready":** interior plus a scent | Feb 7 – Feb 14 | $179 | $70 | $25 | $84 |
 
@@ -30,9 +30,9 @@ Normal prices stay the same: full detail $250, interior $200 and exterior wash $
 - headlight restoration
 - engine bay
 
-**Upsell on every interior.** Say: "Want the outside done too? It's only $71 more for the full detail." The math: a $179 interior plus $71 makes $250, the full detail price.
+**Upsell on every interior.** On a regular $200 interior, say: "Want the outside done too? It's only $50 more for the full detail." On a Winter Interior Reset, offer the exterior as an add-on.
 
-**Why $179 and not cheaper:** some Athens detailers advertise interiors from about $80. You can't win at that price after paying $70 to the tech and $25 to Rapid Reach, and you don't need to. Win with the things they don't offer:
+**Why $250 and not cheaper:** some Athens detailers advertise interiors from about $80. You can't win at that price after paying $70 to the tech and $25 to Rapid Reach, and you don't need to. The Winter Interior Reset is the premium package, with mat extraction and odor treatment included. Win with the things they don't offer:
 
 - a reply within 5 minutes
 - same-week booking
@@ -57,8 +57,8 @@ Normal prices stay the same: full detail $250, interior $200 and exterior wash $
 - **Keywords (phrase and exact match):** "interior car detailing athens ga", "car detailing athens ga", "mobile detailing near me", "car interior cleaning near me", "pet hair removal car".
 - **Negative keywords:** jobs, hiring, salary, DIY, how to, car wash, cheap, free.
 - **Area:** Athens-Clarke, Oconee (Watkinsville, Bogart), Jackson (Jefferson), Madison and Barrow (Winder), about 25 miles.
-- **Landing page:** a GoHighLevel page with the $179 special, before-and-afters, reviews, the guarantee, and a short form or booking calendar. Include a call button.
-- **Ad copy:** "Winter Interior Reset $179 | We Come To You | 5-Star Athens Detailer | Book This Week".
+- **Landing page:** a GoHighLevel page with the $250 Winter Interior Reset, before-and-afters, reviews, the guarantee, and a short form or booking calendar. Include a call button.
+- **Ad copy:** "Winter Interior Reset $250 | We Come To You | 5-Star Athens Detailer | Book This Week".
 
 **Google Business Profile (free).**
 
@@ -86,7 +86,7 @@ The coating campaign keeps running from October 14. From November 1, add a separ
 1. "This is what 3 months of dogs does to a car…" (pet hair removal, gross to clean)
 2. "Holiday road trip mess? We come to your driveway." (kids' seats, crumbs, then the finish)
 3. Floor mat extraction with dirty water pouring out, a satisfying shot
-4. "What $179 gets you in Athens" (fast walk-through of the checklist)
+4. "What $250 gets you in Athens" (fast walk-through of the checklist)
 5. Customer testimonial: the owner's reaction on seeing the car
 6. For coatings: water beading plus "protect it before winter road grime"
 
