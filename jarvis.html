@@ -456,7 +456,14 @@ input[type=range]{padding:0;accent-color:var(--accent)}
             <label class="field"><span>Your name</span><input id="sName"></label>
             <label class="field"><span>Business</span><input id="sBiz"></label>
             <label class="field"><span>Usual wake-up</span><input id="sWake" type="time"></label>
-            <label class="field"><span>Monthly revenue goal ($)</span><input id="sGoal" type="number" min="0" step="100" placeholder="e.g. 12000"></label>
+            <label class="field"><span>Revenue goal before the plan ($)</span><input id="sGoal" type="number" min="0" step="100" placeholder="e.g. 12000"></label>
+          </div>
+          <h3>Revenue plan</h3>
+          <div class="fields">
+            <label class="field"><span>Plan starts (month)</span><input id="sPlanStart" type="month"></label>
+            <label class="field"><span>Starting goal ($)</span><input id="sPlanBase" type="number" min="0" step="500"></label>
+            <label class="field"><span>Increase each month ($)</span><input id="sPlanStep" type="number" min="0" step="500"></label>
+            <label class="field"><span>Stretch increase ($)</span><input id="sPlanStretch" type="number" min="0" step="500"></label>
           </div>
         </div>
         <div class="card">
@@ -487,6 +494,10 @@ input[type=range]{padding:0;accent-color:var(--accent)}
             <label class="field"><span>Kitten's name</span><input id="sKName"></label>
             <label class="field"><span>Birthday (approx.)</span><input id="sKBirth" type="date"></label>
           </div>
+        </div>
+        <div class="card">
+          <h2>What Jarvis should know</h2>
+          <label class="field wide"><span>Current focus and plans. Jarvis reads this every time you talk.</span><textarea id="sFocus" rows="6"></textarea></label>
         </div>
         <div class="card">
           <h2>Morning routine</h2>
@@ -581,6 +592,12 @@ const VET = [
 /* ---------- state ---------- */
 const S = { settings: clone(DEFAULTS), jobs: [], expenses: [], goals: [], day: null, yday: null, health: {}, stats: { cal: {}, reviews: {} }, chat: [], viewMonth: monthKey(new Date()) };
 let TODAY = ymd(new Date());
+function monthsBetween(a, b) { const [ya, ma] = a.split("-").map(Number), [yb, mb] = b.split("-").map(Number); return (yb - ya) * 12 + (mb - ma); }
+function goalFor(key) {
+  const s = settings(); const pl = s.goalPlan;
+  if (pl && pl.start && key >= pl.start) { const n = monthsBetween(pl.start, key); return { goal: (+pl.base || 0) + n * (+pl.step || 0), stretch: (+pl.base || 0) + n * (+pl.stretch || +pl.step || 0), n }; }
+  return { goal: +s.monthlyGoal || 0, stretch: 0, n: -1 };
+}
 const settings = () => ({ ...DEFAULTS, ...S.settings, services: { ...DEFAULTS.services, ...(S.settings.services || {}) } });
 
 /* ---------- storage: artifact db, with on-device fallback ---------- */
@@ -794,7 +811,7 @@ function renderToday() {
   $("#greetSub").textContent = lines.join(" ");
 
   const todayRev = dayRevenue(TODAY); const todayJobs = S.jobs.filter(j => j.date === TODAY).length;
-  const goal = +s.monthlyGoal || 0; const p = pace(mk);
+  const goal = goalFor(mk).goal; const p = pace(mk);
   $("#todayKpis").innerHTML = [
     kpi("Today", money(todayRev), `${todayJobs} job${todayJobs === 1 ? "" : "s"} logged`),
     kpi(now.toLocaleDateString("en-US", { month: "long" }) + " revenue", money(st.revenue), goal ? `${pct(st.revenue / goal)} of ${money(goal)} goal` : "Set a monthly goal in Settings"),
@@ -886,15 +903,16 @@ function renderMoney() {
     kpi("Margin", pct(st.margin), st.jobs.length ? money(st.net / st.jobs.length) + " per job" : "")
   ].join("");
 
-  const goal = +s.monthlyGoal || 0;
+  const gf = goalFor(key); const goal = gf.goal;
   if (goal) {
     const frac = Math.min(1, st.revenue / goal); const need = Math.max(0, goal - st.revenue);
     const daysLeft = p.isCur ? p.dim - p.elapsed + 1 : 0;
     const perJob = s.services.full.price;
     const status = st.revenue >= goal ? ["good", "Goal hit"] : p.isCur ? (p.projected >= goal ? ["good", "On pace"] : ["warn", "Behind pace"]) : ["bad", "Missed"];
-    $("#goalCard").innerHTML = `<div class="card-head"><h2>Monthly goal</h2><span class="tag ${status[0]}">${status[1]}</span></div>
+    const ahead = [1, 2, 3].map(i => { const [y, m] = key.split("-").map(Number); const k = monthKey(new Date(y, m - 1 + i, 1)); const g = goalFor(k); return g.goal ? `${monthName(k).split(" ")[0]} ${money(g.goal)}${g.stretch > g.goal ? " (stretch " + money(g.stretch) + ")" : ""}` : ""; }).filter(Boolean).join(" · ");
+    $("#goalCard").innerHTML = `<div class="card-head"><h2>Monthly goal${gf.stretch > goal ? ` <span class="muted small">stretch ${money(gf.stretch)}</span>` : ""}</h2><span class="tag ${status[0]}">${status[1]}</span></div>
       <div class="progress" role="progressbar" aria-valuenow="${Math.round(frac * 100)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${frac * 100}%"></i></div>
-      <p class="small">${money(st.revenue)} of ${money(goal)}${need && p.isCur ? ` · ${money(need)} to go, about ${Math.ceil(need / perJob)} full details or ${money(need / Math.max(1, daysLeft))} a day over ${daysLeft} days` : ""}</p>`;
+      <p class="small">${money(st.revenue)} of ${money(goal)}${need && p.isCur ? ` · ${money(need)} to go, about ${Math.ceil(need / perJob)} full details or ${money(need / Math.max(1, daysLeft))} a day over ${daysLeft} days` : ""}</p>${ahead ? `<p class="small muted">Next: ${ahead}</p>` : ""}`;
   } else {
     $("#goalCard").innerHTML = `<div class="card-head"><h2>Monthly goal</h2></div><p class="muted">No goal set yet. <button class="btn ghost small" type="button" data-goto="settings">Set one in Settings</button></p>`;
   }
@@ -1024,6 +1042,8 @@ function fillSettingsForm() {
   if ($("#setForm").contains(document.activeElement)) return;
   const s = settings();
   $("#sName").value = s.name; $("#sBiz").value = s.business; $("#sWake").value = s.wake || ""; $("#sGoal").value = s.monthlyGoal || "";
+  const pl = s.goalPlan || {}; $("#sPlanStart").value = pl.start || ""; $("#sPlanBase").value = pl.base || ""; $("#sPlanStep").value = pl.step || ""; $("#sPlanStretch").value = pl.stretch || "";
+  $("#sFocus").value = s.focus || "";
   $("#sFullP").value = s.services.full.price; $("#sFullT").value = s.services.full.pay; $("#sIntP").value = s.services.interior.price; $("#sIntT").value = s.services.interior.pay;
   $("#techFields").innerHTML = s.techs.map((t, i) => `<label class="field"><span>Tech ${i + 1}</span><input id="sTech${i}" value="${esc(t)}"></label>`).join("") + `<div class="field" style="justify-content:flex-end"><button class="btn ghost small" type="button" id="addTech">+ Add tech</button></div>`;
   $("#sCal").value = s.calGoal; $("#sRevMin").value = s.reviewGoal; $("#sRevMax").value = s.reviewStretch; $("#sRevLink").value = s.reviewLink || "";
@@ -1101,6 +1121,8 @@ $("#setForm").addEventListener("submit", e => {
   const techs = [...document.querySelectorAll("#techFields input")].map(i => i.value.trim()).filter(Boolean);
   const next = {
     name: $("#sName").value.trim() || "Morgan", business: $("#sBiz").value.trim() || DEFAULTS.business, wake: $("#sWake").value, monthlyGoal: +$("#sGoal").value || 0,
+    goalPlan: $("#sPlanStart").value ? { start: $("#sPlanStart").value, base: +$("#sPlanBase").value || 0, step: +$("#sPlanStep").value || 0, stretch: +$("#sPlanStretch").value || 0 } : null,
+    focus: $("#sFocus").value.trim(),
     services: { full: { label: "Full detail", price: +$("#sFullP").value || 0, pay: +$("#sFullT").value || 0 }, interior: { label: "Interior detail", price: +$("#sIntP").value || 0, pay: +$("#sIntT").value || 0 } },
     techs: techs.length ? techs : DEFAULTS.techs, calGoal: +$("#sCal").value || 2000, reviewGoal: +$("#sRevMin").value || 1, reviewStretch: +$("#sRevMax").value || 2, reviewLink: $("#sRevLink").value.trim(),
     kittenName: $("#sKName").value.trim() || "Kitten", kittenBirth: $("#sKBirth").value || DEFAULTS.kittenBirth,
@@ -1167,7 +1189,9 @@ function contextText() {
 OWNER: ${s.name}, 18, runs ${s.business}. Usually wakes around ${s.wake || "10-11am"}, then tests automations and checks GoHighLevel.
 RATES: Full detail $${s.services.full.price} (tech paid $${s.services.full.pay}); Interior $${s.services.interior.price} (tech paid $${s.services.interior.pay}).
 TECHNICIANS: ${s.techs.join(", ")}.
-THIS MONTH (${monthName(mk)}, day ${p.elapsed}/${p.dim}): revenue $${st.revenue}, jobs ${st.jobs.length} (${st.full} full, ${st.interior} interior), tech pay $${st.pay}, expenses $${st.expenses}, net profit $${st.net}, margin ${pct(st.margin)}, projected revenue $${Math.round(p.projected)}. Monthly goal: ${s.monthlyGoal ? "$" + s.monthlyGoal : "not set"}.
+THIS MONTH (${monthName(mk)}, day ${p.elapsed}/${p.dim}): revenue $${st.revenue}, jobs ${st.jobs.length} (${st.full} full, ${st.interior} interior), tech pay $${st.pay}, expenses $${st.expenses}, net profit $${st.net}, margin ${pct(st.margin)}, projected revenue $${Math.round(p.projected)}. Monthly goal: ${goalFor(mk).goal ? "$" + goalFor(mk).goal + (goalFor(mk).stretch > goalFor(mk).goal ? " (stretch $" + goalFor(mk).stretch + ")" : "") : "not set"}.
+REVENUE PLAN: ${[0, 1, 2, 3].map(i => { const k = monthKey(new Date(now.getFullYear(), now.getMonth() + i, 1)); const g = goalFor(k); return g.goal ? monthName(k) + " $" + g.goal + (g.stretch > g.goal ? " (stretch $" + g.stretch + ")" : "") : ""; }).filter(Boolean).join("; ") || "none"}.
+MORGAN'S CURRENT FOCUS (from Settings, treat as Morgan's own notes): ${s.focus || "none written"}
 LAST MONTH (${monthName(prevKey)}): revenue $${prev.revenue}, net $${prev.net}, margin ${pct(prev.margin)}.
 TODAY: revenue $${dayRevenue(TODAY)}.
 CALORIES TODAY: ${dayCal(d)} of ${s.calGoal} kcal goal. Eaten: ${(d.food || []).map(f => f.name + " " + f.cal).join(", ") || "nothing logged yet"}. Last 7 days: ${lastDays(7).map(x => statFor("cal", x)).join(", ")}.
