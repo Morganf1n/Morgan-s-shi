@@ -12,7 +12,7 @@ A personal assistant and business tracker for Morgan and Coastline Auto Detailin
 | `GLEN_MILLS_LAUNCH.md` | Plan for the second location in Glen Mills, PA (March 2028): timeline, recruiting techs, subcontractor candidates and setup checklist. |
 | `Glen_Mills_Launch.xlsx` | Glen Mills launch workbook: timeline, setup checklist with progress, tech recruiting tracker, subcontractor tracker, launch budget, sources. |
 | `Coastline_Glen_Mills_Business_Plan.docx` | Glen Mills second-location business plan (Word), with copyright notice. |
-| `Coastline_Growth_Plan_50k_100k.docx` | Growth plan from $15k to $50k and $100k a month (Word), with copyright notice. |
+| `Coastline_Growth_Plan_50k_100k.docx` | Growth plan from $10k (October 2026) to $50k and $100k a month (Word), with copyright notice. |
 | `WINTER_PLAN.md` | Winter plan (Nov 2026 – Feb 2027): interior specials, Google and Meta ads, coatings in cold weather, beating the competition, month-by-month targets. |
 | `Coastline_Winter_Plan_Nov_Feb.docx` | The winter plan as a Word document, with copyright notice. |
 | `OCTOBER_10K_PLAN.md` | What to do in October to hit $10k: the math, daily non-negotiables, week-by-week focus. |
