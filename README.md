@@ -8,6 +8,8 @@ A personal assistant and business tracker for Morgan and Coastline Auto Detailin
 | --- | --- |
 | `jarvis.html` | The Jarvis app. It's one page with Today, Money, Jobs, Goals, Kitten and Settings tabs, plus a Jarvis AI chat panel that can talk out loud, as JARVIS or ULTRON, with an animated core that reacts while it thinks and speaks. |
 | `JARVIS_PROMPT.md` | A standalone Jarvis prompt, a daily check-in template and an end-of-day template for any Claude chat or Project. |
+| `CONTENT_PLAYBOOK.md` | Hooks, niches, testimonial formats and a weekly posting plan for detailing videos. |
+| `GLEN_MILLS_LAUNCH.md` | Plan for the second location in Glen Mills, PA (March 2028): timeline, recruiting techs, subcontractor candidates and setup checklist. |
 
 ## The app
 
