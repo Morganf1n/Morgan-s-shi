@@ -16,6 +16,9 @@ A personal assistant and business tracker for Morgan and Coastline Auto Detailin
 - **Jobs**: one-tap logging for a full detail ($250, tech gets $85) or an interior ($200, tech gets $70), what each tech is owed this month, and the full job log.
 - **Goals**: longer-term goals with targets, progress and due dates.
 - **Kitten**: age, the daily care checklist, and a typical vet and vaccine timeline.
+- **Health check-in** (on Today): mood, energy, stress, sleep, water and movement, a private notes box, and a 7-day mood view.
+- **Grow**: daily learning minutes, a reading/video/topic list (business books, fleet contracts, subcontracting), and a fleet & subcontract playbook.
+- **Check-ins**: while the app is open, Jarvis nudges you every 20 minutes (leads, water, mood, marketing, calories, learning). Turn it off in Settings.
 - **Jarvis chat**: ask for a morning briefing or say things like "log a full detail for Tech 2". Jarvis logs jobs, expenses and goals for you.
 
 When it's opened as a Claude artifact, data syncs to the artifact's database, so it's the same on every device you sign in on. When you open the file straight from disk, data stays in that browser only, and the AI chat is off.

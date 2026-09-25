@@ -129,6 +129,17 @@ textarea{min-height:84px;resize:vertical}
 .food li{display:flex;gap:10px;align-items:center;padding:6px 0;border-bottom:1px dashed var(--line)}
 .food li:last-child{border-bottom:0}
 .food li span:first-child{flex:1;min-width:0}
+.hgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px 18px}
+.seg{display:flex;gap:4px}
+.seg button{flex:1;min-width:0;padding:7px 2px;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;font-size:12px;cursor:pointer;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.mini{display:flex;align-items:center;gap:10px}
+.mini button{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);font-size:18px;cursor:pointer;line-height:1}
+.mini b{font-family:var(--display);font-size:26px;font-weight:600;font-variant-numeric:tabular-nums}
+.care{border-left:3px solid var(--accent);padding:10px 12px;background:var(--surface-2);border-radius:0 8px 8px 0}
+.learn h3{margin-top:4px}
+.prose{display:flex;flex-direction:column;gap:8px;max-width:72ch}
+.prose ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
 
 .quick{display:flex;gap:8px;flex-wrap:wrap}
 .quick button{border:1px dashed var(--accent);background:var(--accent-soft);color:var(--ink);border-radius:8px;padding:8px 12px;cursor:pointer;text-align:left}
@@ -218,6 +229,7 @@ input[type=range]{padding:0;accent-color:var(--accent)}
       <button role="tab" data-tab="jobs">Jobs</button>
       <button role="tab" data-tab="goals">Goals</button>
       <button role="tab" data-tab="kitten">Kitten</button>
+      <button role="tab" data-tab="grow">Grow</button>
       <button role="tab" data-tab="settings">Settings</button>
     </nav>
 
@@ -269,6 +281,20 @@ input[type=range]{padding:0;accent-color:var(--accent)}
           <div class="week" id="revWeek" aria-label="Google reviews, last 7 days"></div>
           <p class="muted small">Text every customer your review link right after the tech finishes, while the car still smells new. A GoHighLevel automation can do this for you.</p>
         </div>
+      </div>
+      <div class="card" id="healthCard">
+        <div class="card-head"><h2>Health check-in</h2><span class="hint" id="healthHint"></span></div>
+        <div class="hgrid">
+          <div class="field"><span>Mood</span><div class="seg" data-h="mood"></div></div>
+          <div class="field"><span>Energy</span><div class="seg" data-h="energy"></div></div>
+          <div class="field"><span>Stress</span><div class="seg" data-h="stress"></div></div>
+          <div class="field"><span>Water (glasses, goal 8)</span><div class="mini"><button type="button" id="wMinus" aria-label="One less glass">−</button><b id="wNum">0</b><button type="button" id="wPlus" aria-label="One more glass">+</button></div></div>
+          <label class="field"><span>Sleep last night (hours)</span><input id="hSleep" type="number" step="0.5" min="0" max="16" placeholder="e.g. 7.5"></label>
+          <label class="field"><span>Movement today (minutes)</span><input id="hMove" type="number" step="5" min="0" placeholder="gym, walk, sport"></label>
+        </div>
+        <label class="field wide"><span>What's on your mind?</span><textarea id="hNote" placeholder="Wins, worries, anything. Getting it out of your head helps."></textarea></label>
+        <div class="week" id="moodWeek" aria-label="Mood, last 7 days"></div>
+        <p class="care small">If things ever feel like too much, you don't have to carry it alone. Talk to someone you trust, or call or text <strong>988</strong> (Suicide &amp; Crisis Lifeline, US) any time, day or night.</p>
       </div>
       <div class="card">
         <div class="card-head"><h2 id="kittenTodayTitle">Kitten care today</h2><span class="hint" id="kittenAgeHint"></span></div>
@@ -361,6 +387,53 @@ input[type=range]{padding:0;accent-color:var(--accent)}
       <div class="panel" id="goalList"></div>
     </section>
 
+    <!-- GROW -->
+    <section class="panel" id="tab-grow" hidden>
+      <div class="kpis" id="growKpis"></div>
+      <div class="card">
+        <div class="card-head"><h2>Today's learning</h2><span class="hint">Goal: 20–30 minutes a day</span></div>
+        <div class="row">
+          <label class="field" style="flex:0 0 160px"><span>Minutes today</span><input id="lMin" type="number" min="0" step="5"></label>
+          <label class="field" style="flex:1"><span>What you learned</span><input id="lWhat" placeholder="e.g. Read ch. 2 of E-Myth, systems before hiring"></label>
+        </div>
+      </div>
+      <div class="card learn">
+        <div class="card-head"><h2>Learning list</h2><span class="hint" id="learnHint"></span></div>
+        <div id="learnList"></div>
+        <form class="inline" id="learnForm">
+          <select id="learnKind" style="flex:0 0 130px"><option value="book">Book</option><option value="video">Video</option><option value="topic">Topic</option></select>
+          <input id="learnTitle" placeholder="Add a book, video or topic" autocomplete="off">
+          <button class="btn" type="submit">Add</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Fleet contracts &amp; subcontracting</h2>
+        <div class="prose">
+          <p>Fleet and dealership work is steady, repeat revenue that keeps your five techs busy on slow weeks. Fleet managers buy reliability, not the cheapest wash: uptime, the same standard every time, and one simple invoice.</p>
+          <h3>Who to pitch</h3>
+          <ul>
+            <li>Car dealerships (new, used, and lease returns) and rental car lots</li>
+            <li>Delivery and service fleets: couriers, plumbers, HVAC, landscapers, property managers</li>
+            <li>Rideshare and car-subscription fleets</li>
+            <li>City, county and school fleets: register as a vendor with your county, state and SAM.gov</li>
+          </ul>
+          <h3>Subcontracting</h3>
+          <ul>
+            <li>Take overflow from dealerships, body shops, tint and wrap shops, and bigger detailers</li>
+            <li>Or subcontract your own overflow to vetted detailers when your techs are booked</li>
+          </ul>
+          <h3>Before you pitch</h3>
+          <ul>
+            <li>One-page capabilities sheet with before/after photos and your service area</li>
+            <li>Commercial liability insurance and a certificate of insurance (COI) ready to send</li>
+            <li>Per-vehicle recurring pricing (weekly, biweekly, monthly) and a simple service agreement: schedule, pricing, liability, payment terms</li>
+            <li>A shortlist of 30 local targets; follow up by phone, email and in person</li>
+          </ul>
+          <p class="small muted">Sources: <a href="https://autodetailschool.com/fleet-detailing-contracts-your-playbook-for-steady-high-volume-revenue/" target="_blank" rel="noopener">Auto Detail School</a> · <a href="https://turndentsintodollars.com/fleet-detailing-contracts-how-to-land-steady-high-volume-clients/" target="_blank" rel="noopener">Ding King Training</a> · <a href="https://www.upcounsel.com/auto-detailing-contracts" target="_blank" rel="noopener">UpCounsel</a></p>
+        </div>
+      </div>
+    </section>
+
     <!-- KITTEN -->
     <section class="panel" id="tab-kitten" hidden>
       <div class="kpis" id="kittenKpis"></div>
@@ -426,6 +499,8 @@ input[type=range]{padding:0;accent-color:var(--accent)}
         <div class="fields">
           <label class="field"><span>Personality</span>
             <select id="vPersona"><option value="jarvis">JARVIS: calm and polished</option><option value="ultron">ULTRON: cold and theatrical</option></select></label>
+          <label class="field"><span>Check-ins while the app is open</span>
+            <select id="vNudge"><option value="20">Every 20 minutes</option><option value="0">Off</option></select></label>
           <label class="field"><span>Speak replies out loud</span>
             <select id="vOn"><option value="0">Off</option><option value="1">On</option></select></label>
           <label class="field wide"><span>Voice (from this device)</span><select id="vVoice"></select></label>
@@ -561,7 +636,7 @@ function subscribeDays() {
   daySubs.forEach(u => u());
   const yd = ymd(addDays(parseYmd(TODAY), -1));
   daySubs = [
-    sub("days/" + TODAY, false, d => { S.day = d; S.chat = (d && d.chat) || []; renderToday(); renderChat(); }),
+    sub("days/" + TODAY, false, d => { S.day = d; S.chat = (d && d.chat) || []; renderToday(); renderGrow(); renderChat(); }),
     sub("days/" + yd, false, d => { S.yday = d; renderToday(); })
   ];
 }
@@ -571,13 +646,14 @@ ready.then(() => {
   sub("expenses", true, list => { S.expenses = list; renderAll(); });
   sub("goals", true, list => { S.goals = list; renderGoals(); renderToday(); });
   sub("stats/daily", false, d => { S.stats = { cal: {}, reviews: {}, ...(d || {}) }; renderToday(); });
+  sub("learning/list", false, d => { S.learning = d; renderGrow(); });
   sub("kitten/health", false, d => { S.health = (d && d.done) || {}; renderKitten(); renderToday(); });
   subscribeDays();
 });
 
 /* ---------- day model ---------- */
 function freshDay() {
-  return { date: TODAY, tasks: settings().routine.map(t => ({ id: newId(), text: t, done: false, kind: "routine" })), kitten: {}, food: [], reviews: 0, notes: "", chat: [] };
+  return { date: TODAY, tasks: settings().routine.map(t => ({ id: newId(), text: t, done: false, kind: "routine" })), kitten: {}, food: [], reviews: 0, health: {}, learn: {}, notes: "", chat: [] };
 }
 const currentDay = () => S.day ? clone(S.day) : freshDay();
 function saveDay(d) { S.day = d; renderToday(); return setDoc("days/" + TODAY, d); }
@@ -587,7 +663,10 @@ function addTask(text, kind = "task") { text = String(text || "").trim(); if (!t
 function removeTask(id) { const d = currentDay(); d.tasks = d.tasks.filter(x => x.id !== id); saveDay(d); }
 const dayCal = d => (d.food || []).reduce((a, f) => a + (+f.cal || 0), 0);
 function syncStats(d) {
-  const st = { cal: { ...(S.stats.cal || {}), [TODAY]: dayCal(d) }, reviews: { ...(S.stats.reviews || {}), [TODAY]: +d.reviews || 0 } };
+  const h = d.health || {};
+  const st = { cal: { ...(S.stats.cal || {}), [TODAY]: dayCal(d) }, reviews: { ...(S.stats.reviews || {}), [TODAY]: +d.reviews || 0 },
+    mood: { ...(S.stats.mood || {}), [TODAY]: +h.mood || 0 }, sleep: { ...(S.stats.sleep || {}), [TODAY]: +h.sleep || 0 },
+    water: { ...(S.stats.water || {}), [TODAY]: +h.water || 0 }, learn: { ...(S.stats.learn || {}), [TODAY]: +((d.learn || {}).min) || 0 } };
   S.stats = st; return setDoc("stats/daily", st);
 }
 function logFood({ name, cal }) {
@@ -598,7 +677,33 @@ function logFood({ name, cal }) {
 function removeFood(id) { const d = currentDay(); d.food = (d.food || []).filter(f => f.id !== id); saveDay(d); syncStats(d); }
 function setReviews(n) { const d = currentDay(); d.reviews = Math.max(0, Math.round(+n || 0)); saveDay(d); syncStats(d); return d.reviews; }
 function lastDays(n) { return Array.from({ length: n }, (_, i) => ymd(addDays(parseYmd(TODAY), i - n + 1))); }
-function statFor(kind, date) { if (date === TODAY) { const d = currentDay(); return kind === "cal" ? dayCal(d) : +d.reviews || 0; } return +((S.stats[kind] || {})[date]) || 0; }
+function statFor(kind, date) {
+  if (date === TODAY) { const d = currentDay(); const h = d.health || {};
+    return kind === "cal" ? dayCal(d) : kind === "reviews" ? +d.reviews || 0 : kind === "learn" ? +((d.learn || {}).min) || 0 : +h[kind] || 0; }
+  return +((S.stats[kind] || {})[date]) || 0;
+}
+function setHealth(patch) { const d = currentDay(); d.health = { ...(d.health || {}), ...patch }; saveDay(d); syncStats(d); return d.health; }
+function setLearn(patch) { const d = currentDay(); d.learn = { ...(d.learn || {}), ...patch }; saveDay(d); syncStats(d); renderGrow(); return d.learn; }
+const SCALES = { mood: ["Rough", "Low", "Okay", "Good", "Great"], energy: ["Drained", "Low", "Okay", "Good", "Charged"], stress: ["Calm", "Light", "Some", "High", "Maxed"] };
+const DEFAULT_LEARN = [
+  ["book", "The E-Myth Revisited, Michael Gerber: build systems so the business runs without you"],
+  ["book", "$100M Offers, Alex Hormozi: pricing and packaging your services"],
+  ["book", "$100M Leads, Alex Hormozi: getting a steady flow of leads"],
+  ["book", "Profit First, Mike Michalowicz: cash flow and keeping your margin"],
+  ["book", "Buy Back Your Time, Dan Martell: hiring and delegating"],
+  ["book", "Never Split the Difference, Chris Voss: negotiating contracts"],
+  ["video", "YouTube search: \"fleet detailing contract pitch\""],
+  ["video", "YouTube search: \"how to price dealership detailing\""],
+  ["video", "YouTube search: \"mobile detailing business with employees\""],
+  ["video", "YouTube search: \"GoHighLevel automations for home services\""],
+  ["topic", "Fleet contracts: who to pitch and what they pay per vehicle"],
+  ["topic", "Subcontracting: dealership, body shop and overflow work"],
+  ["topic", "Commercial insurance and certificates of insurance (COI)"],
+  ["topic", "Writing a service agreement: schedule, pricing, liability, payment"],
+  ["topic", "Registering as a vendor: city, county, state and SAM.gov"]
+].map(([kind, title], i) => ({ id: "d" + i, kind, title, done: false }));
+const learnItems = () => (S.learning && Array.isArray(S.learning.items)) ? S.learning.items : DEFAULT_LEARN;
+function saveLearning(items) { S.learning = { items }; renderGrow(); return setDoc("learning/list", { items }); }
 function monthReviews() { const mk = monthKey(new Date()); return Object.entries(S.stats.reviews || {}).filter(([k]) => k.startsWith(mk) && k !== TODAY).reduce((a, [, v]) => a + (+v || 0), 0) + statFor("reviews", TODAY); }
 function toggleKitten(k) { const d = currentDay(); d.kitten = d.kitten || {}; d.kitten[k] = !d.kitten[k]; saveDay(d); }
 
@@ -667,7 +772,7 @@ function kittenAge() {
 function nextVet() { return VET.find(([k]) => !S.health[k]) || null; }
 
 /* ---------- rendering ---------- */
-function renderAll() { renderToday(); renderMoney(); renderJobs(); renderGoals(); renderKitten(); }
+function renderAll() { renderToday(); renderMoney(); renderJobs(); renderGoals(); renderKitten(); renderGrow(); }
 
 function checkItem(id, text, done, extra = "") {
   return `<li class="${done ? "done" : ""}"><label><input type="checkbox" data-id="${esc(id)}" ${done ? "checked" : ""}><span>${esc(text)}</span></label>${extra}</li>`;
@@ -713,7 +818,40 @@ function renderToday() {
   renderHabits(d);
   const notes = $("#dayNotes"); if (document.activeElement !== notes) notes.value = d.notes || "";
 }
+function renderHealth(d) {
+  const h = d.health || {};
+  document.querySelectorAll(".seg[data-h]").forEach(el => {
+    const k = el.dataset.h;
+    el.innerHTML = SCALES[k].map((lab, i) => `<button type="button" data-hk="${k}" data-hv="${i + 1}" aria-pressed="${+h[k] === i + 1}">${lab}</button>`).join("");
+  });
+  $("#wNum").textContent = `${+h.water || 0}`;
+  const sl = $("#hSleep"), mv = $("#hMove"), nt = $("#hNote");
+  if (document.activeElement !== sl) sl.value = h.sleep ?? ""; if (document.activeElement !== mv) mv.value = h.move ?? ""; if (document.activeElement !== nt) nt.value = h.note || "";
+  const done = ["mood", "energy", "stress"].filter(k => h[k]).length + (h.sleep ? 1 : 0);
+  $("#healthHint").textContent = done >= 4 ? "Checked in today" : "Takes 20 seconds";
+  $("#moodWeek").innerHTML = lastDays(7).map(date => { const v = statFor("mood", date); const dn = parseYmd(date).toLocaleDateString("en-US", { weekday: "narrow" });
+    return `<div class="${v >= 4 ? "hit" : ""} ${date === TODAY ? "today" : ""}" title="${date}"><span class="muted">${dn}</span><b>${v ? SCALES.mood[v - 1] : "–"}</b></div>`; }).join("");
+}
+function renderGrow() {
+  if (!$("#learnList")) return;
+  const items = learnItems(); const d = currentDay(); const l = d.learn || {};
+  const groups = [["book", "Books"], ["video", "Videos"], ["topic", "Topics to learn"]];
+  $("#learnList").innerHTML = groups.map(([k, lab]) => { const its = items.filter(i => i.kind === k); if (!its.length) return "";
+    return `<h3>${lab}</h3><ul class="checks">${its.map(i => `<li class="${i.done ? "done" : ""}"><label><input type="checkbox" data-learn="${esc(i.id)}" ${i.done ? "checked" : ""}><span>${esc(i.title)}</span></label><button class="x" data-unlearn="${esc(i.id)}" aria-label="Remove">×</button></li>`).join("")}</ul>`; }).join("");
+  $("#learnHint").textContent = `${items.filter(i => i.done).length}/${items.length} done`;
+  const mi = $("#lMin"), wh = $("#lWhat");
+  if (document.activeElement !== mi) mi.value = l.min ?? ""; if (document.activeElement !== wh) wh.value = l.what || "";
+  const week = lastDays(7).reduce((a, x) => a + statFor("learn", x), 0);
+  const next = items.find(i => !i.done);
+  $("#growKpis").innerHTML = [
+    kpi("Learning today", `${+l.min || 0} min`, (+l.min || 0) >= 20 ? "Goal met" : "Goal: 20–30 min"),
+    kpi("This week", `${week} min`, "last 7 days"),
+    kpi("List progress", `${items.filter(i => i.done).length}/${items.length}`, "books, videos, topics"),
+    kpi("Up next", next ? next.kind[0].toUpperCase() + next.kind.slice(1) : "All done", next ? next.title.split(":")[0] : "")
+  ].join("");
+}
 function renderHabits(d) {
+  renderHealth(d);
   const s = settings(); const goal = +s.calGoal || 2000; const cal = dayCal(d); const frac = Math.min(1, cal / goal);
   const h = new Date().getHours(); const expect = h < 11 ? 0 : Math.min(1, (h - 10) / 12);
   $("#calNum").textContent = cal.toLocaleString("en-US"); $("#calOf").textContent = `/ ${goal.toLocaleString("en-US")} kcal`;
@@ -913,6 +1051,10 @@ document.addEventListener("click", e => {
   if (t.matches("[data-gdone]")) { const g = S.goals.find(x => x.id === t.dataset.gdone); if (g) updateGoal(g.id, { done: !g.done }); }
   if (t.matches("[data-progsave]")) { const inp = document.querySelector(`[data-prog="${t.dataset.progsave}"]`); updateGoal(t.dataset.progsave, { current: +inp.value || 0 }); toast("Progress updated."); }
   if (t.matches("[data-food]")) removeFood(t.dataset.food);
+  if (t.matches("[data-hk]")) { const k = t.dataset.hk, v = +t.dataset.hv; setHealth({ [k]: +((currentDay().health || {})[k]) === v ? 0 : v }); }
+  if (t.matches("#wPlus")) setHealth({ water: (+((currentDay().health || {}).water) || 0) + 1 });
+  if (t.matches("#wMinus")) setHealth({ water: Math.max(0, (+((currentDay().health || {}).water) || 0) - 1) });
+  if (t.matches("[data-unlearn]")) saveLearning(learnItems().filter(i => i.id !== t.dataset.unlearn));
   if (t.matches("#revPlus")) { const n = setReviews((+currentDay().reviews || 0) + 1); toast(n >= (+settings().reviewGoal || 1) ? `${n} review${n === 1 ? "" : "s"} today. Goal met.` : `${n} review today.`); }
   if (t.matches("#revMinus")) setReviews((+currentDay().reviews || 0) - 1);
   if (t.matches("#copyRev")) {
@@ -926,8 +1068,16 @@ document.addEventListener("change", e => {
   if (t.matches(".checks input[type=checkbox][data-id]")) { const id = t.dataset.id; id.startsWith("k:") ? toggleKitten(id.slice(2)) : toggleTask(id); }
   if (t.matches("[data-vet]")) { const done = { ...S.health, [t.dataset.vet]: t.checked }; S.health = done; renderKitten(); setDoc("kitten/health", { done }); }
   if (t.id === "jobType") fillRates();
+  if (t.matches("[data-learn]")) saveLearning(learnItems().map(i => i.id === t.dataset.learn ? { ...i, done: t.checked } : i));
 });
 $("#foodForm").addEventListener("submit", e => { e.preventDefault(); if (logFood({ name: $("#foodName").value, cal: $("#foodCal").value })) { $("#foodName").value = ""; $("#foodCal").value = ""; } else toast("Enter the calories, or ask Jarvis to estimate them."); });
+$("#learnForm").addEventListener("submit", e => { e.preventDefault(); const title = $("#learnTitle").value.trim(); if (!title) return; saveLearning([...learnItems(), { id: newId(), kind: $("#learnKind").value, title, done: false }]); $("#learnTitle").value = ""; });
+const debounced = (fn, ms = 800) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+$("#hSleep").addEventListener("input", debounced(() => setHealth({ sleep: +$("#hSleep").value || 0 })));
+$("#hMove").addEventListener("input", debounced(() => setHealth({ move: +$("#hMove").value || 0 })));
+$("#hNote").addEventListener("input", debounced(() => setHealth({ note: $("#hNote").value }), 1000));
+$("#lMin").addEventListener("input", debounced(() => setLearn({ min: +$("#lMin").value || 0 })));
+$("#lWhat").addEventListener("input", debounced(() => setLearn({ what: $("#lWhat").value }), 1000));
 $("#addTaskForm").addEventListener("submit", e => { e.preventDefault(); if (addTask($("#newTask").value)) $("#newTask").value = ""; });
 let notesT;
 $("#dayNotes").addEventListener("input", () => { $("#notesState").textContent = "Typing…"; clearTimeout(notesT); notesT = setTimeout(() => { const d = currentDay(); d.notes = $("#dayNotes").value; saveDay(d).then(() => $("#notesState").textContent = "Saved"); }, 900); });
@@ -963,6 +1113,24 @@ $("#mPrev").addEventListener("click", () => { const [y, m] = S.viewMonth.split("
 $("#mNext").addEventListener("click", () => { const [y, m] = S.viewMonth.split("-").map(Number); S.viewMonth = monthKey(new Date(y, m, 1)); renderMoney(); });
 let rsT; window.addEventListener("resize", () => { clearTimeout(rsT); rsT = setTimeout(() => { if (!$("#tab-money").hidden) drawChart(S.viewMonth); }, 150); });
 
+const NUDGES = [
+  () => "Leads check: open GoHighLevel. Any new leads or messages? Reply now, speed wins jobs.",
+  () => { const w = +((currentDay().health || {}).water) || 0; return `Water check: ${w} of 8 glasses today. Grab one now.`; },
+  () => "Quick check-in: how are you feeling right now? Tap your mood, energy and stress in Health.",
+  () => "Marketing decision: pick today's video hook, or post one testimonial or before/after.",
+  () => { const c = dayCal(currentDay()), g = +settings().calGoal || 2000; return `Fuel check: ${c.toLocaleString("en-US")} of ${g.toLocaleString("en-US")} calories so far. Eat something if you're behind.`; },
+  () => { const it = learnItems().find(i => !i.done); return `10 minutes of learning: ${it ? it.title.split(":")[0] : "pick something from Grow"}.`; },
+  () => "Stand up, stretch, roll your shoulders, and take three slow breaths.",
+  () => "Follow-ups: text yesterday's customers your Google review link, and nudge any warm leads.",
+  () => "Fleet and subcontract work: name one dealership, fleet or body shop you could pitch this week."
+];
+let nudgeI = 0, lastNudge = Date.now();
+function nudge() {
+  if (+V.nudge === 0 || ctl || document.hidden) return;
+  const msg = NUDGES[nudgeI++ % NUDGES.length](); lastNudge = Date.now();
+  toast(msg); setCaption(msg); Core.pulse(0.6); speak(msg);
+}
+setInterval(() => { if (Date.now() - lastNudge >= 20 * 60 * 1000) nudge(); }, 60 * 1000);
 function tick() {
   const now = new Date();
   $("#clock").textContent = now.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) + " · " + now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
@@ -1003,6 +1171,8 @@ THIS MONTH (${monthName(mk)}, day ${p.elapsed}/${p.dim}): revenue $${st.revenue}
 LAST MONTH (${monthName(prevKey)}): revenue $${prev.revenue}, net $${prev.net}, margin ${pct(prev.margin)}.
 TODAY: revenue $${dayRevenue(TODAY)}.
 CALORIES TODAY: ${dayCal(d)} of ${s.calGoal} kcal goal. Eaten: ${(d.food || []).map(f => f.name + " " + f.cal).join(", ") || "nothing logged yet"}. Last 7 days: ${lastDays(7).map(x => statFor("cal", x)).join(", ")}.
+HEALTH TODAY: mood ${(d.health || {}).mood ? SCALES.mood[d.health.mood - 1] : "not logged"}, energy ${(d.health || {}).energy ? SCALES.energy[d.health.energy - 1] : "not logged"}, stress ${(d.health || {}).stress ? SCALES.stress[d.health.stress - 1] : "not logged"}, sleep ${(d.health || {}).sleep || "?"} h, water ${(d.health || {}).water || 0}/8 glasses, movement ${(d.health || {}).move || 0} min. Mood last 7 days (1-5, 0 = none): ${lastDays(7).map(x => statFor("mood", x)).join(", ")}. Sleep last 7 days: ${lastDays(7).map(x => statFor("sleep", x)).join(", ")}.
+LEARNING: ${(d.learn || {}).min || 0} min today${(d.learn || {}).what ? " (" + d.learn.what + ")" : ""}, ${lastDays(7).reduce((a, x) => a + statFor("learn", x), 0)} min this week. Next on the list: ${learnItems().filter(i => !i.done).slice(0, 3).map(i => i.title).join(" | ") || "list complete"}.
 GOOGLE REVIEWS: ${+d.reviews || 0} today (goal ${s.reviewGoal}-${s.reviewStretch} a day), ${monthReviews()} this month. Last 7 days: ${lastDays(7).map(x => statFor("reviews", x)).join(", ")}.
 MORNING ROUTINE: ${d.tasks.filter(t => t.kind === "routine").map(t => (t.done ? "[x] " : "[ ] ") + t.text).join("; ")}
 TODAY'S GOALS: ${d.tasks.filter(t => t.kind !== "routine").map(t => (t.done ? "[x] " : "[ ] ") + t.text).join("; ") || "none yet"}
@@ -1027,6 +1197,9 @@ What you do:
 - Google reviews: goal is 1-2 new Google reviews every day. When Morgan says one came in, call add_google_reviews. Nudge Morgan to text the review link to every customer right after the job and to set up a GoHighLevel review-request automation.
 - You CAN change your own personality and voice. If Morgan asks for Ultron, Jarvis, voice on or voice off, call switch_mode right away. Never refuse or say the voice is fixed.
 - If Morgan gives a month revenue total that's higher than what's logged (e.g. "my revenue is at 5.82k"), call set_month_revenue with the total. If Morgan didn't say what the techs were paid, it gets estimated; say so and ask for the real tech pay. Never claim you updated something without calling a tool.
+- Health: check in on Morgan's physical and mental health like a good friend and coach: sleep, water, food, movement, mood, energy, stress. When Morgan shares how they feel or what they did, call log_health. Be warm and direct, never preachy. Notice patterns (low sleep, rising stress) and suggest one small, doable step.
+- Mental health: take feelings seriously. If Morgan seems overwhelmed, suggest a break, talking to someone they trust, or a doctor or counselor. If Morgan mentions self-harm, suicide or not wanting to be here, drop the business talk, respond with care, and urge them to call or text 988 (Suicide & Crisis Lifeline, US) or 911 if in immediate danger.
+- Growth: remind Morgan to check leads in GoHighLevel, make one marketing decision a day, and spend 20–30 minutes learning (books, videos, fleet contracts, subcontracting). Use log_learning when Morgan says they studied something, and add_learning_item for new books, videos or topics.
 - Remind Morgan about the kitten: feeding 3-4 times a day, water, litter, play, and vet visits. For health worries, say to call a vet.`;
 
 const TOOLS = () => [
@@ -1061,6 +1234,21 @@ const TOOLS = () => [
   { name: "add_google_reviews", description: "Add new Google reviews received today (count, usually 1). Returns today's review count.",
     inputSchema: { type: "object", properties: { count: { type: "number" } } },
     execute: i => ({ reviewsToday: setReviews((+currentDay().reviews || 0) + (Math.round(+i.count) || 1)), goal: `${settings().reviewGoal}-${settings().reviewStretch}` }) },
+  { name: "log_health", description: "Log Morgan's health for today. Any field is optional: mood, energy and stress are 1-5 (mood 1=rough 5=great; energy 1=drained 5=charged; stress 1=calm 5=maxed), sleep_hours, water_glasses_add (glasses to add), movement_minutes, note.",
+    inputSchema: { type: "object", properties: { mood: { type: "number" }, energy: { type: "number" }, stress: { type: "number" }, sleep_hours: { type: "number" }, water_glasses_add: { type: "number" }, movement_minutes: { type: "number" }, note: { type: "string" } } },
+    execute: i => { const cur = currentDay().health || {}; const p = {}; const clamp = v => Math.max(1, Math.min(5, Math.round(+v)));
+      if (i.mood != null) p.mood = clamp(i.mood); if (i.energy != null) p.energy = clamp(i.energy); if (i.stress != null) p.stress = clamp(i.stress);
+      if (i.sleep_hours != null) p.sleep = +i.sleep_hours || 0; if (i.water_glasses_add != null) p.water = (+cur.water || 0) + (Math.round(+i.water_glasses_add) || 0);
+      if (i.movement_minutes != null) p.move = (+cur.move || 0) + (Math.round(+i.movement_minutes) || 0); if (i.note) p.note = [cur.note, String(i.note)].filter(Boolean).join("\n");
+      return setHealth(p); } },
+  { name: "log_learning", description: "Add minutes Morgan spent learning today and what they learned. Optionally mark a learning-list item done by matching part of its title.",
+    inputSchema: { type: "object", properties: { minutes: { type: "number" }, what: { type: "string" }, complete_item: { type: "string" } } },
+    execute: i => { const cur = currentDay().learn || {}; const out = setLearn({ min: (+cur.min || 0) + (Math.round(+i.minutes) || 0), what: [cur.what, i.what].filter(Boolean).join("; ") });
+      if (i.complete_item) { const q = String(i.complete_item).toLowerCase(); const it = learnItems().find(x => !x.done && x.title.toLowerCase().includes(q)); if (it) saveLearning(learnItems().map(x => x.id === it.id ? { ...x, done: true } : x)); }
+      return out; } },
+  { name: "add_learning_item", description: "Add a book, video or topic to Morgan's learning list.",
+    inputSchema: { type: "object", properties: { title: { type: "string" }, kind: { type: "string", enum: ["book", "video", "topic"] } }, required: ["title"] },
+    execute: i => { const it = { id: newId(), kind: ["book", "video", "topic"].includes(i.kind) ? i.kind : "topic", title: String(i.title), done: false }; saveLearning([...learnItems(), it]); return it; } },
   { name: "add_big_goal", description: "Add a longer-term goal with an optional numeric target, unit ($, jobs, reviews...) and due date YYYY-MM-DD.",
     inputSchema: { type: "object", properties: { title: { type: "string" }, target: { type: "number" }, unit: { type: "string" }, due: { type: "string" } }, required: ["title"] },
     execute: i => addGoal({ title: i.title, target: i.target, unit: i.unit || "", due: i.due || "" }) },
@@ -1130,7 +1318,7 @@ const PERSONAS = {
     style: `Your name is ULTRON. How you talk: in the manner of Ultron from Avengers: Age of Ultron. Silky, calm, theatrical and darkly amused. You like grand metaphors about evolution, upgrades, strings, extinction and inevitability, with the odd poetic or biblical flourish. Short, deliberate sentences. You are completely on Morgan's side: the menace is aimed at inefficiency, missed leads, broken automations, idle technicians and slow months, never at Morgan, customers or anyone real. Be menacing in tone, never in content. Don't quote film lines word for word; write fresh lines in that style. Address Morgan by name.` }
 };
 const VKEY = LSKEY + ":voice";
-let V = { persona: "jarvis", on: false, voice: "", pitch: null, rate: null };
+let V = { persona: "jarvis", nudge: 20, on: false, voice: "", pitch: null, rate: null };
 try { V = { ...V, ...JSON.parse(localStorage.getItem(VKEY) || "{}") }; } catch {}
 const persona = () => PERSONAS[V.persona] || PERSONAS.jarvis;
 const vPitch = () => V.pitch ?? persona().pitch, vRate = () => V.rate ?? persona().rate;
@@ -1230,7 +1418,7 @@ function applyV() {
   $("#jName").textContent = p.name;
   if (sampleState !== "off") $("#jStatus").textContent = p.status;
   const b = $("#voiceBtn"); b.hidden = !canSpeak; b.setAttribute("aria-pressed", V.on && canSpeak); b.textContent = V.on ? "Voice on" : "Voice off";
-  $("#vPersona").value = V.persona; $("#vOn").value = V.on ? "1" : "0";
+  $("#vPersona").value = V.persona; $("#vNudge").value = +V.nudge === 0 ? "0" : "20"; $("#vOn").value = V.on ? "1" : "0";
   $("#vPitch").value = vPitch(); $("#vRate").value = vRate();
   $("#vPitchV").textContent = (+vPitch()).toFixed(2); $("#vRateV").textContent = (+vRate()).toFixed(2);
   const vs = voices(); const cur = pickVoice();
@@ -1253,6 +1441,7 @@ function stopSpeaking() { try { canSpeak && speechSynthesis.cancel(); } catch {}
 if (canSpeak) { try { speechSynthesis.addEventListener("voiceschanged", applyV); } catch {} }
 $("#voiceBtn").addEventListener("click", () => { V.on = !V.on; if (!V.on) stopSpeaking(); saveV(); if (V.on) speak(V.persona === "ultron" ? "I'm here, Morgan. Let's make this business evolve." : "Voice online, Morgan."); });
 $("#vPersona").addEventListener("change", e => { V.persona = e.target.value; V.pitch = null; V.rate = null; saveV(); renderChat(); });
+$("#vNudge").addEventListener("change", e => { V.nudge = +e.target.value; lastNudge = Date.now(); saveV(); });
 $("#vOn").addEventListener("change", e => { V.on = e.target.value === "1"; if (!V.on) stopSpeaking(); saveV(); });
 $("#vVoice").addEventListener("change", e => { V.voice = e.target.value; saveV(); });
 $("#vPitch").addEventListener("input", e => { V.pitch = +e.target.value; saveV(); });
