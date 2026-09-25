@@ -17,6 +17,7 @@ A personal assistant and business tracker for Morgan and Coastline Auto Detailin
 | `Coastline_Winter_Plan_Nov_Feb.docx` | The winter plan as a Word document, with copyright notice. |
 | `OCTOBER_10K_PLAN.md` | What to do in October to hit $10k: the math, daily non-negotiables, week-by-week focus. |
 | `DETAILING_SALES_RESEARCH.md` | Industry research on closing more deals, pricing (good/better/best, raising prices), Meta ads and repeat customers. |
+| `Coastline_Close_On_The_Spot.xlsx` | Close on the call, no call-backs: 16 stall scenarios ("hold off," "call you back," "talk to my wife"...), the 5-step close, service ladder (negotiate the service, never the price). |
 | `Coastline_October_10k_Goals.xlsx` | October $10k plan: goals with progress, weekly tracker, how to close more leads, price management, invoice money split (what you can spend outside the business), company goals. |
 | `Coastline_Closing_Scripts.xlsx` | What to say to 18 objections ("I'll hold off", "talk to my wife", "too expensive"...), 12 closing rules, follow-up texts and a close rate tracker. |
 | `Coastline_Pitches_and_Automations.xlsx` | Ready-to-use sales pitches and a GoHighLevel automation checklist. |

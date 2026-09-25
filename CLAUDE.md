@@ -27,5 +27,6 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 | `Coastline_October_10k_Goals.xlsx` | [Google Sheet](https://docs.google.com/spreadsheets/d/1LdDdJbJHY2l8vvk8CnpRiECQTmyu5UMIAwBFoHoCH_U/edit) |
 | `OCTOBER_10K_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1YXYYBKGPtkUKmASXaFF1dU1bLPyCpCq1Omp5gX78tBI/edit) |
 | `DETAILING_SALES_RESEARCH.md` | [Google Doc](https://docs.google.com/document/d/1BdDANzrit30r0NDMgxexM83Ka-cXCMnVgEFUZ99NHB0/edit) |
+| `Coastline_Close_On_The_Spot.xlsx` | [Google Sheet](https://docs.google.com/spreadsheets/d/1ahADR3LjdXA3oX79gaVlgu9Nn2KBt0v2RXfpYsZYfkM/edit) |
 
 Add a row here whenever you upload a new file.
