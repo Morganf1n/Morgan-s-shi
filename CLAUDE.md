@@ -14,6 +14,17 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 - **Google Sheets drops a leading apostrophe** from a cell (it reads it as "text"). Start quoted text with curly quotes “ ” instead of '.
 - **Don't touch Morgan's existing sheets** (the Rapid Reach "PPC LP Leads" sheet, Tech_Standards) unless asked.
 
+## Drive folder layout
+
+Inside the main folder:
+- `00 START HERE – Coastline Index` (Google Doc, id `1kI1ZApJ-ynsrU8-I4BWf6vnu7XUT8ROst4EoE3D_abA`): links to every file. Add a link here when you upload a new file.
+- `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
+- `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
+- `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
+- `9 – Archive (old versions)` (id `1H6muumfRy9ePceSsau-6Y9p8OXTJa-iQ`): move replaced versions here and prefix the title with "OLD –".
+
+Upload new files straight into the right subfolder and number them to match (e.g. "07 …"). The Drive tools can't edit the index doc, so when a file is added, upload a new index copy, move the old one to Archive, and update the id above.
+
 ## Files already in Drive
 
 | Local file | Drive copy |
@@ -22,7 +33,7 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 | `Coastline_Pitches_and_Automations.xlsx` | [Google Sheet](https://docs.google.com/spreadsheets/d/15iTllTVpW3FtbSztmqXDFJ3opXGQ3tdMHwcc8o-SWrQ/edit) |
 | `Coastline_Glen_Mills_Business_Plan.docx` | [Google Doc](https://docs.google.com/document/d/1YxEa7EFyhGDmxe_Gy4J2vKah4pVIjl7YeVfXE1s2Oo8/edit) |
 | `Coastline_Growth_Plan_50k_100k.docx` | [Google Doc, latest (Oct $10k)](https://docs.google.com/document/d/1i22UXCEZYN6QyXVFFH_DgAgh7iZHKKxLEgHlMSs7FRg/edit). |
-| `WINTER_PLAN.md` / `Coastline_Winter_Plan_Nov_Feb.docx` | [Google Doc, latest (Sep 25: $250 / $199 + margins)](https://docs.google.com/document/d/1urTsDgSu0Tou3H2tH_ZNlHjsMqpvk_hnYdo7TuyHJpM/edit). Older copy with old prices: 11ceuhl_8WQIOG8ZqZPnj7dgdHi_6AJZFI2f0CllEnc8 |
+| `WINTER_PLAN.md` / `Coastline_Winter_Plan_Nov_Feb.docx` | [Google Doc, latest (Sep 25: $250 / $199 + margins)](https://docs.google.com/document/d/1urTsDgSu0Tou3H2tH_ZNlHjsMqpvk_hnYdo7TuyHJpM/edit). Old copy is in Archive. |
 | `Coastline_Closing_Scripts.xlsx` | [Google Sheet](https://docs.google.com/spreadsheets/d/1X_rZulyDz0ocLHAo3HNZU9b1eesh3IyUWXlbpVCJY3o/edit) |
 | `Coastline_October_10k_Goals.xlsx` | [Google Sheet](https://docs.google.com/spreadsheets/d/1LdDdJbJHY2l8vvk8CnpRiECQTmyu5UMIAwBFoHoCH_U/edit) |
 | `OCTOBER_10K_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1YXYYBKGPtkUKmASXaFF1dU1bLPyCpCq1Omp5gX78tBI/edit) |
