@@ -12,15 +12,17 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 - **Send the Drive link** in your reply with each file.
 - **If the Google Drive connector isn't connected,** say so right away and give the file here instead. Morgan can reconnect it at claude.ai → Settings → Connectors.
 - **Google Sheets drops a leading apostrophe** from a cell (it reads it as "text"). Start quoted text with curly quotes “ ” instead of '.
-- **Don't touch Morgan's existing sheets** (the Rapid Reach "PPC LP Leads" sheet, Tech_Standards) unless asked.
+- **Don't edit the contents of Morgan's own sheets** (the Rapid Reach "PPC LP Leads" sheet, Tech Standards) unless asked. Morgan gave full access to organize Drive and Calendar (Sep 26): moving/renaming is fine.
+- **Google Calendar layout:** daily blocks 10:30 AM routine, 2 PM lead check, 6:30 PM post/reviews/log; Sunday 7 PM weekly review; last day of month 8 PM month-end close. Deadlines are red all-day events, Amelia's vet items are green all-day events.
 
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `1kI1ZApJ-ynsrU8-I4BWf6vnu7XUT8ROst4EoE3D_abA`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `1IlNkbj-khlvew3woRgUPCq3qp2ut3zHbzCgHi3CoGEE`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
+- `4 – Team & Techs` (id `1sh5F3vrs5SsXnSqlfQV-ax6F2aB5JaaX`): tech standards (`01 Tech Standards.xlsx`, Morgan's own file; don't edit its contents unless asked), hiring, payouts.
 - `9 – Archive (old versions)` (id `1H6muumfRy9ePceSsau-6Y9p8OXTJa-iQ`): move replaced versions here and prefix the title with "OLD –".
 
 Upload new files straight into the right subfolder and number them to match (e.g. "07 …"). The Drive tools can't edit the index doc, so when a file is added, upload a new index copy, move the old one to Archive, and update the id above.
