@@ -18,7 +18,7 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `1aczXT1KJqpKYWNATyzVbkDxCdkCElVM1vI9eAxQ7dAY`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `1kvdQ-sQCNNLk4osBgijwJPYsqh3hjLLcX5Josc_gB1Y`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
@@ -44,5 +44,7 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet](https://docs.google.com/spreadsheets/d/1zgnJnr-1hQS54ovtQsHHrSKKdEhlaE9VKhQB1ABfKms/edit) |
 | `SPRING_2027_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1z9_5Ig5puf1p66wOCu4POaCxyDAkSUWJm_SJeZ_6xkA/edit) |
 | `Coastline_Daily_Game_Plan.xlsx` | [Google Sheet: 07 Daily Game Plan](https://docs.google.com/spreadsheets/d/18eRK4b0uHnrDR0wG53ZHkfSViO2MJifoZlmtahqdFQw/edit) |
+| `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator](https://docs.google.com/spreadsheets/d/1FG8axMO7MbwMSPeSNv1u6XBvDXBj0Q7yVe6zQagubCA/edit) (proposed prices; not yet in Jarvis) |
+| `PRICE_MENU.md` | [Google Doc: 06 Customer Price Menu](https://docs.google.com/document/d/1zIzmjL7CrR5YJz3lXOOUjDrnO-B536B3GZr1PjA0S_8/edit) |
 
 Add a row here whenever you upload a new file.
