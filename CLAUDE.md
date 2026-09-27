@@ -13,7 +13,7 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 - **If the Google Drive connector isn't connected,** say so right away and give the file here instead. Morgan can reconnect it at claude.ai → Settings → Connectors.
 - **Google Sheets drops a leading apostrophe** from a cell (it reads it as "text"). Start quoted text with curly quotes “ ” instead of '.
 - **Don't edit the contents of Morgan's own sheets** (the Rapid Reach "PPC LP Leads" sheet, Tech Standards) unless asked. Morgan gave full access to organize Drive and Calendar (Sep 26): moving/renaming is fine.
-- **Google Calendar layout:** daily blocks 10:30 AM routine, 2 PM lead check, 6:30 PM post/reviews/log; Sunday 7 PM weekly review; last day of month 8 PM month-end close. Deadlines are red all-day events, Amelia's vet items are green all-day events.
+- **Google Calendar layout:** daily blocks 11:15 AM routine, 2 PM lead check, 6:30 PM post/reviews/log; Sunday 7 PM weekly review; last day of month 8 PM month-end close. Deadlines are red all-day events, Amelia's vet items are green all-day events.
 
 ## Drive folder layout
 
