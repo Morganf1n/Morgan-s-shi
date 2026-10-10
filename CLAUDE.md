@@ -18,7 +18,7 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `1TuoP63Ce6hip32P-R-uvwfft9M-1_X8G8RRJITMwIiU`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `1PQK6whW-7nZhbhwxi-mBFG3TomstUw9TQzzwcMuvkvw`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
@@ -41,9 +41,9 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `OCTOBER_10K_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1YXYYBKGPtkUKmASXaFF1dU1bLPyCpCq1Omp5gX78tBI/edit) |
 | `DETAILING_SALES_RESEARCH.md` | [Google Doc](https://docs.google.com/document/d/1BdDANzrit30r0NDMgxexM83Ka-cXCMnVgEFUZ99NHB0/edit) |
 | `Coastline_Close_On_The_Spot.xlsx` | [Google Sheet](https://docs.google.com/spreadsheets/d/1ahADR3LjdXA3oX79gaVlgu9Nn2KBt0v2RXfpYsZYfkM/edit) |
-| `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet, latest (Oct actual $2,530 logged)](https://docs.google.com/spreadsheets/d/1WM4f7oz7YJ4usVZ7D0J6xge5wn5tgF9nOxN111WSXE8/edit). Old copy is in Archive. |
+| `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet, latest (Oct 10: name removed)](https://docs.google.com/spreadsheets/d/1GTSczlO_uU5w6-nP_JtNfWL7vhRxSI_kcrJl1lsgBMs/edit). Old copy is in Archive. |
 | `SPRING_2027_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1z9_5Ig5puf1p66wOCu4POaCxyDAkSUWJm_SJeZ_6xkA/edit) |
-| `Coastline_Daily_Game_Plan.xlsx` | [Google Sheet: 07 Daily Game Plan](https://docs.google.com/spreadsheets/d/18eRK4b0uHnrDR0wG53ZHkfSViO2MJifoZlmtahqdFQw/edit) |
+| `Coastline_Daily_Game_Plan.xlsx` | [Google Sheet: 07 Daily Game Plan, latest (Oct 10: name removed)](https://docs.google.com/spreadsheets/d/1-A16mO2G7yRFmXkZyhOahpbYYrKiWaoqBEQTlyQ1_R8/edit). Old copy is in Archive. |
 | `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator](https://docs.google.com/spreadsheets/d/1FG8axMO7MbwMSPeSNv1u6XBvDXBj0Q7yVe6zQagubCA/edit) (proposed prices; not yet in Jarvis) |
 | `PRICE_MENU.md` | [Google Doc: 06 Customer Price Menu](https://docs.google.com/document/d/1zIzmjL7CrR5YJz3lXOOUjDrnO-B536B3GZr1PjA0S_8/edit) |
 | (new, Oct 10) | [Google Doc: 08 New Pricing Strategy: $199 Deal + Path to $10k and $50k](https://docs.google.com/document/d/1wnbykMiI4d0VLZt6IOv0kjOFQrGFEvadfRUjKo21vp4/edit) |
