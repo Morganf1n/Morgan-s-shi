@@ -18,7 +18,7 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `1PQK6whW-7nZhbhwxi-mBFG3TomstUw9TQzzwcMuvkvw`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `17FbNX1kbtDa0PDZ6OtpZ36Z5VSgcv_vJUAq9OMbPbb4`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
@@ -48,5 +48,6 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `PRICE_MENU.md` | [Google Doc: 06 Customer Price Menu](https://docs.google.com/document/d/1zIzmjL7CrR5YJz3lXOOUjDrnO-B536B3GZr1PjA0S_8/edit) |
 | (new, Oct 10) | [Google Doc: 08 New Pricing Strategy: $199 Deal + Path to $10k and $50k](https://docs.google.com/document/d/1wnbykMiI4d0VLZt6IOv0kjOFQrGFEvadfRUjKo21vp4/edit) |
 | (new, Oct 10) | [Google Doc: 09 $10k to $30k to $100k: Steps, Packages and Numbers](https://docs.google.com/document/d/17W77Q6PpAS1Jh6x2IvpW0X_TK6seZjjGvXEdhi2xcX0/edit) |
+| (new, Oct 12) | [Google Doc: 10 Top 3 Focus: Reviews, Response Rate, Radius](https://docs.google.com/document/d/1GS8xScSeyXcnGRuJwUtbh4FQnPiv_UnsJ9og7rbLNig/edit) |
 
 Add a row here whenever you upload a new file.
