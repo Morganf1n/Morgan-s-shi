@@ -45,7 +45,7 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `OCTOBER_10K_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1YXYYBKGPtkUKmASXaFF1dU1bLPyCpCq1Omp5gX78tBI/edit) |
 | `DETAILING_SALES_RESEARCH.md` | [Google Doc](https://docs.google.com/document/d/1BdDANzrit30r0NDMgxexM83Ka-cXCMnVgEFUZ99NHB0/edit) |
 | `Coastline_Close_On_The_Spot.xlsx` | [Google Sheet](https://docs.google.com/spreadsheets/d/1ahADR3LjdXA3oX79gaVlgu9Nn2KBt0v2RXfpYsZYfkM/edit) |
-| `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet, latest (Oct 25: October at $7,005, pace block, September row fixed)](https://docs.google.com/spreadsheets/d/1Gg-DTFxrB02CMAfrE0c2TF7CNpaRCDohlqK2ZfclGKs/edit). Old copy is in Archive. |
+| `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet: 02 Goals Sep-Dec 2026 (Oct 26: $7,194), latest](https://docs.google.com/spreadsheets/d/1dTvt_wz_blRkHEO4UygcpOSmYK2OikoBYC-qeQcQhWo/edit). The Oct 25 ($7,005) copy is still in 1 – Goals & Plans; older ones are in Archive. |
 | `SPRING_2027_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1z9_5Ig5puf1p66wOCu4POaCxyDAkSUWJm_SJeZ_6xkA/edit) |
 | `Coastline_Daily_Game_Plan.xlsx` | [Google Sheet: 07 Daily Game Plan, latest (Oct 10: name removed)](https://docs.google.com/spreadsheets/d/1-A16mO2G7yRFmXkZyhOahpbYYrKiWaoqBEQTlyQ1_R8/edit). Old copy is in Archive. |
 | `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator, latest (Oct 26: $234/$285/$325, subs vs tech pay)](https://docs.google.com/spreadsheets/d/1acqXCEPMjvSMxqkOkOCaEwJ6YvKVizmVnl6ak9Y4b3U/edit). Older $315 and $215 copies are still in the same folder (archive moves were declined). |
