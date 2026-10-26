@@ -17,7 +17,7 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 
 ## Pricing (Oct 26)
 
-One service: **$315 Full Detail. No packages.** Every job: $25 Rapid Reach fee off the top, then 60% to the subcontractor, 40% to Morgan ($116). Extras (pet hair, odor, etc.) only when the car needs it.
+One service: **Full Detail, Sedan $215 / SUV $250 / Truck $300. No packages.** Subcontractors: $25 Rapid Reach fee off the top, then 60% sub / 40% Morgan ($76 / $90 / $110). Tech pay model: $70 flat + $25 fee + supplies (Morgan keeps $105 / $137 / $185). Extras (pet hair, odor, etc.) only when the car needs it.
 
 ## Drive folder layout
 
@@ -48,12 +48,12 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet, latest (Oct 25: October at $7,005, pace block, September row fixed)](https://docs.google.com/spreadsheets/d/1Gg-DTFxrB02CMAfrE0c2TF7CNpaRCDohlqK2ZfclGKs/edit). Old copy is in Archive. |
 | `SPRING_2027_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1z9_5Ig5puf1p66wOCu4POaCxyDAkSUWJm_SJeZ_6xkA/edit) |
 | `Coastline_Daily_Game_Plan.xlsx` | [Google Sheet: 07 Daily Game Plan, latest (Oct 10: name removed)](https://docs.google.com/spreadsheets/d/1-A16mO2G7yRFmXkZyhOahpbYYrKiWaoqBEQTlyQ1_R8/edit). Old copy is in Archive. |
-| `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator, latest (Oct 26: $315 Full Detail only, 60/40 split)](https://docs.google.com/spreadsheets/d/1YYXw26rjgg9E_jy0RQsWCsg4780P5Agmrj9NRRdMgJE/edit). Old copy is in Archive. |
-| `PRICE_MENU.md` | [Google Doc: 06 Customer Price Menu, latest (Oct 26: $315 Full Detail only)](https://docs.google.com/document/d/1RFbr20Vbc_UDj3sBl91lBcApzE4KTMtpA0zo4iOy90s/edit). Old copy is in Archive. |
-| (Oct 26) | [Google Doc: 08 Pricing Strategy: $315 Full Detail, One Price](https://docs.google.com/document/d/1DrBD8HahsenwkOZV8HCv2SWPXbTHTRmEU_s7umYA9IY/edit). Replaces the $199 deal (in Archive). |
-| (Oct 26) | [Google Doc: 09 $10k to $30k to $100k: Steps and Numbers ($315 Full Detail)](https://docs.google.com/document/d/1vb6rVCUnmgbViLJz3VH4IQUTYXiA7Zsc6n6ebgiPYuc/edit). Package version is in Archive. |
+| `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator, latest (Oct 26: $215/$250/$300, subs vs tech pay)](https://docs.google.com/spreadsheets/d/1Fj-Skl_-YymtlcIdHJq3IfyE08ctBr2d-Vumq_10ApA/edit). Older copies still in 2 – Sales & Scripts or Archive. |
+| `PRICE_MENU.md` | [Google Doc: 06 Customer Price Menu, latest (Oct 26: $215/$250/$300)](https://docs.google.com/document/d/1r5FFYpMlnY_4b-7GAJUu5H_zfp-ioCF9gutWEeRUjSM/edit). Older copies still in 2 – Sales & Scripts or Archive. |
+| (Oct 26) | [Google Doc: 08 Pricing Strategy: Full Detail by Vehicle ($215 / $250 / $300)](https://docs.google.com/document/d/11_OXLa4K1Yc_Srx7n_GPWpopfb1V0HAr7XbQ6bSTpak/edit), latest. The $315 version is still in 1 – Goals & Plans. |
+| (Oct 26) | [Google Doc: 09 $10k to $30k to $100k: Steps and Numbers ($215 / $250 / $300)](https://docs.google.com/document/d/1-V4R94GOjHc7XW6aiIdgiv0DNqrwOo_pVCiaqKhRpNA/edit), latest. The $315 version is still in 1 – Goals & Plans. |
 | (new, Oct 12) | [Google Doc: 10 Top 3 Focus: Reviews, Response Rate, Radius](https://docs.google.com/document/d/1GS8xScSeyXcnGRuJwUtbh4FQnPiv_UnsJ9og7rbLNig/edit) |
-| (Oct 21, in 4 – Team & Techs) | [Google Doc: 11 Delaware & PA Subcontractor Pricing + Payout Split, latest (Oct 26: packages removed, $315 Full Detail only, $25 fee off the top then 60% sub / 40% Morgan)](https://docs.google.com/document/d/1GRYRRI3m7CpVylQBtLO7WpRdhxxuUeRqvmfEI5N3eoE/edit). Old package version is in Archive. |
+| (Oct 21, in 4 – Team & Techs) | [Google Doc: 11 Delaware & PA Subcontractor Pricing + Payout Split, latest (Oct 26: $215/$250/$300, $25 off the top then 60/40)](https://docs.google.com/document/d/156UFo34zLQMoWlIge0bDB9Vho-5yhOii3p_FuiCTEFo/edit). The $315 version is still in 4 – Team & Techs. |
 | (Oct 21, in 4 – Team & Techs) | [Google Doc: 12 Subcontractor Expansion Plan – 20 Subs by May](https://docs.google.com/document/d/1Ead9SsqFaDHKkce1hyOHq7e9aYPlrJbDUAEmQDAflEI/edit) |
 
 Add a row here whenever you upload a new file.

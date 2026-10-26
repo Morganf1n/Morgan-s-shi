@@ -2,9 +2,11 @@
 
 **Mobile detailing. We come to your home or work.** Insured · Satisfaction guaranteed: if anything's not right, we come back and fix it free.
 
-## Full Detail (inside + outside): **$315**
+## Full Detail (inside + outside)
 
-One price. Everything included.
+| Sedan | SUV | Truck |
+| --- | --- | --- |
+| **$215** | **$250** | **$300** |
 
 **Interior:** full vacuum (seats, carpets, trunk), seats and carpets spot-treated, dash, console, doors and vents cleaned and protected, door jambs, inside windows, floor mats cleaned.
 **Exterior:** hand wash, wheels, tires and wheel wells cleaned, tire shine, bug and tar removal, outside windows, spray sealant for shine and protection.
