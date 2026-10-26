@@ -6,7 +6,7 @@
 
 | Sedan | SUV | Truck |
 | --- | --- | --- |
-| **$215** | **$250** | **$300** |
+| **$234** | **$285** | **$325** |
 
 **Interior:** full vacuum (seats, carpets, trunk), seats and carpets spot-treated, dash, console, doors and vents cleaned and protected, door jambs, inside windows, floor mats cleaned.
 **Exterior:** hand wash, wheels, tires and wheel wells cleaned, tire shine, bug and tar removal, outside windows, spray sealant for shine and protection.

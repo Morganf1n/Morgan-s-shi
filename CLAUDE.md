@@ -17,7 +17,7 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 
 ## Pricing (Oct 26)
 
-One service: **Full Detail, Sedan $215 / SUV $250 / Truck $300. No packages.** Subcontractors: $25 Rapid Reach fee off the top, then 60% sub / 40% Morgan ($76 / $90 / $110). Tech pay model: $70 flat + $25 fee + supplies (Morgan keeps $105 / $137 / $185). Extras (pet hair, odor, etc.) only when the car needs it.
+One service: **Full Detail, Sedan $234 / SUV $285 / Truck $325. No packages.** (Morgan is considering $230 for sedans; not confirmed.) Subcontractors: $25 Rapid Reach fee off the top, then 60% sub / 40% Morgan ($83.60 / $104 / $120). Tech pay model: $70 flat + $25 fee + supplies (Morgan keeps $124 / $172 / $210). Add-ons: fixed list, sold on site after a walk-around, approved before work starts, never charged after. Extras (pet hair, odor, etc.) only when the car needs it.
 
 ## Drive folder layout
 
@@ -48,12 +48,12 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet, latest (Oct 25: October at $7,005, pace block, September row fixed)](https://docs.google.com/spreadsheets/d/1Gg-DTFxrB02CMAfrE0c2TF7CNpaRCDohlqK2ZfclGKs/edit). Old copy is in Archive. |
 | `SPRING_2027_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1z9_5Ig5puf1p66wOCu4POaCxyDAkSUWJm_SJeZ_6xkA/edit) |
 | `Coastline_Daily_Game_Plan.xlsx` | [Google Sheet: 07 Daily Game Plan, latest (Oct 10: name removed)](https://docs.google.com/spreadsheets/d/1-A16mO2G7yRFmXkZyhOahpbYYrKiWaoqBEQTlyQ1_R8/edit). Old copy is in Archive. |
-| `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator, latest (Oct 26: $215/$250/$300, subs vs tech pay)](https://docs.google.com/spreadsheets/d/1Fj-Skl_-YymtlcIdHJq3IfyE08ctBr2d-Vumq_10ApA/edit). Older copies still in 2 – Sales & Scripts or Archive. |
-| `PRICE_MENU.md` | [Google Doc: 06 Customer Price Menu, latest (Oct 26: $215/$250/$300)](https://docs.google.com/document/d/1r5FFYpMlnY_4b-7GAJUu5H_zfp-ioCF9gutWEeRUjSM/edit). Older copies still in 2 – Sales & Scripts or Archive. |
-| (Oct 26) | [Google Doc: 08 Pricing Strategy: Full Detail by Vehicle ($215 / $250 / $300)](https://docs.google.com/document/d/11_OXLa4K1Yc_Srx7n_GPWpopfb1V0HAr7XbQ6bSTpak/edit), latest. The $315 version is still in 1 – Goals & Plans. |
-| (Oct 26) | [Google Doc: 09 $10k to $30k to $100k: Steps and Numbers ($215 / $250 / $300)](https://docs.google.com/document/d/1-V4R94GOjHc7XW6aiIdgiv0DNqrwOo_pVCiaqKhRpNA/edit), latest. The $315 version is still in 1 – Goals & Plans. |
+| `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator, latest (Oct 26: $234/$285/$325, subs vs tech pay)](https://docs.google.com/spreadsheets/d/1acqXCEPMjvSMxqkOkOCaEwJ6YvKVizmVnl6ak9Y4b3U/edit). Older $315 and $215 copies are still in the same folder (archive moves were declined). |
+| `PRICE_MENU.md` | [Google Doc: 06 Customer Price Menu, latest (Oct 26: $234/$285/$325)](https://docs.google.com/document/d/14E11wFuV943om6B6fNb-DIWLdw3PVSa09QLvuQ_eFHI/edit). Older $315 and $215 copies are still in the same folder (archive moves were declined). |
+| (Oct 26) | [Google Doc: 08 Pricing Strategy: Full Detail by Vehicle ($234 / $285 / $325)](https://docs.google.com/document/d/1Da3RzYOKng8cRWHG0k26QCQX0XFkIjmigDdo98-QF3c/edit), latest. Older $315 and $215 copies are still in 1 – Goals & Plans. |
+| (Oct 26) | [Google Doc: 09 $10k to $30k to $100k: Steps and Numbers ($234 / $285 / $325)](https://docs.google.com/document/d/1smLsygb-Vzqp3pcfu97pzpuqWjLrtuT0shLMBn9bYvs/edit), latest. Older $315 and $215 copies are still in 1 – Goals & Plans. |
 | (new, Oct 12) | [Google Doc: 10 Top 3 Focus: Reviews, Response Rate, Radius](https://docs.google.com/document/d/1GS8xScSeyXcnGRuJwUtbh4FQnPiv_UnsJ9og7rbLNig/edit) |
-| (Oct 21, in 4 – Team & Techs) | [Google Doc: 11 Delaware & PA Subcontractor Pricing + Payout Split, latest (Oct 26: $215/$250/$300, $25 off the top then 60/40)](https://docs.google.com/document/d/156UFo34zLQMoWlIge0bDB9Vho-5yhOii3p_FuiCTEFo/edit). The $315 version is still in 4 – Team & Techs. |
+| (Oct 21, in 4 – Team & Techs) | [Google Doc: 11 Delaware & PA Subcontractor Pricing + Payout Split, latest (Oct 26: $234/$285/$325, $25 off the top then 60/40)](https://docs.google.com/document/d/1aMAetqqD2ucNq0EK_50gNNKnUcU0IlDChX3VLSSCPIw/edit). Older $315 and $215 copies are still in 4 – Team & Techs. |
 | (Oct 21, in 4 – Team & Techs) | [Google Doc: 12 Subcontractor Expansion Plan – 20 Subs by May](https://docs.google.com/document/d/1Ead9SsqFaDHKkce1hyOHq7e9aYPlrJbDUAEmQDAflEI/edit) |
 
 Add a row here whenever you upload a new file.
