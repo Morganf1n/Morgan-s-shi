@@ -15,10 +15,14 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 - **Don't edit the contents of Morgan's own sheets** (the Rapid Reach "PPC LP Leads" sheet, Tech Standards) unless asked. Morgan gave full access to organize Drive and Calendar (Sep 26): moving/renaming is fine.
 - **Google Calendar layout:** daily blocks 11:15 AM routine, 2 PM lead check, 6:30 PM post/reviews/log; Sunday 7 PM weekly review; last day of month 8 PM month-end close. Deadlines are red all-day events, Amelia's vet items are green all-day events.
 
+## Pricing (Oct 26)
+
+One service: **$315 Full Detail. No packages.** Every job: $25 Rapid Reach fee off the top, then 60% to the subcontractor, 40% to Morgan ($116). Extras (pet hair, odor, etc.) only when the car needs it.
+
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `1VTgNTH2izzi-1OopLNWdRe6toOEkY1LdUycxiyFAM0Y`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `16U0O4jZH59gcriy5H3uimdTpsB1BYnmVPS1V8nCIHzY`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
@@ -44,10 +48,10 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet, latest (Oct 25: October at $7,005, pace block, September row fixed)](https://docs.google.com/spreadsheets/d/1Gg-DTFxrB02CMAfrE0c2TF7CNpaRCDohlqK2ZfclGKs/edit). Old copy is in Archive. |
 | `SPRING_2027_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1z9_5Ig5puf1p66wOCu4POaCxyDAkSUWJm_SJeZ_6xkA/edit) |
 | `Coastline_Daily_Game_Plan.xlsx` | [Google Sheet: 07 Daily Game Plan, latest (Oct 10: name removed)](https://docs.google.com/spreadsheets/d/1-A16mO2G7yRFmXkZyhOahpbYYrKiWaoqBEQTlyQ1_R8/edit). Old copy is in Archive. |
-| `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator](https://docs.google.com/spreadsheets/d/1FG8axMO7MbwMSPeSNv1u6XBvDXBj0Q7yVe6zQagubCA/edit) (proposed prices; not yet in Jarvis) |
-| `PRICE_MENU.md` | [Google Doc: 06 Customer Price Menu](https://docs.google.com/document/d/1zIzmjL7CrR5YJz3lXOOUjDrnO-B536B3GZr1PjA0S_8/edit) |
-| (new, Oct 10) | [Google Doc: 08 New Pricing Strategy: $199 Deal + Path to $10k and $50k](https://docs.google.com/document/d/1wnbykMiI4d0VLZt6IOv0kjOFQrGFEvadfRUjKo21vp4/edit) |
-| (new, Oct 10) | [Google Doc: 09 $10k to $30k to $100k: Steps, Packages and Numbers](https://docs.google.com/document/d/17W77Q6PpAS1Jh6x2IvpW0X_TK6seZjjGvXEdhi2xcX0/edit) |
+| `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator, latest (Oct 26: $315 Full Detail only, 60/40 split)](https://docs.google.com/spreadsheets/d/1YYXw26rjgg9E_jy0RQsWCsg4780P5Agmrj9NRRdMgJE/edit). Old copy is in Archive. |
+| `PRICE_MENU.md` | [Google Doc: 06 Customer Price Menu, latest (Oct 26: $315 Full Detail only)](https://docs.google.com/document/d/1RFbr20Vbc_UDj3sBl91lBcApzE4KTMtpA0zo4iOy90s/edit). Old copy is in Archive. |
+| (Oct 26) | [Google Doc: 08 Pricing Strategy: $315 Full Detail, One Price](https://docs.google.com/document/d/1DrBD8HahsenwkOZV8HCv2SWPXbTHTRmEU_s7umYA9IY/edit). Replaces the $199 deal (in Archive). |
+| (Oct 26) | [Google Doc: 09 $10k to $30k to $100k: Steps and Numbers ($315 Full Detail)](https://docs.google.com/document/d/1vb6rVCUnmgbViLJz3VH4IQUTYXiA7Zsc6n6ebgiPYuc/edit). Package version is in Archive. |
 | (new, Oct 12) | [Google Doc: 10 Top 3 Focus: Reviews, Response Rate, Radius](https://docs.google.com/document/d/1GS8xScSeyXcnGRuJwUtbh4FQnPiv_UnsJ9og7rbLNig/edit) |
 | (Oct 21, in 4 – Team & Techs) | [Google Doc: 11 Delaware & PA Subcontractor Pricing + Payout Split, latest (Oct 26: packages removed, $315 Full Detail only, $25 fee off the top then 60% sub / 40% Morgan)](https://docs.google.com/document/d/1GRYRRI3m7CpVylQBtLO7WpRdhxxuUeRqvmfEI5N3eoE/edit). Old package version is in Archive. |
 | (Oct 21, in 4 – Team & Techs) | [Google Doc: 12 Subcontractor Expansion Plan – 20 Subs by May](https://docs.google.com/document/d/1Ead9SsqFaDHKkce1hyOHq7e9aYPlrJbDUAEmQDAflEI/edit) |
