@@ -15,9 +15,9 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 - **Don't edit the contents of Morgan's own sheets** (the Rapid Reach "PPC LP Leads" sheet, Tech Standards) unless asked. Morgan gave full access to organize Drive and Calendar (Sep 26): moving/renaming is fine.
 - **Google Calendar layout:** daily blocks 11:15 AM routine, 2 PM lead check, 6:30 PM post/reviews/log; Sunday 7 PM weekly review; last day of month 8 PM month-end close. Deadlines are red all-day events, Amelia's vet items are green all-day events.
 
-## Pricing (Oct 26)
+## Pricing (Oct 31)
 
-One service: **Full Detail, Sedan $234 / SUV $285 / Truck $325. No packages.** (Morgan is considering $230 for sedans; not confirmed.) Subcontractors: $25 Rapid Reach fee off the top, then 60% sub / 40% Morgan ($83.60 / $104 / $120). Tech pay model: $70 flat + $25 fee + supplies (Morgan keeps $124 / $172 / $210). Add-ons: fixed list, sold on site after a walk-around, approved before work starts, never charged after. Extras (pet hair, odor, etc.) only when the car needs it.
+Two packages, priced by vehicle. **Standard: Sedan $225 / SUV $250 / Truck or 3-row $275. Luxury: $349 / $379 / $399.** Luxury = Standard + deep shampoo of seats/carpets/mats, leather conditioning, hand wax, trim restored, engine bay. Pitch Luxury first, step down to Standard, never below Standard. Subcontractors (Austin, Mo): $25 Rapid Reach fee off the top, then 60% sub / 40% Morgan (Standard $80 / $90 / $100, Luxury $129.60 / $141.60 / $149.60). Add-ons: fixed list, sold on site after a walk-around, approved before work starts, never charged after.
 
 ## Drive folder layout
 
@@ -48,12 +48,12 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet: 02 Goals Sep-Dec 2026 (Oct 31: 40 reviews, $7,419), latest](https://docs.google.com/spreadsheets/d/1zCXvqjw2XIgc6YvPDW8AScvHrf5-HRVR2LK-4UW2qtI/edit). Older Oct copies are still in 1 – Goals & Plans; earlier ones are in Archive. Team: Austin + Mo (60/40); Jose no longer works with Morgan. |
 | `SPRING_2027_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1z9_5Ig5puf1p66wOCu4POaCxyDAkSUWJm_SJeZ_6xkA/edit) |
 | `Coastline_Daily_Game_Plan.xlsx` | [Google Sheet: 07 Daily Game Plan, latest (Oct 10: name removed)](https://docs.google.com/spreadsheets/d/1-A16mO2G7yRFmXkZyhOahpbYYrKiWaoqBEQTlyQ1_R8/edit). Old copy is in Archive. |
-| `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator, latest (Oct 26: $234/$285/$325, subs vs tech pay)](https://docs.google.com/spreadsheets/d/1acqXCEPMjvSMxqkOkOCaEwJ6YvKVizmVnl6ak9Y4b3U/edit). Older $315 and $215 copies are still in the same folder (archive moves were declined). |
-| `PRICE_MENU.md` | [Google Doc: 06 Customer Price Menu, latest (Oct 26: $234/$285/$325)](https://docs.google.com/document/d/14E11wFuV943om6B6fNb-DIWLdw3PVSa09QLvuQ_eFHI/edit). Older $315 and $215 copies are still in the same folder (archive moves were declined). |
-| (Oct 26) | [Google Doc: 08 Pricing Strategy: Full Detail by Vehicle ($234 / $285 / $325)](https://docs.google.com/document/d/1Da3RzYOKng8cRWHG0k26QCQX0XFkIjmigDdo98-QF3c/edit), latest. Older $315 and $215 copies are still in 1 – Goals & Plans. |
+| `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator (Standard / Luxury), latest (Oct 31)](https://docs.google.com/spreadsheets/d/1zDVqVtBi4V14jtlf--HyDU5QOaVibveDzx-yKN1lqpQ/edit). Older price copies are still in 2 – Sales & Scripts. |
+| `PRICE_MENU.md` | [Google Doc: 06 Customer Price Menu (Standard / Luxury), latest (Oct 31)](https://docs.google.com/document/d/1C-ilVHtKYbgu3wYbQf0F5k_ie-L-K6MEN46yqlX93KM/edit). Older copies are still in 2 – Sales & Scripts. |
+| (Oct 31) | [Google Doc: 08 Pricing Strategy: Standard + Luxury Packages](https://docs.google.com/document/d/1ldU7ntWbl7zmC1e8IIBPPPYxE8ULo3AJhF85pLak50A/edit), latest. Older 08 copies are still in 1 – Goals & Plans. |
 | (Oct 26) | [Google Doc: 09 $10k to $30k to $100k: Steps and Numbers ($234 / $285 / $325)](https://docs.google.com/document/d/1smLsygb-Vzqp3pcfu97pzpuqWjLrtuT0shLMBn9bYvs/edit), latest. Older $315 and $215 copies are still in 1 – Goals & Plans. |
 | (new, Oct 12) | [Google Doc: 10 Top 3 Focus: Reviews, Response Rate, Radius](https://docs.google.com/document/d/1GS8xScSeyXcnGRuJwUtbh4FQnPiv_UnsJ9og7rbLNig/edit) |
-| (Oct 21, in 4 – Team & Techs) | [Google Doc: 11 Delaware & PA Subcontractor Pricing + Payout Split, latest (Oct 26: $234/$285/$325, $25 off the top then 60/40)](https://docs.google.com/document/d/1aMAetqqD2ucNq0EK_50gNNKnUcU0IlDChX3VLSSCPIw/edit). Older $315 and $215 copies are still in 4 – Team & Techs. |
+| (Oct 31, in 4 – Team & Techs) | [Google Doc: 11 Subcontractor Pricing + Payout Split (Standard / Luxury)](https://docs.google.com/document/d/1rS0oz-sLEtGCdvYXnrL64RXCTqKIRjmMGdMpp6UmYM4/edit), latest. Older 11 copies are still in 4 – Team & Techs. |
 | (Oct 21, in 4 – Team & Techs) | [Google Doc: 12 Subcontractor Expansion Plan – 20 Subs by May](https://docs.google.com/document/d/1Ead9SsqFaDHKkce1hyOHq7e9aYPlrJbDUAEmQDAflEI/edit) |
 | `REVIEW_PLAN.md` | [Google Doc: 13 Review Plan: 120 Google Reviews by New Year (Oct 31)](https://docs.google.com/document/d/1Fq-zXKpVRV91O8rr410V8H10llJNtZBMA67O_PXaxQA/edit), in 1 – Goals & Plans |
 
