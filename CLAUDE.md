@@ -55,5 +55,6 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | (new, Oct 12) | [Google Doc: 10 Top 3 Focus: Reviews, Response Rate, Radius](https://docs.google.com/document/d/1GS8xScSeyXcnGRuJwUtbh4FQnPiv_UnsJ9og7rbLNig/edit) |
 | (Oct 21, in 4 – Team & Techs) | [Google Doc: 11 Delaware & PA Subcontractor Pricing + Payout Split, latest (Oct 26: $234/$285/$325, $25 off the top then 60/40)](https://docs.google.com/document/d/1aMAetqqD2ucNq0EK_50gNNKnUcU0IlDChX3VLSSCPIw/edit). Older $315 and $215 copies are still in 4 – Team & Techs. |
 | (Oct 21, in 4 – Team & Techs) | [Google Doc: 12 Subcontractor Expansion Plan – 20 Subs by May](https://docs.google.com/document/d/1Ead9SsqFaDHKkce1hyOHq7e9aYPlrJbDUAEmQDAflEI/edit) |
+| `REVIEW_PLAN.md` | [Google Doc: 13 Review Plan: 120 Google Reviews by New Year (Oct 31)](https://docs.google.com/document/d/1Fq-zXKpVRV91O8rr410V8H10llJNtZBMA67O_PXaxQA/edit), in 1 – Goals & Plans |
 
 Add a row here whenever you upload a new file.
