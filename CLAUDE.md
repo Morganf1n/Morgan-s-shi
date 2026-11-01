@@ -26,7 +26,7 @@ Two packages, priced by vehicle. **Standard: Sedan $225 / SUV $250 / Truck or 3-
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `1OWZsOmvrFWF3GWMIvr_jZg9XjP25rXuUqF4v_c6bJ7E`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `16iivLSNcJHb496BY7erSJF3MmffLBpXtDk_NESRfsGs`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
@@ -49,7 +49,7 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `OCTOBER_10K_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1YXYYBKGPtkUKmASXaFF1dU1bLPyCpCq1Omp5gX78tBI/edit) |
 | `DETAILING_SALES_RESEARCH.md` | [Google Doc](https://docs.google.com/document/d/1BdDANzrit30r0NDMgxexM83Ka-cXCMnVgEFUZ99NHB0/edit) |
 | `Coastline_Close_On_The_Spot.xlsx` | [Google Sheet](https://docs.google.com/spreadsheets/d/1ahADR3LjdXA3oX79gaVlgu9Nn2KBt0v2RXfpYsZYfkM/edit) |
-| `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet: 02 Goals Sep-Dec 2026 (Oct 31: 40 reviews, $7,419), latest](https://docs.google.com/spreadsheets/d/1zCXvqjw2XIgc6YvPDW8AScvHrf5-HRVR2LK-4UW2qtI/edit). Older Oct copies are still in 1 – Goals & Plans; earlier ones are in Archive. Team: Austin + Mo (60/40); Jose no longer works with Morgan. |
+| `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet: 02 Goals Sep-Dec 2026 (Nov 1: November $10k), latest](https://docs.google.com/spreadsheets/d/1QfgMzBRfmn2YezUOZam83rxcclV5RBmcWAFchlfnmhE/edit). October closed at $7,419; November goal $10k (36 jobs, 90 leads); reviews 40 → 120 by Jan 1. Older copies are in Archive. Team: Austin + Mo (60/40). |
 | `SPRING_2027_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1z9_5Ig5puf1p66wOCu4POaCxyDAkSUWJm_SJeZ_6xkA/edit) |
 | `Coastline_Daily_Game_Plan.xlsx` | [Google Sheet: 07 Daily Game Plan, latest (Oct 10: name removed)](https://docs.google.com/spreadsheets/d/1-A16mO2G7yRFmXkZyhOahpbYYrKiWaoqBEQTlyQ1_R8/edit). Old copy is in Archive. |
 | `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator (Standard / Luxury), latest (Oct 31)](https://docs.google.com/spreadsheets/d/1zDVqVtBi4V14jtlf--HyDU5QOaVibveDzx-yKN1lqpQ/edit). Older price copies are still in 2 – Sales & Scripts. |
@@ -60,5 +60,6 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | (Oct 31, in 4 – Team & Techs) | [Google Doc: 11 Subcontractor Pricing + Payout Split (Standard / Luxury)](https://docs.google.com/document/d/1rS0oz-sLEtGCdvYXnrL64RXCTqKIRjmMGdMpp6UmYM4/edit), latest. Older 11 copies are still in 4 – Team & Techs. |
 | (Oct 21, in 4 – Team & Techs) | [Google Doc: 12 Subcontractor Expansion Plan – 20 Subs by May](https://docs.google.com/document/d/1Ead9SsqFaDHKkce1hyOHq7e9aYPlrJbDUAEmQDAflEI/edit) |
 | `REVIEW_PLAN.md` | [Google Doc: 13 Review Plan: 120 Google Reviews by New Year (Oct 31)](https://docs.google.com/document/d/1Fq-zXKpVRV91O8rr410V8H10llJNtZBMA67O_PXaxQA/edit), in 1 – Goals & Plans |
+| `NOVEMBER_10K_PLAN.md` | [Google Doc: 14 November $10k Plan (Nov 1)](https://docs.google.com/document/d/1HtHOVT8KSaD5DwRzXyNRUrZqIV12HigdF4XYeBMgL_A/edit), in 1 – Goals & Plans. Daily red all-day calendar event Nov 1–30 plus Nov 2 10:30 AM past-customer text. |
 
 Add a row here whenever you upload a new file.
