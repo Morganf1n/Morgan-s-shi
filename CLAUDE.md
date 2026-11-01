@@ -23,6 +23,10 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 
 Three packages (Essential was dropped Nov 1 to keep it simple): **Basic $185** (car-wash crowd: exterior hand wash, wheels/tire shine, quick vacuum, wipe-down, windows), **Standard $250** (the full detail: full interior incl. trunk, seats/carpets spot-treated, dash/console/vents, door jambs, mats, inside windows + hand wash, wheels & wells, tire shine, bug & tar, windows, spray sealant), **Luxury $330** (Standard + shampoo of seats/carpets/mats, leather, hand wax, trim, engine bay). Not yet confirmed whether these are sedan prices with SUV/truck upcharges or one price for all; Drive menus, price sheet, sub doc and Jarvis still show the Oct 31 Standard/Luxury by-vehicle prices until Morgan confirms. Subs (Austin, Mo): $25 Rapid Reach fee off the top, then 60% sub / 40% Morgan (keep $64 / $90 / $122). Morgan also details jobs himself (keeps price − $25 − ~$15–20 supplies). Pitch Luxury first for "detail" callers; Basic for "car wash" callers with "for $65 more, Standard does the full detail." $10k ≈ 38 jobs at the usual mix. Add-ons: fixed list, sold on site after a walk-around, approved before work starts, never charged after.
 
+## Ads (Nov 1)
+
+Google LSA + Google Search ads, plus **Meta (Facebook/Instagram) ads at $30/day starting November** (Morgan's call, replacing the earlier "no Meta until 2027" plan). Calendar check on Nov 15 7:30 PM: keep if cost per booked job is under $60, pause and move the budget to Google Search if fewer than 3 bookings after ~$400.
+
 ## Scheduled agents (updated Nov 1)
 
 All agent prompts carry the three packages, Austin + Mo at 60/40, the $10k November goal and 120 reviews by Jan 1. New: "Overnight Ops: morning brief" (daily 5:07 AM ET) and "Weekly Scorecard" (Sundays 6:43 PM ET); both need Google Calendar/Drive connectors added in claude.ai → Routines. "Nightly Calendar Optimization" (3 AM) and "Nightly Revenue Prep" post into another session and can only be edited there; Revenue Prep still points at old sheet IDs.
