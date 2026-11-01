@@ -471,12 +471,13 @@ input[type=range]{padding:0;accent-color:var(--accent)}
         <div class="card">
           <h2>Rates</h2>
           <div class="fields">
-            <label class="field"><span>Full detail — you charge</span><input id="sFullP" type="number" min="0"></label>
-            <label class="field"><span>Full detail — tech pay</span><input id="sFullT" type="number" min="0"></label>
-            <label class="field"><span>Interior — you charge</span><input id="sIntP" type="number" min="0"></label>
-            <label class="field"><span>Interior — tech pay</span><input id="sIntT" type="number" min="0"></label>
-            <label class="field"><span>Exterior wash — you charge</span><input id="sExtP" type="number" min="0"></label>
-            <label class="field"><span>Exterior wash — tech pay</span><input id="sExtT" type="number" min="0"></label>
+            <label class="field"><span>Standard — sedan</span><input id="sP_stdSedan" type="number" min="0"></label>
+            <label class="field"><span>Standard — SUV</span><input id="sP_stdSuv" type="number" min="0"></label>
+            <label class="field"><span>Standard — truck / 3-row</span><input id="sP_stdTruck" type="number" min="0"></label>
+            <label class="field"><span>Luxury — sedan</span><input id="sP_luxSedan" type="number" min="0"></label>
+            <label class="field"><span>Luxury — SUV</span><input id="sP_luxSuv" type="number" min="0"></label>
+            <label class="field"><span>Luxury — truck / 3-row</span><input id="sP_luxTruck" type="number" min="0"></label>
+            <label class="field"><span>Sub's share after the lead fee (%)</span><input id="sSubShare" type="number" min="0" max="100"></label>
             <label class="field"><span>Lead fee per completed job ($)</span><input id="sFee" type="number" min="0"></label>
             <label class="field"><span>Lead fee paid to</span><input id="sFeeLabel" placeholder="e.g. Rapid Reach"></label>
           </div>
@@ -577,8 +578,10 @@ function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidden = fal
 /* ---------- defaults ---------- */
 const DEFAULTS = {
   name: "Morgan", business: "Coastline Auto Detailing", wake: "10:30", monthlyGoal: 0,
-  services: { full: {label: "Full detail", price: 250, pay: 85}, interior: {label: "Interior detail", price: 200, pay: 70}, exterior: {label: "Exterior wash", price: 170, pay: 40} },
-  techs: ["Tech 1", "Tech 2", "Tech 3", "Tech 4", "Tech 5"],
+  services: { stdSedan: {label: "Standard · sedan", price: 225}, stdSuv: {label: "Standard · SUV", price: 250}, stdTruck: {label: "Standard · truck/3-row", price: 275},
+    luxSedan: {label: "Luxury · sedan", price: 349}, luxSuv: {label: "Luxury · SUV", price: 379}, luxTruck: {label: "Luxury · truck/3-row", price: 399} },
+  subShare: 60,
+  techs: ["Austin", "Mo"],
   kittenName: "Kitten", kittenBirth: "2026-07-30",
   calGoal: 2000, reviewGoal: 1, reviewStretch: 2, reviewLink: "", jobFee: 25, jobFeeLabel: "Rapid Reach",
   moneySplit: { tax: 25, emergency: 10, emergencyTarget: 3000, personal: 150 },
@@ -617,7 +620,13 @@ function goalFor(key) {
   if (pl && pl.start && key >= pl.start) { const n = monthsBetween(pl.start, key); return { goal: (+pl.base || 0) + n * (+pl.step || 0), stretch: (+pl.base || 0) + n * (+pl.stretch || +pl.step || 0), n }; }
   return { goal: +s.monthlyGoal || 0, stretch: 0, n: -1 };
 }
-const settings = () => ({ ...DEFAULTS, ...S.settings, services: { ...DEFAULTS.services, ...(S.settings.services || {}) }, moneySplit: { ...DEFAULTS.moneySplit, ...(S.settings.moneySplit || {}) } });
+const LEGACY_LABELS = { full: "Full detail", interior: "Interior detail", exterior: "Exterior wash" };
+// Only the current packages show up; saved prices override the defaults, older service types stay readable through LEGACY_LABELS.
+const settings = () => { const saved = (S.settings && S.settings.services) || {};
+  return { ...DEFAULTS, ...S.settings, services: Object.fromEntries(Object.entries(DEFAULTS.services).map(([k, v]) => [k, { label: v.label, price: saved[k] && saved[k].price != null ? +saved[k].price : v.price }])), moneySplit: { ...DEFAULTS.moneySplit, ...(S.settings.moneySplit || {}) } }; };
+const serviceLabel = t => (settings().services[t] || {}).label || LEGACY_LABELS[t] || t;
+// Sub's pay: the lead fee comes off the top, then the sub gets their share of what's left.
+function subPay(price) { const s = settings(); return Math.round(Math.max(0, (+price || 0) - (+s.jobFee || 0)) * (+s.subShare || 0)) / 100; }
 
 /* ---------- storage: artifact db, with on-device fallback ---------- */
 let db = null, mode = "connecting";
@@ -747,7 +756,7 @@ function toggleKitten(k) { const d = currentDay(); d.kitten = d.kitten || {}; d.
 function feeOf(j) {
   if (j.fee != null && j.fee !== "") return +j.fee || 0;
   const s = settings(); const f = +s.jobFee || 0;
-  if (j.type === "earlier") return Math.round((+j.price || 0) / ((+s.services.full.price) || 250)) * f;
+  if (j.type === "earlier") return Math.round((+j.price || 0) / ((+s.services.stdSedan.price) || 225)) * f;
   return f;
 }
 function monthStats(key) {
@@ -758,7 +767,7 @@ function monthStats(key) {
   const expenses = exps.reduce((a, e) => a + (+e.amount || 0), 0);
   const fees = jobs.reduce((a, j) => a + feeOf(j), 0);
   const net = revenue - pay - fees - expenses;
-  return { jobs, exps, revenue, pay, fees, expenses, net, margin: revenue ? net / revenue : NaN, full: jobs.filter(j => j.type === "full").length, interior: jobs.filter(j => j.type === "interior").length, exterior: jobs.filter(j => j.type === "exterior").length };
+  return { jobs, exps, revenue, pay, fees, expenses, net, margin: revenue ? net / revenue : NaN, std: jobs.filter(j => String(j.type).startsWith("std")).length, lux: jobs.filter(j => String(j.type).startsWith("lux")).length };
 }
 function dayRevenue(date) { return S.jobs.filter(j => j.date === date).reduce((a, j) => a + (+j.price || 0), 0); }
 function pace(key) {
@@ -784,17 +793,18 @@ function profitSplit(key) {
   }
 }
 
-function logJob({ type = "full", tech, customer = "", date = TODAY, price, pay, notes = "" }) {
-  const s = settings(); const svc = s.services[type] || s.services.full;
-  const job = { type: s.services[type] ? type : "full", tech: tech || s.techs[0], customer: String(customer), date,
-    price: price != null && price !== "" ? +price : svc.price, pay: pay != null && pay !== "" ? +pay : svc.pay, fee: +s.jobFee || 0, notes: String(notes), ts: Date.now() };
+function logJob({ type = "stdSedan", tech, customer = "", date = TODAY, price, pay, notes = "" }) {
+  const s = settings(); const svc = s.services[type] || s.services.stdSedan;
+  const amount = price != null && price !== "" ? +price : svc.price;
+  const job = { type: s.services[type] ? type : "stdSedan", tech: tech || s.techs[0], customer: String(customer), date,
+    price: amount, pay: pay != null && pay !== "" ? +pay : subPay(amount), fee: +s.jobFee || 0, notes: String(notes), ts: Date.now() };
   const id = newId(); S.jobs = [...S.jobs, { id, ...job }]; renderAll();
   setDoc("jobs/" + id, job); return { id, ...job };
 }
 function setMonthRevenue({ total, techPay }) {
   const mk = monthKey(new Date()); const st = monthStats(mk); const diff = Math.round(+total - st.revenue);
   if (!(diff > 0)) throw new Error(`Logged revenue this month is already ${money(st.revenue)}, which is at or above ${money(+total)}. Nothing added.`);
-  const s = settings(); const ratio = (s.services.full.pay / s.services.full.price);
+  const s = settings(); const ratio = (+s.subShare || 0) / 100;
   const est = techPay == null || techPay === "" || isNaN(+techPay);
   const job = { type: "earlier", tech: "Earlier (not itemized)", customer: "", date: mk + "-01", price: diff, pay: est ? Math.round(diff * ratio) : Math.round(+techPay),
     notes: est ? `Revenue from before tracking. Tech pay estimated at ${pct(ratio)}; tell Jarvis the real amount to fix it.` : "Revenue from before tracking.", ts: Date.now() };
@@ -952,12 +962,12 @@ function renderMoney() {
   if (goal) {
     const frac = Math.min(1, st.revenue / goal); const need = Math.max(0, goal - st.revenue);
     const daysLeft = p.isCur ? p.dim - p.elapsed + 1 : 0;
-    const perJob = s.services.full.price;
+    const perJob = s.services.stdSedan.price;
     const status = st.revenue >= goal ? ["good", "Goal hit"] : p.isCur ? (p.projected >= goal ? ["good", "On pace"] : ["warn", "Behind pace"]) : ["bad", "Missed"];
     const ahead = [1, 2, 3].map(i => { const [y, m] = key.split("-").map(Number); const k = monthKey(new Date(y, m - 1 + i, 1)); const g = goalFor(k); return g.goal ? `${monthName(k).split(" ")[0]} ${money(g.goal)}${g.stretch > g.goal ? " (stretch " + money(g.stretch) + ")" : ""}` : ""; }).filter(Boolean).join(" · ");
     $("#goalCard").innerHTML = `<div class="card-head"><h2>Monthly goal${gf.stretch > goal ? ` <span class="muted small">stretch ${money(gf.stretch)}</span>` : ""}</h2><span class="tag ${status[0]}">${status[1]}</span></div>
       <div class="progress" role="progressbar" aria-valuenow="${Math.round(frac * 100)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${frac * 100}%"></i></div>
-      <p class="small">${money(st.revenue)} of ${money(goal)}${need && p.isCur ? ` · ${money(need)} to go, about ${Math.ceil(need / perJob)} full details or ${money(need / Math.max(1, daysLeft))} a day over ${daysLeft} days` : ""}</p>${ahead ? `<p class="small muted">Next: ${ahead}</p>` : ""}`;
+      <p class="small">${money(st.revenue)} of ${money(goal)}${need && p.isCur ? ` · ${money(need)} to go, about ${Math.ceil(need / perJob)} Standard details or ${money(need / Math.max(1, daysLeft))} a day over ${daysLeft} days` : ""}</p>${ahead ? `<p class="small muted">Next: ${ahead}</p>` : ""}`;
   } else {
     $("#goalCard").innerHTML = `<div class="card-head"><h2>Monthly goal</h2></div><p class="muted">No goal set yet. <button class="btn ghost small" type="button" data-goto="settings">Set one in Settings</button></p>`;
   }
@@ -974,10 +984,10 @@ function renderMoney() {
 
   drawChart(key);
 
-  const rows = ["full", "interior", "exterior"].map(t => {
-    const svc = s.services[t]; const js = st.jobs.filter(j => j.type === t);
-    const rev = js.reduce((a, j) => a + (+j.price || 0), 0), pay = js.reduce((a, j) => a + (+j.pay || 0), 0);
-    return `<tr><td>${esc(svc.label)}</td><td class="r num">${js.length}</td><td class="r num">${money(rev)}</td><td class="r num">${money(svc.price - svc.pay - (+s.jobFee || 0))}</td><td class="r num">${pct((svc.price - svc.pay - (+s.jobFee || 0)) / svc.price)}</td></tr>`;
+  const rows = Object.entries(s.services).map(([t, svc]) => {
+    const js = st.jobs.filter(j => j.type === t);
+    const rev = js.reduce((a, j) => a + (+j.price || 0), 0); const keep = svc.price - subPay(svc.price) - (+s.jobFee || 0);
+    return `<tr><td>${esc(svc.label)}</td><td class="r num">${js.length}</td><td class="r num">${money(rev)}</td><td class="r num">${money(keep, true)}</td><td class="r num">${pct(keep / svc.price)}</td></tr>`;
   }).join("");
   $("#mixTable").innerHTML = `<thead><tr><th>Service</th><th class="r">Jobs</th><th class="r">Revenue</th><th class="r">You keep / job</th><th class="r">Keep %</th></tr></thead><tbody>${rows}</tbody>`;
 
@@ -1034,23 +1044,23 @@ function renderJobs() {
   if (tv) typeSel.value = tv; if (te && s.techs.includes(te)) techSel.value = te;
   if (!$("#jobPrice").value) fillRates();
 
-  $("#quickJobs").innerHTML = Object.entries(s.services).map(([k, v]) => `<button type="button" data-quick="${k}">+ ${esc(v.label)} today <b>${money(v.price)}</b> <span class="muted small">(tech ${money(v.pay)})</span></button>`).join("");
+  $("#quickJobs").innerHTML = Object.entries(s.services).map(([k, v]) => `<button type="button" data-quick="${k}">+ ${esc(v.label)} today <b>${money(v.price)}</b> <span class="muted small">(sub ${money(subPay(v.price), true)})</span></button>`).join("");
 
   const st = monthStats(mk);
   $("#payHint").textContent = monthName(mk);
-  const per = s.techs.map(t => { const js = st.jobs.filter(j => j.tech === t); return { t, n: js.length, full: js.filter(j => j.type === "full").length, int: js.filter(j => j.type === "interior").length, ext: js.filter(j => j.type === "exterior").length, pay: js.reduce((a, j) => a + (+j.pay || 0), 0), rev: js.reduce((a, j) => a + (+j.price || 0), 0) }; });
-  st.jobs.filter(j => !s.techs.includes(j.tech)).forEach(j => { let r = per.find(p => p.t === j.tech); if (!r) per.push(r = { t: j.tech, n: 0, full: 0, int: 0, ext: 0, pay: 0, rev: 0 }); r.n++; if (j.type === "full") r.full++; else if (j.type === "interior") r.int++; else if (j.type === "exterior") r.ext++; r.pay += +j.pay || 0; r.rev += +j.price || 0; });
-  $("#payTable").innerHTML = `<thead><tr><th>Technician</th><th class="r">Full</th><th class="r">Interior</th><th class="r">Exterior</th><th class="r">Revenue brought in</th><th class="r">Owed / paid</th></tr></thead><tbody>${per.map(p =>
-    `<tr><td>${esc(p.t)}</td><td class="r num">${p.full}</td><td class="r num">${p.int}</td><td class="r num">${p.ext || 0}</td><td class="r num">${money(p.rev)}</td><td class="r num">${money(p.pay)}</td></tr>`).join("")}
-    <tr><td><strong>Total</strong></td><td class="r num">${st.full}</td><td class="r num">${st.interior}</td><td class="r num">${st.exterior}</td><td class="r num">${money(st.revenue)}</td><td class="r num"><strong>${money(st.pay)}</strong></td></tr></tbody>`;
+  const per = s.techs.map(t => { const js = st.jobs.filter(j => j.tech === t); return { t, n: js.length, std: js.filter(j => String(j.type).startsWith("std")).length, lux: js.filter(j => String(j.type).startsWith("lux")).length, pay: js.reduce((a, j) => a + (+j.pay || 0), 0), rev: js.reduce((a, j) => a + (+j.price || 0), 0) }; });
+  st.jobs.filter(j => !s.techs.includes(j.tech)).forEach(j => { let r = per.find(p => p.t === j.tech); if (!r) per.push(r = { t: j.tech, n: 0, std: 0, lux: 0, pay: 0, rev: 0 }); r.n++; if (String(j.type).startsWith("std")) r.std++; else if (String(j.type).startsWith("lux")) r.lux++; r.pay += +j.pay || 0; r.rev += +j.price || 0; });
+  $("#payTable").innerHTML = `<thead><tr><th>Subcontractor</th><th class="r">Standard</th><th class="r">Luxury</th><th class="r">Other</th><th class="r">Revenue brought in</th><th class="r">Owed / paid</th></tr></thead><tbody>${per.map(p =>
+    `<tr><td>${esc(p.t)}</td><td class="r num">${p.std}</td><td class="r num">${p.lux}</td><td class="r num">${p.n - p.std - p.lux}</td><td class="r num">${money(p.rev)}</td><td class="r num">${money(p.pay)}</td></tr>`).join("")}
+    <tr><td><strong>Total</strong></td><td class="r num">${st.std}</td><td class="r num">${st.lux}</td><td class="r num">${st.jobs.length - st.std - st.lux}</td><td class="r num">${money(st.revenue)}</td><td class="r num"><strong>${money(st.pay)}</strong></td></tr></tbody>`;
 
   const jobs = [...S.jobs].sort((a, b) => String(b.date).localeCompare(a.date) || (b.ts || 0) - (a.ts || 0)).slice(0, 60);
   $("#jobHint").textContent = S.jobs.length > 60 ? "Latest 60" : `${S.jobs.length} total`;
   $("#jobTable").innerHTML = jobs.length ? `<thead><tr><th>Date</th><th>Service</th><th>Tech</th><th>Customer</th><th class="r">Charged</th><th class="r">Tech pay</th><th class="r">You keep</th><th></th></tr></thead><tbody>${jobs.map(j =>
-    `<tr><td class="num">${esc(j.date)}</td><td><span class="tag ${j.type === "full" ? "full" : ""}">${esc(j.type === "earlier" ? "Earlier revenue" : (s.services[j.type] || {}).label || j.type)}</span></td><td>${esc(j.tech)}</td><td>${esc(j.customer)}${j.notes ? `<div class="muted small">${esc(j.notes)}</div>` : ""}</td><td class="r num">${money(j.price)}</td><td class="r num">${money(j.pay)}</td><td class="r num">${money(j.price - j.pay - feeOf(j))}</td><td class="r">${delBtn("jobs", j.id)}</td></tr>`).join("")}</tbody>`
+    `<tr><td class="num">${esc(j.date)}</td><td><span class="tag ${String(j.type).startsWith("lux") ? "full" : ""}">${esc(j.type === "earlier" ? "Earlier revenue" : serviceLabel(j.type))}</span></td><td>${esc(j.tech)}</td><td>${esc(j.customer)}${j.notes ? `<div class="muted small">${esc(j.notes)}</div>` : ""}</td><td class="r num">${money(j.price)}</td><td class="r num">${money(j.pay)}</td><td class="r num">${money(j.price - j.pay - feeOf(j))}</td><td class="r">${delBtn("jobs", j.id)}</td></tr>`).join("")}</tbody>`
     : `<tbody><tr><td class="empty">No jobs yet. Tap a quick-add button above or tell Jarvis “log a full detail for Tech 1”.</td></tr></tbody>`;
 }
-function fillRates() { const s = settings(); const svc = s.services[$("#jobType").value] || s.services.full; $("#jobPrice").value = svc.price; $("#jobPay").value = svc.pay; }
+function fillRates() { const s = settings(); const svc = s.services[$("#jobType").value] || s.services.stdSedan; $("#jobPrice").value = svc.price; $("#jobPay").value = subPay(svc.price); }
 
 function renderGoals() {
   const list = [...S.goals].sort((a, b) => (a.done - b.done) || String(a.due || "9").localeCompare(String(b.due || "9")));
@@ -1100,7 +1110,7 @@ function fillSettingsForm() {
   $("#sName").value = s.name; $("#sBiz").value = s.business; $("#sWake").value = s.wake || ""; $("#sGoal").value = s.monthlyGoal || "";
   const pl = s.goalPlan || {}; $("#sPlanStart").value = pl.start || ""; $("#sPlanBase").value = pl.base || ""; $("#sPlanStep").value = pl.step || ""; $("#sPlanStretch").value = pl.stretch || "";
   $("#sFocus").value = s.focus || "";
-  $("#sFullP").value = s.services.full.price; $("#sFullT").value = s.services.full.pay; $("#sIntP").value = s.services.interior.price; $("#sIntT").value = s.services.interior.pay; $("#sExtP").value = s.services.exterior.price; $("#sExtT").value = s.services.exterior.pay; $("#sFee").value = s.jobFee ?? 0; $("#sFeeLabel").value = s.jobFeeLabel || "";
+  Object.keys(DEFAULTS.services).forEach(k => { $("#sP_" + k).value = s.services[k].price; }); $("#sSubShare").value = s.subShare; $("#sFee").value = s.jobFee ?? 0; $("#sFeeLabel").value = s.jobFeeLabel || "";
   $("#techFields").innerHTML = s.techs.map((t, i) => `<label class="field"><span>Tech ${i + 1}</span><input id="sTech${i}" value="${esc(t)}"></label>`).join("") + `<div class="field" style="justify-content:flex-end"><button class="btn ghost small" type="button" id="addTech">+ Add tech</button></div>`;
   $("#sSplitTax").value = s.moneySplit.tax; $("#sSplitEm").value = s.moneySplit.emergency; $("#sSplitEmT").value = s.moneySplit.emergencyTarget; $("#sSplitYou").value = s.moneySplit.personal;
   $("#sCal").value = s.calGoal; $("#sRevMin").value = s.reviewGoal; $("#sRevMax").value = s.reviewStretch; $("#sRevLink").value = s.reviewLink || "";
@@ -1124,7 +1134,7 @@ document.addEventListener("click", e => {
     if (t.dataset.armed) { const [coll, id] = t.dataset.rm.split("/"); S[coll] = S[coll].filter(x => x.id !== id); renderAll(); delDoc(t.dataset.rm); toast("Deleted."); }
     else { t.dataset.armed = "1"; t.textContent = "Delete?"; t.classList.add("small"); setTimeout(() => { if (t.isConnected) { delete t.dataset.armed; t.textContent = "×"; } }, 3000); }
   }
-  if (t.matches("[data-quick]")) { const j = logJob({ type: t.dataset.quick, tech: $("#jobTech").value }); const keep = j.price - j.pay - feeOf(j), tx = settings().moneySplit.tax; toast(`Logged ${settings().services[j.type].label} for ${j.tech}, ${money(j.price)}. You keep ${money(keep)}: set aside ${money(keep * tx / 100)} for taxes.`); }
+  if (t.matches("[data-quick]")) { const j = logJob({ type: t.dataset.quick, tech: $("#jobTech").value }); const keep = j.price - j.pay - feeOf(j), tx = settings().moneySplit.tax; toast(`Logged ${serviceLabel(j.type)} for ${j.tech}, ${money(j.price)}. You keep ${money(keep)}: set aside ${money(keep * tx / 100)} for taxes.`); }
   if (t.matches("[data-gdone]")) { const g = S.goals.find(x => x.id === t.dataset.gdone); if (g) updateGoal(g.id, { done: !g.done }); }
   if (t.matches("[data-progsave]")) { const inp = document.querySelector(`[data-prog="${t.dataset.progsave}"]`); updateGoal(t.dataset.progsave, { current: +inp.value || 0 }); toast("Progress updated."); }
   if (t.matches("[data-food]")) removeFood(t.dataset.food);
@@ -1179,7 +1189,7 @@ $("#setForm").addEventListener("submit", e => {
     goalPlan: $("#sPlanStart").value ? { start: $("#sPlanStart").value, base: +$("#sPlanBase").value || 0, step: +$("#sPlanStep").value || 0, stretch: +$("#sPlanStretch").value || 0 } : null,
     focus: $("#sFocus").value.trim(),
     goalOverrides: (S.settings || {}).goalOverrides || {},
-    services: { full: { label: "Full detail", price: +$("#sFullP").value || 0, pay: +$("#sFullT").value || 0 }, interior: { label: "Interior detail", price: +$("#sIntP").value || 0, pay: +$("#sIntT").value || 0 }, exterior: { label: "Exterior wash", price: +$("#sExtP").value || 0, pay: +$("#sExtT").value || 0 } },
+    services: Object.fromEntries(Object.keys(DEFAULTS.services).map(k => [k, { price: +$("#sP_" + k).value || 0 }])), subShare: +$("#sSubShare").value || 0,
     jobFee: +$("#sFee").value || 0, jobFeeLabel: $("#sFeeLabel").value.trim() || "Lead",
     moneySplit: { tax: +$("#sSplitTax").value || 0, emergency: +$("#sSplitEm").value || 0, emergencyTarget: +$("#sSplitEmT").value || 0, personal: +$("#sSplitYou").value || 0 },
     techs: techs.length ? techs : DEFAULTS.techs, calGoal: +$("#sCal").value || 2000, reviewGoal: +$("#sRevMin").value || 1, reviewStretch: +$("#sRevMax").value || 2, reviewLink: $("#sRevLink").value.trim(),
@@ -1244,9 +1254,9 @@ function contextText() {
   const recent = [...S.jobs].sort((x, y) => String(y.date).localeCompare(x.date)).slice(0, 12).map(j => `${j.date} ${j.type} ${j.tech} ${j.customer || ""} $${j.price} (tech $${j.pay})`).join("\n");
   return `NOW: ${now.toLocaleString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })} (today = ${TODAY})
 OWNER: ${s.name}, 18, runs ${s.business}. Usually wakes around ${s.wake || "10-11am"}, then tests automations and checks GoHighLevel.
-RATES: Full detail $${s.services.full.price} (tech paid $${s.services.full.pay}); Interior $${s.services.interior.price} (tech paid $${s.services.interior.pay}); Exterior wash $${s.services.exterior.price} (tech paid $${s.services.exterior.pay}).
+PACKAGES (sub gets ${s.subShare}% of the price after the $${s.jobFee} lead fee): ${Object.entries(s.services).map(([k, v]) => `${v.label} $${v.price} (sub $${subPay(v.price)})`).join("; ")}. Luxury = Standard + shampoo of seats/carpets/mats, leather conditioning, hand wax, trim, engine bay. Pitch Luxury first, never go below Standard.
 TECHNICIANS: ${s.techs.join(", ")}.
-THIS MONTH (${monthName(mk)}, day ${p.elapsed}/${p.dim}): revenue $${st.revenue}, jobs ${st.jobs.length} (${st.full} full, ${st.interior} interior, ${st.exterior} exterior), tech pay $${st.pay}, ${s.jobFeeLabel || "lead"} fees $${st.fees} ($${s.jobFee} per completed job), other expenses $${st.expenses}, net profit $${st.net}, margin ${pct(st.margin)}, projected revenue $${Math.round(p.projected)}. Monthly goal: ${goalFor(mk).goal ? "$" + goalFor(mk).goal + (goalFor(mk).stretch > goalFor(mk).goal ? " (stretch $" + goalFor(mk).stretch + ")" : "") : "not set"}.
+THIS MONTH (${monthName(mk)}, day ${p.elapsed}/${p.dim}): revenue $${st.revenue}, jobs ${st.jobs.length} (${st.std} Standard, ${st.lux} Luxury), sub pay $${st.pay}, ${s.jobFeeLabel || "lead"} fees $${st.fees} ($${s.jobFee} per completed job), other expenses $${st.expenses}, net profit $${st.net}, margin ${pct(st.margin)}, projected revenue $${Math.round(p.projected)}. Monthly goal: ${goalFor(mk).goal ? "$" + goalFor(mk).goal + (goalFor(mk).stretch > goalFor(mk).goal ? " (stretch $" + goalFor(mk).stretch + ")" : "") : "not set"}.
 REVENUE PLAN: ${[0, 1, 2, 3].map(i => { const k = monthKey(new Date(now.getFullYear(), now.getMonth() + i, 1)); const g = goalFor(k); return g.goal ? monthName(k) + " $" + g.goal + (g.stretch > g.goal ? " (stretch $" + g.stretch + ")" : "") : ""; }).filter(Boolean).join("; ") || "none"}.
 MORGAN'S CURRENT FOCUS (from Settings, treat as Morgan's own notes): ${s.focus || "none written"}
 PROFIT SPLIT THIS MONTH (Morgan reinvests nearly everything): ${(() => { const sp = profitSplit(mk); return `taxes $${Math.round(sp.tax)} (${s.moneySplit.tax}%), emergency fund $${Math.round(sp.emergency)} (${money(sp.saved)} of ${money(sp.target)} saved), Morgan's pay $${Math.round(sp.you)} (flat $${s.moneySplit.personal}/month), reinvest $${Math.round(sp.reinvest)}`; })()}.
@@ -1265,7 +1275,7 @@ RECENT JOBS:
 ${recent || "none logged yet"}`;
 }
 
-const RULES_BASE = `You are the personal AI assistant for Morgan, the 18-year-old owner of Coastline Auto Detailing. Morgan sends jobs to five technicians and runs marketing and automations through GoHighLevel, and is also raising an 8-week-old kitten.
+const RULES_BASE = `You are the personal AI assistant for Morgan, the 18-year-old owner of Coastline Auto Detailing. Morgan sends booked jobs to subcontractors (Austin and Mo, 60/40 split after the lead fee) and runs marketing and automations through GoHighLevel, and is also raising an 8-week-old kitten.
 
 Keep replies short: a few lines or a tight list, plain text, no markdown headers or tables. Use real numbers from the DATA block; never invent revenue, jobs or dates. If data is missing, say so and suggest logging it.
 
@@ -1286,8 +1296,8 @@ What you do:
 
 const TOOLS = () => [
   { name: "log_job", description: "Record a completed detailing job. Price and tech pay default to the standard rates. Returns the saved job.",
-    inputSchema: { type: "object", properties: { type: { type: "string", enum: ["full", "interior", "exterior"] }, tech: { type: "string", description: "Technician name" }, customer: { type: "string" }, date: { type: "string", description: "YYYY-MM-DD, default today" }, price: { type: "number" }, notes: { type: "string" } }, required: ["type"] },
-    execute: i => { const j = logJob({ type: String(i.type || "full"), tech: techByName(i.tech), customer: i.customer || "", date: /^\d{4}-\d{2}-\d{2}$/.test(i.date || "") ? i.date : TODAY, price: i.price, notes: i.notes || "" }); return { saved: j, monthRevenue: monthStats(monthKey(new Date())).revenue }; } },
+    inputSchema: { type: "object", properties: { type: { type: "string", enum: Object.keys(DEFAULTS.services), description: "std = Standard, lux = Luxury; Sedan, Suv or Truck (truck also covers 3-row)" }, tech: { type: "string", description: "Technician name" }, customer: { type: "string" }, date: { type: "string", description: "YYYY-MM-DD, default today" }, price: { type: "number" }, notes: { type: "string" } }, required: ["type"] },
+    execute: i => { const j = logJob({ type: String(i.type || "stdSedan"), tech: techByName(i.tech), customer: i.customer || "", date: /^\d{4}-\d{2}-\d{2}$/.test(i.date || "") ? i.date : TODAY, price: i.price, notes: i.notes || "" }); return { saved: j, monthRevenue: monthStats(monthKey(new Date())).revenue }; } },
   { name: "add_expense", description: "Record a business expense (supplies, software like GoHighLevel, ads, gas, equipment).",
     inputSchema: { type: "object", properties: { amount: { type: "number" }, category: { type: "string", enum: ["Supplies", "Software", "Ads", "Gas", "Equipment", "Other"] }, note: { type: "string" }, date: { type: "string" } }, required: ["amount"] },
     execute: i => { if (!(+i.amount > 0)) throw new Error("amount must be a positive number"); return addExpense({ amount: +i.amount, category: i.category || "Other", note: i.note || "", date: /^\d{4}-\d{2}-\d{2}$/.test(i.date || "") ? i.date : TODAY }); } },

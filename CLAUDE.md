@@ -22,7 +22,7 @@ Two packages, priced by vehicle. **Standard: Sedan $225 / SUV $250 / Truck or 3-
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `16U0O4jZH59gcriy5H3uimdTpsB1BYnmVPS1V8nCIHzY`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `1Do2HQrjEQ-wjI_RjEBt72yxbuMp48f04ovWV4Io6HY0`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
@@ -51,7 +51,7 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator (Standard / Luxury), latest (Oct 31)](https://docs.google.com/spreadsheets/d/1zDVqVtBi4V14jtlf--HyDU5QOaVibveDzx-yKN1lqpQ/edit). Older price copies are still in 2 – Sales & Scripts. |
 | `PRICE_MENU.md` | [Google Doc: 06 Customer Price Menu (Standard / Luxury), latest (Oct 31)](https://docs.google.com/document/d/1C-ilVHtKYbgu3wYbQf0F5k_ie-L-K6MEN46yqlX93KM/edit). Older copies are still in 2 – Sales & Scripts. |
 | (Oct 31) | [Google Doc: 08 Pricing Strategy: Standard + Luxury Packages](https://docs.google.com/document/d/1ldU7ntWbl7zmC1e8IIBPPPYxE8ULo3AJhF85pLak50A/edit), latest. Older 08 copies are still in 1 – Goals & Plans. |
-| (Oct 26) | [Google Doc: 09 $10k to $30k to $100k: Steps and Numbers ($234 / $285 / $325)](https://docs.google.com/document/d/1smLsygb-Vzqp3pcfu97pzpuqWjLrtuT0shLMBn9bYvs/edit), latest. Older $315 and $215 copies are still in 1 – Goals & Plans. |
+| (Nov 1) | [Google Doc: 09 $10k to $30k to $100k: Steps and Numbers (Standard / Luxury)](https://docs.google.com/document/d/1YfA1l2cB1Xl1vP8B3s9-GBlpPEFQmPKDWju7niQx2ec/edit), latest. Older 09 copies are still in 1 – Goals & Plans. |
 | (new, Oct 12) | [Google Doc: 10 Top 3 Focus: Reviews, Response Rate, Radius](https://docs.google.com/document/d/1GS8xScSeyXcnGRuJwUtbh4FQnPiv_UnsJ9og7rbLNig/edit) |
 | (Oct 31, in 4 – Team & Techs) | [Google Doc: 11 Subcontractor Pricing + Payout Split (Standard / Luxury)](https://docs.google.com/document/d/1rS0oz-sLEtGCdvYXnrL64RXCTqKIRjmMGdMpp6UmYM4/edit), latest. Older 11 copies are still in 4 – Team & Techs. |
 | (Oct 21, in 4 – Team & Techs) | [Google Doc: 12 Subcontractor Expansion Plan – 20 Subs by May](https://docs.google.com/document/d/1Ead9SsqFaDHKkce1hyOHq7e9aYPlrJbDUAEmQDAflEI/edit) |
