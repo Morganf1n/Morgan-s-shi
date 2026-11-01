@@ -4,6 +4,7 @@
 
 Morgan wants follow-through without check-ins (Oct 31). When a change obviously implies follow-up work (updating Drive copies, the index, Jarvis, CLAUDE.md, calendar), just do it and report what was done. Only ask when Morgan's intent is genuinely unclear (e.g. which price is right). Morgan repeated this Nov 1: don't end replies with "want me to…?" offers. If a detail is missing (a date, a time), pick the most likely option, do it, and say what you assumed so he can correct it.
 When Morgan says "add this to the calendar / Drive / Jarvis" (or anything like it), do it immediately; never ask first or ask him to confirm.
+**Never ask permission to optimize anything, ever** (Morgan, Nov 1, said three times). No "tell me and I'll…", no "want me to…", no confirmation questions. Make the best call, do it, report it in one line, and note any assumption so he can correct it.
 
 ## Always upload new files to Google Drive
 
@@ -35,7 +36,7 @@ All agent prompts carry the three packages, Austin + Mo at 60/40, the $10k Novem
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `1FGRYIuRxnjDQjuh727ojBEVmSr3J_m68OnNeF149rVw`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `1P9PXOuLcMi6B3YY1XK54jH4nVzwpLW1TM7XWY9ZewMw`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
@@ -58,7 +59,7 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `OCTOBER_10K_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1YXYYBKGPtkUKmASXaFF1dU1bLPyCpCq1Omp5gX78tBI/edit) |
 | `DETAILING_SALES_RESEARCH.md` | [Google Doc](https://docs.google.com/document/d/1BdDANzrit30r0NDMgxexM83Ka-cXCMnVgEFUZ99NHB0/edit) |
 | `Coastline_Close_On_The_Spot.xlsx` | [Google Sheet](https://docs.google.com/spreadsheets/d/1ahADR3LjdXA3oX79gaVlgu9Nn2KBt0v2RXfpYsZYfkM/edit) |
-| `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet: 02 Goals Sep-Dec 2026 (Nov 1: $450), latest](https://docs.google.com/spreadsheets/d/1lUFD_-V54-BcWOkVGr1_GIYyDJfIUUJKChNttpAO3ZU/edit). October closed at $7,419; November goal $10k (stretch $11k, ~38 jobs, 90 leads); November so far $450 = Christina, 2 cars × $225 Thanksgiving special, done by Mo at 65% (assumed both cars at $225). Reviews 40 → 120 by Jan 1. Older copies in Archive. Team: Austin + Mo (60/40 standard). |
+| `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet: 02 Goals Sep-Dec 2026 (Nov 1: $445), latest](https://docs.google.com/spreadsheets/d/16KiO8jl5qSRsQ8XiywCRsimJTKb8cjFv8D-OZbh0LLg/edit). October closed at $7,419; November goal $10k (stretch $11k, ~38 jobs, 90 leads); November so far $445 = Christina, 2 cars, done by Mo at 65%. Reviews 40 → 120 by Jan 1. Older copies in Archive. Team: Austin + Mo (60/40 standard). |
 | `SPRING_2027_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1z9_5Ig5puf1p66wOCu4POaCxyDAkSUWJm_SJeZ_6xkA/edit) |
 | `Coastline_Daily_Game_Plan.xlsx` | [Google Sheet: 07 Daily Game Plan, latest (Oct 10: name removed)](https://docs.google.com/spreadsheets/d/1-A16mO2G7yRFmXkZyhOahpbYYrKiWaoqBEQTlyQ1_R8/edit). Old copy is in Archive. |
 | `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator (Basic / Standard / Luxury), latest (Nov 1)](https://docs.google.com/spreadsheets/d/18jFL65PgIXTJDgBuJWpPCnsWmhJGHgui9z3Svxppgqg/edit). Old copies in Archive. |
