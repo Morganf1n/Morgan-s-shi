@@ -2,7 +2,7 @@
 
 ## Don't ask permission
 
-Morgan wants follow-through without check-ins (Oct 31). When a change obviously implies follow-up work (updating Drive copies, the index, Jarvis, CLAUDE.md, calendar), just do it and report what was done. Only ask when Morgan's intent is genuinely unclear (e.g. which price is right).
+Morgan wants follow-through without check-ins (Oct 31). When a change obviously implies follow-up work (updating Drive copies, the index, Jarvis, CLAUDE.md, calendar), just do it and report what was done. Only ask when Morgan's intent is genuinely unclear (e.g. which price is right). Morgan repeated this Nov 1: don't end replies with "want me to…?" offers. If a detail is missing (a date, a time), pick the most likely option, do it, and say what you assumed so he can correct it.
 
 ## Always upload new files to Google Drive
 
