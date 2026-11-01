@@ -19,9 +19,9 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 - **Don't edit the contents of Morgan's own sheets** (the Rapid Reach "PPC LP Leads" sheet, Tech Standards) unless asked. Morgan gave full access to organize Drive and Calendar (Sep 26): moving/renaming is fine.
 - **Google Calendar layout:** daily blocks 11:15 AM routine, 2 PM lead check, 6:30 PM post/reviews/log; Sunday 7 PM weekly review; last day of month 8 PM month-end close. Deadlines are red all-day events, Amelia's vet items are green all-day events.
 
-## Pricing (Oct 31)
+## Pricing (Nov 1)
 
-Two packages, priced by vehicle. **Standard: Sedan $225 / SUV $250 / Truck or 3-row $275. Luxury: $349 / $379 / $399.** Luxury = Standard + deep shampoo of seats/carpets/mats, leather conditioning, hand wax, trim restored, engine bay. Pitch Luxury first, step down to Standard, never below Standard. Subcontractors (Austin, Mo): $25 Rapid Reach fee off the top, then 60% sub / 40% Morgan (Standard $80 / $90 / $100, Luxury $129.60 / $141.60 / $149.60). Add-ons: fixed list, sold on site after a walk-around, approved before work starts, never charged after.
+Four packages: **Basic $185** (car-wash crowd: exterior hand wash, wheels/tire shine, quick vacuum, wipe-down, windows), **Essential $215** (Basic + full interior incl. trunk, dash/console/vents, door jambs, mats), **Standard $250** (Essential + seats/carpets spot-treated, bug & tar, spray sealant), **Luxury $330** (Standard + shampoo of seats/carpets/mats, leather, hand wax, trim, engine bay). Not yet confirmed whether these are sedan prices with SUV/truck upcharges or one price for all; Drive files and Jarvis still show the Oct 31 Standard/Luxury by-vehicle prices until Morgan confirms. Subs (Austin, Mo; Delaware/PA model): $25 Rapid Reach fee off the top, then 60% sub / 40% Morgan (keep $64 / $76 / $90 / $122). Morgan is also detailing jobs himself (keeps price − $25 − ~$15–20 supplies). Pitch Luxury first for "detail" callers; Basic for "car wash" callers with an Essential upsell. Add-ons: fixed list, sold on site after a walk-around, approved before work starts, never charged after.
 
 ## Drive folder layout
 
