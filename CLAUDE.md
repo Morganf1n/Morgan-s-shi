@@ -25,7 +25,7 @@ Three packages (Essential was dropped Nov 1 to keep it simple): **Basic $185** (
 
 ## Ads (Nov 1)
 
-Google LSA + Google Search ads, plus **Meta (Facebook/Instagram) ads at $30/day starting November** (Morgan's call, replacing the earlier "no Meta until 2027" plan). Calendar check on Nov 15 7:30 PM: keep if cost per booked job is under $60, pause and move the budget to Google Search if fewer than 3 bookings after ~$400.
+**All Google advertising (LSA + Search) is run by Rapid Reach** ($25 per completed job); Morgan doesn't manage Google ads himself. Morgan runs **Meta (Facebook/Instagram) ads at $30/day starting November** (Morgan's call, replacing the earlier "no Meta until 2027" plan). Calendar check on Nov 15 7:30 PM: keep if cost per booked job is under $60, pause if fewer than 3 bookings after ~$400. Nov 1: Morgan's Meta ad account showed as restricted; told him not to open a new profile to get around it (Meta bans for circumvention) and to check facebook.com/accountquality, request review, verify ID, or ask Rapid Reach to run Meta through their agency account.
 
 ## Scheduled agents (updated Nov 1)
 
