@@ -1,23 +1,15 @@
 # Coastline Auto Detailing – Price Menu
 
-**Mobile detailing. We come to your home or work.** Insured · Satisfaction guaranteed: if anything's not right, we come back and fix it free.
+**Mobile detailing. We come to your home or work.** Insured · Satisfaction guaranteed: if anything's not right, we come back and fix it free. **One price for every vehicle.**
 
-## ✅ Standard Detail
+## 🧽 Basic — $185
+Exterior hand wash, wheels cleaned and tire shine, quick interior vacuum, interior wipe-down, windows inside and out.
 
-| Sedan | SUV | Truck / 3-row |
-| --- | --- | --- |
-| **$225** | **$250** | **$275** |
+## ✅ Standard — $250
+The full detail. **Inside:** full vacuum (seats, carpets, trunk), seats and carpets spot-treated, dash, console, doors and vents cleaned and protected, door jambs, floor mats, inside windows. **Outside:** hand wash, wheels, tires and wheel wells, tire shine, bug and tar removal, windows, spray sealant.
 
-**Inside:** full vacuum (seats, carpets, trunk), seats and carpets spot-treated, dash, console, doors and vents cleaned and protected, door jambs, inside windows, floor mats.
-**Outside:** hand wash, wheels, tires and wheel wells, tire shine, bug and tar removal, windows, spray sealant for shine and protection.
-
-## 💎 Luxury Detail
-
-| Sedan | SUV | Truck / 3-row |
-| --- | --- | --- |
-| **$349** | **$379** | **$399** |
-
-Everything in Standard, plus: deep shampoo of all seats, carpets and floor mats; leather cleaned and conditioned; hand wax buffed to a deep shine (1–2 months protection); trim restored; engine bay cleaned.
+## 💎 Luxury — $330
+Everything in Standard, plus deep shampoo of all seats, carpets and floor mats; leather cleaned and conditioned; hand wax buffed to a deep shine; trim restored; engine bay cleaned.
 
 ## Add-ons (only if your car needs it)
 
@@ -32,12 +24,7 @@ Everything in Standard, plus: deep shampoo of all seats, carpets and floor mats;
 | Travel (areas 45+ minutes away) | $35 |
 
 ## Ceramic Coating
-
 Long-lasting gloss and protection. **Ask for a quote.**
-
-## Book
-
-Text or call **[your business number]** · We'll confirm your time within minutes.
 
 *Your detailer will walk around the car with you before starting. Any add-on is quoted and approved by you before the work begins, never after.*
 

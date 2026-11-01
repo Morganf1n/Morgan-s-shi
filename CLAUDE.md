@@ -21,7 +21,7 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 
 ## Pricing (Nov 1)
 
-Three packages (Essential was dropped Nov 1 to keep it simple): **Basic $185** (car-wash crowd: exterior hand wash, wheels/tire shine, quick vacuum, wipe-down, windows), **Standard $250** (the full detail: full interior incl. trunk, seats/carpets spot-treated, dash/console/vents, door jambs, mats, inside windows + hand wash, wheels & wells, tire shine, bug & tar, windows, spray sealant), **Luxury $330** (Standard + shampoo of seats/carpets/mats, leather, hand wax, trim, engine bay). Not yet confirmed whether these are sedan prices with SUV/truck upcharges or one price for all; Drive menus, price sheet, sub doc and Jarvis still show the Oct 31 Standard/Luxury by-vehicle prices until Morgan confirms. Subs (Austin, Mo): $25 Rapid Reach fee off the top, then 60% sub / 40% Morgan (keep $64 / $90 / $122). Morgan also details jobs himself (keeps price − $25 − ~$15–20 supplies). Pitch Luxury first for "detail" callers; Basic for "car wash" callers with "for $65 more, Standard does the full detail." $10k ≈ 38 jobs at the usual mix. Add-ons: fixed list, sold on site after a walk-around, approved before work starts, never charged after.
+Three packages (Essential was dropped Nov 1 to keep it simple): **Basic $185** (car-wash crowd: exterior hand wash, wheels/tire shine, quick vacuum, wipe-down, windows), **Standard $250** (the full detail: full interior incl. trunk, seats/carpets spot-treated, dash/console/vents, door jambs, mats, inside windows + hand wash, wheels & wells, tire shine, bug & tar, windows, spray sealant), **Luxury $330** (Standard + shampoo of seats/carpets/mats, leather, hand wax, trim, engine bay). **One price for every vehicle** (confirmed Nov 1). Drive menus, price sheet, sub doc, pricing strategy, closing scripts and Jarvis are all on this lineup. Subs (Austin, Mo): $25 Rapid Reach fee off the top, then 60% sub / 40% Morgan (keep $64 / $90 / $122). Morgan also details jobs himself (keeps price − $25 − ~$15–20 supplies). Pitch Luxury first for "detail" callers; Basic for "car wash" callers with "for $65 more, Standard does the full detail." $10k ≈ 38 jobs at the usual mix. Add-ons: fixed list, sold on site after a walk-around, approved before work starts, never charged after.
 
 ## Ads (Nov 1)
 
@@ -34,7 +34,7 @@ All agent prompts carry the three packages, Austin + Mo at 60/40, the $10k Novem
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `16iivLSNcJHb496BY7erSJF3MmffLBpXtDk_NESRfsGs`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `18Vm8uahdJbTzMZryUv50ZlwEtr6_i1gI5WQGlUsV3RQ`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
@@ -52,7 +52,7 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `Coastline_Glen_Mills_Business_Plan.docx` | [Google Doc](https://docs.google.com/document/d/1YxEa7EFyhGDmxe_Gy4J2vKah4pVIjl7YeVfXE1s2Oo8/edit) |
 | `Coastline_Growth_Plan_50k_100k.docx` | [Google Doc, latest (Oct $10k)](https://docs.google.com/document/d/1i22UXCEZYN6QyXVFFH_DgAgh7iZHKKxLEgHlMSs7FRg/edit). |
 | `WINTER_PLAN.md` / `Coastline_Winter_Plan_Nov_Feb.docx` | [Google Doc, latest (Sep 25: $250 / $199 + margins)](https://docs.google.com/document/d/1urTsDgSu0Tou3H2tH_ZNlHjsMqpvk_hnYdo7TuyHJpM/edit). Old copy is in Archive. |
-| `Coastline_Closing_Scripts.xlsx` | [Google Sheet: 02 Closing Scripts & Close Rate Tracker (Standard / Luxury), latest (Nov 1)](https://docs.google.com/spreadsheets/d/1V4iXZvmvkXAMnbyk0Zs688CSH79U0oDo3uMjr6Mch48/edit). All four tabs are stacked in one sheet. Old copy is in Archive. |
+| `Coastline_Closing_Scripts.xlsx` | [Google Sheet: 02 Closing Scripts & Close Rate Tracker (Basic / Standard / Luxury), latest (Nov 1)](https://docs.google.com/spreadsheets/d/1n6IsLqPPoOZijyZjVZfb-IU9N_xabEvAfsb6OcMa9r4/edit). All four tabs stacked in one sheet. Old copies in Archive. |
 | `Coastline_October_10k_Goals.xlsx` | [Google Sheet, latest (Oct 10: $199/$179/$165 pricing)](https://docs.google.com/spreadsheets/d/1dLIzJxbHy3ohB2vT-YoNqLT5DtfgsDleMCUFMI4cbNU/edit). Old copy is in Archive. |
 | `OCTOBER_10K_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1YXYYBKGPtkUKmASXaFF1dU1bLPyCpCq1Omp5gX78tBI/edit) |
 | `DETAILING_SALES_RESEARCH.md` | [Google Doc](https://docs.google.com/document/d/1BdDANzrit30r0NDMgxexM83Ka-cXCMnVgEFUZ99NHB0/edit) |
@@ -60,12 +60,12 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet: 02 Goals Sep-Dec 2026 (Nov 1: November $10k), latest](https://docs.google.com/spreadsheets/d/1QfgMzBRfmn2YezUOZam83rxcclV5RBmcWAFchlfnmhE/edit). October closed at $7,419; November goal $10k (36 jobs, 90 leads); reviews 40 → 120 by Jan 1. Older copies are in Archive. Team: Austin + Mo (60/40). |
 | `SPRING_2027_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1z9_5Ig5puf1p66wOCu4POaCxyDAkSUWJm_SJeZ_6xkA/edit) |
 | `Coastline_Daily_Game_Plan.xlsx` | [Google Sheet: 07 Daily Game Plan, latest (Oct 10: name removed)](https://docs.google.com/spreadsheets/d/1-A16mO2G7yRFmXkZyhOahpbYYrKiWaoqBEQTlyQ1_R8/edit). Old copy is in Archive. |
-| `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator (Standard / Luxury), latest (Oct 31)](https://docs.google.com/spreadsheets/d/1zDVqVtBi4V14jtlf--HyDU5QOaVibveDzx-yKN1lqpQ/edit). Older price copies are still in 2 – Sales & Scripts. |
-| `PRICE_MENU.md` | [Google Doc: 06 Customer Price Menu (Standard / Luxury), latest (Oct 31)](https://docs.google.com/document/d/1C-ilVHtKYbgu3wYbQf0F5k_ie-L-K6MEN46yqlX93KM/edit). Older copies are still in 2 – Sales & Scripts. |
-| (Oct 31) | [Google Doc: 08 Pricing Strategy: Standard + Luxury Packages](https://docs.google.com/document/d/1ldU7ntWbl7zmC1e8IIBPPPYxE8ULo3AJhF85pLak50A/edit), latest. Older 08 copies are still in 1 – Goals & Plans. |
+| `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator (Basic / Standard / Luxury), latest (Nov 1)](https://docs.google.com/spreadsheets/d/18jFL65PgIXTJDgBuJWpPCnsWmhJGHgui9z3Svxppgqg/edit). Old copies in Archive. |
+| `PRICE_MENU.md` | [Google Doc: 06 Customer Price Menu (Basic / Standard / Luxury), latest (Nov 1)](https://docs.google.com/document/d/1Hw5Xhv8X_6ReNh0z6MrzS7UUD0cR8uPAZKgxMZ5REnc/edit). Old copies in Archive. |
+| (Nov 1) | [Google Doc: 08 Pricing Strategy: Basic / Standard / Luxury (one price)](https://docs.google.com/document/d/1TaQt_pdRnNQyWx-fRXQ5OFnBUf-WrDvJHW6B0Ig0CIQ/edit), latest. Old copies in Archive. |
 | (Nov 1) | [Google Doc: 09 $10k to $30k to $100k: Steps and Numbers (Standard / Luxury)](https://docs.google.com/document/d/1YfA1l2cB1Xl1vP8B3s9-GBlpPEFQmPKDWju7niQx2ec/edit), latest. Older 09 copies are still in 1 – Goals & Plans. |
 | (new, Oct 12) | [Google Doc: 10 Top 3 Focus: Reviews, Response Rate, Radius](https://docs.google.com/document/d/1GS8xScSeyXcnGRuJwUtbh4FQnPiv_UnsJ9og7rbLNig/edit) |
-| (Oct 31, in 4 – Team & Techs) | [Google Doc: 11 Subcontractor Pricing + Payout Split (Standard / Luxury)](https://docs.google.com/document/d/1rS0oz-sLEtGCdvYXnrL64RXCTqKIRjmMGdMpp6UmYM4/edit), latest. Older 11 copies are still in 4 – Team & Techs. |
+| (Nov 1, in 4 – Team & Techs) | [Google Doc: 11 Subcontractor Pricing + Payout Split (Basic / Standard / Luxury)](https://docs.google.com/document/d/1Tm3nT8fpxMxy2JqTPVpzdd_agHtrlf-96Hudhebe--E/edit), latest. Old copies in Archive. |
 | (Oct 21, in 4 – Team & Techs) | [Google Doc: 12 Subcontractor Expansion Plan – 20 Subs by May](https://docs.google.com/document/d/1Ead9SsqFaDHKkce1hyOHq7e9aYPlrJbDUAEmQDAflEI/edit) |
 | `REVIEW_PLAN.md` | [Google Doc: 13 Review Plan: 120 Google Reviews by New Year (Oct 31)](https://docs.google.com/document/d/1Fq-zXKpVRV91O8rr410V8H10llJNtZBMA67O_PXaxQA/edit), in 1 – Goals & Plans |
 | `NOVEMBER_10K_PLAN.md` | [Google Doc: 14 November $10k Plan (Nov 1)](https://docs.google.com/document/d/1HtHOVT8KSaD5DwRzXyNRUrZqIV12HigdF4XYeBMgL_A/edit), in 1 – Goals & Plans. Daily red all-day calendar event Nov 1–30 plus Nov 2 10:30 AM past-customer text. |
