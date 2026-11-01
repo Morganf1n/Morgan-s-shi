@@ -1,5 +1,9 @@
 # Working in this repo
 
+## Don't ask permission
+
+Morgan wants follow-through without check-ins (Oct 31). When a change obviously implies follow-up work (updating Drive copies, the index, Jarvis, CLAUDE.md, calendar), just do it and report what was done. Only ask when Morgan's intent is genuinely unclear (e.g. which price is right).
+
 ## Always upload new files to Google Drive
 
 Morgan wants every file you make or update uploaded to Google Drive as soon as it's done. Don't wait to be asked.
@@ -22,7 +26,7 @@ Two packages, priced by vehicle. **Standard: Sedan $225 / SUV $250 / Truck or 3-
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `1Do2HQrjEQ-wjI_RjEBt72yxbuMp48f04ovWV4Io6HY0`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `1OWZsOmvrFWF3GWMIvr_jZg9XjP25rXuUqF4v_c6bJ7E`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
@@ -40,7 +44,7 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `Coastline_Glen_Mills_Business_Plan.docx` | [Google Doc](https://docs.google.com/document/d/1YxEa7EFyhGDmxe_Gy4J2vKah4pVIjl7YeVfXE1s2Oo8/edit) |
 | `Coastline_Growth_Plan_50k_100k.docx` | [Google Doc, latest (Oct $10k)](https://docs.google.com/document/d/1i22UXCEZYN6QyXVFFH_DgAgh7iZHKKxLEgHlMSs7FRg/edit). |
 | `WINTER_PLAN.md` / `Coastline_Winter_Plan_Nov_Feb.docx` | [Google Doc, latest (Sep 25: $250 / $199 + margins)](https://docs.google.com/document/d/1urTsDgSu0Tou3H2tH_ZNlHjsMqpvk_hnYdo7TuyHJpM/edit). Old copy is in Archive. |
-| `Coastline_Closing_Scripts.xlsx` | [Google Sheet, latest (Oct 10: $199/$179/$165 pricing)](https://docs.google.com/spreadsheets/d/1QFYybcsGVFO4RGGk8XyfKTc-fmByHk-UUwKts7Xw_EY/edit). Old copy is in Archive. |
+| `Coastline_Closing_Scripts.xlsx` | [Google Sheet: 02 Closing Scripts & Close Rate Tracker (Standard / Luxury), latest (Nov 1)](https://docs.google.com/spreadsheets/d/1V4iXZvmvkXAMnbyk0Zs688CSH79U0oDo3uMjr6Mch48/edit). All four tabs are stacked in one sheet. Old copy is in Archive. |
 | `Coastline_October_10k_Goals.xlsx` | [Google Sheet, latest (Oct 10: $199/$179/$165 pricing)](https://docs.google.com/spreadsheets/d/1dLIzJxbHy3ohB2vT-YoNqLT5DtfgsDleMCUFMI4cbNU/edit). Old copy is in Archive. |
 | `OCTOBER_10K_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1YXYYBKGPtkUKmASXaFF1dU1bLPyCpCq1Omp5gX78tBI/edit) |
 | `DETAILING_SALES_RESEARCH.md` | [Google Doc](https://docs.google.com/document/d/1BdDANzrit30r0NDMgxexM83Ka-cXCMnVgEFUZ99NHB0/edit) |
