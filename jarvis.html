@@ -358,6 +358,7 @@ input[type=range]{padding:0;accent-color:var(--accent)}
           <label class="field"><span>Technician</span><select id="jobTech"></select></label>
           <label class="field"><span>Date</span><input id="jobDate" type="date" required></label>
           <label class="field"><span>Customer</span><input id="jobCust" placeholder="Name or vehicle"></label>
+          <label class="field"><span>Lead source</span><select id="jobSrc"><option value="rr">Rapid Reach ad ($25 fee)</option><option value="direct">Website / direct / referral (no fee)</option><option value="meta">Meta ad (no fee)</option></select></label>
           <label class="field"><span>Charged ($)</span><input id="jobPrice" type="number" step="1" min="0" required></label>
           <label class="field"><span>Tech pay ($)</span><input id="jobPay" type="number" step="1" min="0" required></label>
           <label class="field wide"><span>Notes</span><input id="jobNotes" placeholder="Add-ons, tip, pet hair, etc."></label>
@@ -623,7 +624,7 @@ const settings = () => { const saved = (S.settings && S.settings.services) || {}
   return { ...DEFAULTS, ...S.settings, services: Object.fromEntries(Object.entries(DEFAULTS.services).map(([k, v]) => [k, { label: v.label, price: saved[k] && saved[k].price != null ? +saved[k].price : v.price }])), moneySplit: { ...DEFAULTS.moneySplit, ...(S.settings.moneySplit || {}) } }; };
 const serviceLabel = t => (settings().services[t] || {}).label || LEGACY_LABELS[t] || t;
 // Sub's pay: the lead fee comes off the top, then the sub gets their share of what's left.
-function subPay(price) { const s = settings(); return Math.round(Math.max(0, (+price || 0) - (+s.jobFee || 0)) * (+s.subShare || 0)) / 100; }
+function subPay(price, src = "rr") { const s = settings(); const fee = src === "rr" ? (+s.jobFee || 0) : 0; return Math.round(Math.max(0, (+price || 0) - fee) * (+s.subShare || 0)) / 100; }
 
 /* ---------- storage: artifact db, with on-device fallback ---------- */
 let db = null, mode = "connecting";
@@ -790,11 +791,12 @@ function profitSplit(key) {
   }
 }
 
-function logJob({ type = "standard", tech, customer = "", date = TODAY, price, pay, notes = "" }) {
+function logJob({ type = "standard", tech, customer = "", date = TODAY, price, pay, notes = "", source = "rr" }) {
+  const src = ["rr", "direct", "meta"].includes(source) ? source : "rr";
   const s = settings(); const svc = s.services[type] || s.services.standard;
   const amount = price != null && price !== "" ? +price : svc.price;
   const job = { type: s.services[type] ? type : "standard", tech: tech || s.techs[0], customer: String(customer), date,
-    price: amount, pay: pay != null && pay !== "" ? +pay : subPay(amount), fee: +s.jobFee || 0, notes: String(notes), ts: Date.now() };
+    price: amount, pay: pay != null && pay !== "" ? +pay : subPay(amount, src), fee: src === "rr" ? (+s.jobFee || 0) : 0, source: src, notes: String(notes), ts: Date.now() };
   const id = newId(); S.jobs = [...S.jobs, { id, ...job }]; renderAll();
   setDoc("jobs/" + id, job); return { id, ...job };
 }
@@ -1057,7 +1059,8 @@ function renderJobs() {
     `<tr><td class="num">${esc(j.date)}</td><td><span class="tag ${tier(j.type) === "lux" ? "full" : ""}">${esc(j.type === "earlier" ? "Earlier revenue" : serviceLabel(j.type))}</span></td><td>${esc(j.tech)}</td><td>${esc(j.customer)}${j.notes ? `<div class="muted small">${esc(j.notes)}</div>` : ""}</td><td class="r num">${money(j.price)}</td><td class="r num">${money(j.pay)}</td><td class="r num">${money(j.price - j.pay - feeOf(j))}</td><td class="r">${delBtn("jobs", j.id)}</td></tr>`).join("")}</tbody>`
     : `<tbody><tr><td class="empty">No jobs yet. Tap a quick-add button above or tell Jarvis “log a full detail for Tech 1”.</td></tr></tbody>`;
 }
-function fillRates() { const s = settings(); const svc = s.services[$("#jobType").value] || s.services.standard; $("#jobPrice").value = svc.price; $("#jobPay").value = subPay(svc.price); }
+function fillRates() { const s = settings(); const svc = s.services[$("#jobType").value] || s.services.standard; $("#jobPrice").value = svc.price; $("#jobPay").value = subPay(+$("#jobPrice").value || svc.price, $("#jobSrc").value); }
+function fillPay() { $("#jobPay").value = subPay(+$("#jobPrice").value || 0, $("#jobSrc").value); }
 
 function renderGoals() {
   const list = [...S.goals].sort((a, b) => (a.done - b.done) || String(a.due || "9").localeCompare(String(b.due || "9")));
@@ -1163,9 +1166,10 @@ $("#lWhat").addEventListener("input", debounced(() => setLearn({ what: $("#lWhat
 $("#addTaskForm").addEventListener("submit", e => { e.preventDefault(); if (addTask($("#newTask").value)) $("#newTask").value = ""; });
 let notesT;
 $("#dayNotes").addEventListener("input", () => { $("#notesState").textContent = "Typing…"; clearTimeout(notesT); notesT = setTimeout(() => { const d = currentDay(); d.notes = $("#dayNotes").value; saveDay(d).then(() => $("#notesState").textContent = "Saved"); }, 900); });
+$("#jobSrc").addEventListener("change", fillPay); $("#jobPrice").addEventListener("input", fillPay);
 $("#jobForm").addEventListener("submit", e => {
   e.preventDefault();
-  const j = logJob({ type: $("#jobType").value, tech: $("#jobTech").value, customer: $("#jobCust").value, date: $("#jobDate").value || TODAY, price: $("#jobPrice").value, pay: $("#jobPay").value, notes: $("#jobNotes").value });
+  const j = logJob({ type: $("#jobType").value, tech: $("#jobTech").value, customer: $("#jobCust").value, date: $("#jobDate").value || TODAY, price: $("#jobPrice").value, pay: $("#jobPay").value, notes: $("#jobNotes").value, source: $("#jobSrc").value });
   $("#jobCust").value = ""; $("#jobNotes").value = ""; fillRates(); toast(`Logged ${money(j.price)} job for ${j.tech}.`);
 });
 $("#expForm").addEventListener("submit", e => {
@@ -1251,7 +1255,7 @@ function contextText() {
   const recent = [...S.jobs].sort((x, y) => String(y.date).localeCompare(x.date)).slice(0, 12).map(j => `${j.date} ${j.type} ${j.tech} ${j.customer || ""} $${j.price} (tech $${j.pay})`).join("\n");
   return `NOW: ${now.toLocaleString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })} (today = ${TODAY})
 OWNER: ${s.name}, 18, runs ${s.business}. Usually wakes around ${s.wake || "10-11am"}, then tests automations and checks GoHighLevel.
-PACKAGES (sub gets ${s.subShare}% of the price after the $${s.jobFee} lead fee): ${Object.entries(s.services).map(([k, v]) => `${v.label} $${v.price} (sub $${subPay(v.price)})`).join("; ")}. One price for every vehicle. Basic = exterior wash + quick interior (for "car wash" callers); Standard = the full detail; Luxury = Standard + shampoo of seats/carpets/mats, leather conditioning, hand wax, trim, engine bay. Pitch Luxury first to "detail" callers, Basic + Standard upsell ("for $65 more") to "car wash" callers, never go below Basic.
+LEAD FEE: the $${s.jobFee} ${s.jobFeeLabel} fee is charged ONLY on jobs from Rapid Reach ads (source rr). Website, direct, referral and Meta bookings have no fee (source direct or meta): the sub gets ${s.subShare}% of the full price. PACKAGES (Rapid Reach-lead sub pay shown): ${Object.entries(s.services).map(([k, v]) => `${v.label} $${v.price} (sub $${subPay(v.price)})`).join("; ")}. One price for every vehicle. Basic = exterior wash + quick interior (for "car wash" callers); Standard = the full detail; Luxury = Standard + shampoo of seats/carpets/mats, leather conditioning, hand wax, trim, engine bay. Pitch Luxury first to "detail" callers, Basic + Standard upsell ("for $65 more") to "car wash" callers, never go below Basic.
 TECHNICIANS: ${s.techs.join(", ")}.
 THIS MONTH (${monthName(mk)}, day ${p.elapsed}/${p.dim}): revenue $${st.revenue}, jobs ${st.jobs.length} (${st.basic} Basic, ${st.std} Standard, ${st.lux} Luxury), sub pay $${st.pay}, ${s.jobFeeLabel || "lead"} fees $${st.fees} ($${s.jobFee} per completed job), other expenses $${st.expenses}, net profit $${st.net}, margin ${pct(st.margin)}, projected revenue $${Math.round(p.projected)}. Monthly goal: ${goalFor(mk).goal ? "$" + goalFor(mk).goal + (goalFor(mk).stretch > goalFor(mk).goal ? " (stretch $" + goalFor(mk).stretch + ")" : "") : "not set"}.
 REVENUE PLAN: ${[0, 1, 2, 3].map(i => { const k = monthKey(new Date(now.getFullYear(), now.getMonth() + i, 1)); const g = goalFor(k); return g.goal ? monthName(k) + " $" + g.goal + (g.stretch > g.goal ? " (stretch $" + g.stretch + ")" : "") : ""; }).filter(Boolean).join("; ") || "none"}.
@@ -1293,8 +1297,8 @@ What you do:
 
 const TOOLS = () => [
   { name: "log_job", description: "Record a completed detailing job. Price and tech pay default to the standard rates. Returns the saved job.",
-    inputSchema: { type: "object", properties: { type: { type: "string", enum: Object.keys(DEFAULTS.services), description: "basic, standard or luxury (one price for every vehicle)" }, tech: { type: "string", description: "Technician name" }, customer: { type: "string" }, date: { type: "string", description: "YYYY-MM-DD, default today" }, price: { type: "number" }, notes: { type: "string" } }, required: ["type"] },
-    execute: i => { const j = logJob({ type: String(i.type || "standard"), tech: techByName(i.tech), customer: i.customer || "", date: /^\d{4}-\d{2}-\d{2}$/.test(i.date || "") ? i.date : TODAY, price: i.price, notes: i.notes || "" }); return { saved: j, monthRevenue: monthStats(monthKey(new Date())).revenue }; } },
+    inputSchema: { type: "object", properties: { type: { type: "string", enum: Object.keys(DEFAULTS.services), description: "basic, standard or luxury (one price for every vehicle)" }, tech: { type: "string", description: "Technician name" }, customer: { type: "string" }, date: { type: "string", description: "YYYY-MM-DD, default today" }, price: { type: "number" }, notes: { type: "string" }, source: { type: "string", enum: ["rr", "direct", "meta"], description: "rr = Rapid Reach ad lead ($25 fee). direct = website, direct or referral booking (no fee). meta = Meta ad (no fee). Default rr; ask if unclear." } }, required: ["type"] },
+    execute: i => { const j = logJob({ type: String(i.type || "standard"), tech: techByName(i.tech), customer: i.customer || "", date: /^\d{4}-\d{2}-\d{2}$/.test(i.date || "") ? i.date : TODAY, price: i.price, notes: i.notes || "", source: i.source }); return { saved: j, monthRevenue: monthStats(monthKey(new Date())).revenue }; } },
   { name: "add_expense", description: "Record a business expense (supplies, software like GoHighLevel, ads, gas, equipment).",
     inputSchema: { type: "object", properties: { amount: { type: "number" }, category: { type: "string", enum: ["Supplies", "Software", "Ads", "Gas", "Equipment", "Other"] }, note: { type: "string" }, date: { type: "string" } }, required: ["amount"] },
     execute: i => { if (!(+i.amount > 0)) throw new Error("amount must be a positive number"); return addExpense({ amount: +i.amount, category: i.category || "Other", note: i.note || "", date: /^\d{4}-\d{2}-\d{2}$/.test(i.date || "") ? i.date : TODAY }); } },
