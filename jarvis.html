@@ -360,7 +360,7 @@ input[type=range]{padding:0;accent-color:var(--accent)}
           <label class="field"><span>Customer</span><input id="jobCust" placeholder="Name or vehicle"></label>
           <label class="field"><span>Lead source</span><select id="jobSrc"><option value="rr">Rapid Reach ad ($25 fee)</option><option value="direct">Website / direct / referral (no fee)</option><option value="meta">Meta ad (no fee)</option></select></label>
           <label class="field"><span>Charged ($)</span><input id="jobPrice" type="number" step="1" min="0" required></label>
-          <label class="field"><span>Tech pay ($)</span><input id="jobPay" type="number" step="1" min="0" required></label>
+          <label class="field"><span>Tech pay ($)</span><input id="jobPay" type="number" step="0.01" min="0" required></label>
           <label class="field wide"><span>Notes</span><input id="jobNotes" placeholder="Add-ons, tip, pet hair, etc."></label>
           <div class="field"><button class="btn" type="submit">Log job</button></div>
         </form>
