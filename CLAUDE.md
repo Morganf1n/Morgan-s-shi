@@ -37,7 +37,7 @@ All agent prompts carry the three packages, Austin + Mo at 60/40, the $10k Novem
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `1_3blmGaXLu3Z-2T7Y-r1gd54rzYDm31tV1B6Fc2NWIE`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `1pHxVY8uTTAcKqwfeiPgMKJVz7Ij_otS6UwTTsxlKhkk`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
@@ -60,7 +60,7 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `OCTOBER_10K_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1YXYYBKGPtkUKmASXaFF1dU1bLPyCpCq1Omp5gX78tBI/edit) |
 | `DETAILING_SALES_RESEARCH.md` | [Google Doc](https://docs.google.com/document/d/1BdDANzrit30r0NDMgxexM83Ka-cXCMnVgEFUZ99NHB0/edit) |
 | `Coastline_Close_On_The_Spot.xlsx` | [Google Sheet](https://docs.google.com/spreadsheets/d/1ahADR3LjdXA3oX79gaVlgu9Nn2KBt0v2RXfpYsZYfkM/edit) |
-| `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet: 02 Goals Sep-Dec 2026 (Nov 2: $425 done + $225 booked), latest](https://docs.google.com/spreadsheets/d/1jLGlS-9krLRpLCK6mHN2JImgEbh5y0LLhmSnGyr4UFA/edit). October closed at $7,419; November goal $10k (stretch $11k, ~38 jobs, 90 leads); November so far $425 done = Christina, 2 cars, done by Mo at 65%; $225 booked = Erica Jones, 2019 Kia Sorento, Thanksgiving Special, Nov 4 (PA, website lead, no fee). Reviews 40 → 120 by Jan 1. Older copies in Archive. Team: Austin + Mo (60/40 standard). |
+| `Coastline_Goals_Sep_Dec_2026.xlsx` | [Google Sheet: 02 Goals Sep-Dec 2026 (Nov 2: $425 done + $450 booked), latest](https://docs.google.com/spreadsheets/d/1TwPnLJvIkaOT9zgD_B4fHa3sFb-tLCqC3Ikg_DPwdFs/edit). October closed at $7,419; November goal $10k (stretch $11k, ~38 jobs, 90 leads); November so far $425 done = Christina, 2 cars, done by Mo at 65%; $225 booked = Erica Jones, 2019 Kia Sorento, Thanksgiving Special, Nov 4 (PA, website lead, no fee). $225 booked = Ram 1500, Covington GA, Thanksgiving Special, Thu Nov 5 1 PM (Google LSA lead, $25 fee). Reviews 40 → 120 by Jan 1. Older copies in Archive. Team: Austin + Mo (60/40 standard). |
 | `SPRING_2027_PLAN.md` | [Google Doc](https://docs.google.com/document/d/1z9_5Ig5puf1p66wOCu4POaCxyDAkSUWJm_SJeZ_6xkA/edit) |
 | `Coastline_Daily_Game_Plan.xlsx` | [Google Sheet: 07 Daily Game Plan, latest (Oct 10: name removed)](https://docs.google.com/spreadsheets/d/1-A16mO2G7yRFmXkZyhOahpbYYrKiWaoqBEQTlyQ1_R8/edit). Old copy is in Archive. |
 | `Coastline_Price_Sheet.xlsx` | [Google Sheet: 05 Price Sheet + Profit Calculator (Basic / Standard / Luxury), latest (Nov 1)](https://docs.google.com/spreadsheets/d/18jFL65PgIXTJDgBuJWpPCnsWmhJGHgui9z3Svxppgqg/edit). Old copies in Archive. |
