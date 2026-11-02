@@ -1412,10 +1412,17 @@ const Talk = (() => {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   let mode = "off", rec = null, listening = false, finalText = "", armed = false, armT = 0;
   const btn = $("#micBtn"), wbtn = $("#wakeBtn"), WAKE = /\b(hey|hi|okay|ok|yo)?[\s,]*(jarvis|jervis|jarvas|travis|ultron)\b[\s,.!?]*/i;
-  const fallback = "Your mic is blocked here. Tap the text box and use the 🎤 on your keyboard to talk, then hit Send. Jarvis will still answer out loud.";
+  const fallback = "This page can't use the mic directly, so Dictate mode is on: tap the 🎤 on your keyboard and talk. Jarvis sends it when you pause and answers out loud.";
+  let blocked = false, dictT = 0;
+  try { blocked = localStorage.getItem(LSKEY + ":micBlocked") === "1"; } catch {}
+  function markBlocked() { blocked = true; try { localStorage.setItem(LSKEY + ":micBlocked", "1"); } catch {} wbtn.hidden = true; }
+  // Dictate mode: keyboard dictation fills the box, auto-send after a pause.
+  $("#chatIn").addEventListener("input", () => { clearTimeout(dictT); if (mode !== "dictate") return;
+    dictT = setTimeout(() => { const t = $("#chatIn").value.trim(); if (t && !ctl) $("#chatForm").requestSubmit(); }, 1800); });
+  function dictate() { try { rec && rec.abort(); } catch {} listening = false; mode = "dictate"; if (!V.on && canSpeak) { V.on = true; saveV(); } ui(); toast(fallback); $("#chatIn").placeholder = "Tap 🎤 on your keyboard and talk. Sends when you pause."; $("#chatIn").focus(); }
   function ui() {
-    btn.classList.toggle("on", mode === "talk"); btn.setAttribute("aria-pressed", mode === "talk");
-    btn.textContent = mode === "talk" ? (listening ? "● Listening" : "● Talk on") : "🎤";
+    btn.classList.toggle("on", mode === "talk" || mode === "dictate"); btn.setAttribute("aria-pressed", mode === "talk" || mode === "dictate");
+    btn.textContent = mode === "dictate" ? "● Dictate on" : mode === "talk" ? (listening ? "● Listening" : "● Talk on") : "🎤";
     wbtn.setAttribute("aria-pressed", mode === "wake"); wbtn.textContent = mode === "wake" ? (armed ? "Hey Jarvis: go ahead…" : "Hey Jarvis: on") : "Hey Jarvis: off";
   }
   function arm() { armed = true; clearTimeout(armT); armT = setTimeout(() => { armed = false; ui(); }, 8000); ui(); }
@@ -1429,31 +1436,33 @@ const Talk = (() => {
     return false;
   }
   function listen() {
-    if (mode === "off" || listening || ctl) return;
+    if (mode === "off" || mode === "dictate" || listening || ctl) return;
     if (canSpeak && (speechSynthesis.speaking || speechSynthesis.pending)) return;
     try {
       rec = new SR(); rec.lang = "en-US"; rec.interimResults = true; rec.continuous = false; finalText = "";
       rec.onstart = () => { listening = true; ui(); if (mode === "talk") $("#jStatus").textContent = "Listening…"; };
       rec.onresult = e => { let interim = ""; for (let i = e.resultIndex; i < e.results.length; i++) { const t = e.results[i][0].transcript; if (e.results[i].isFinal) finalText += t; else interim += t; }
         if (mode === "talk" || armed) { $("#chatIn").value = (finalText + interim).trim(); Core.pulse(0.3); } };
-      rec.onerror = e => { listening = false; if (["not-allowed", "service-not-allowed", "audio-capture"].includes(e.error)) { stop(); toast(fallback); } };
+      rec.onerror = e => { listening = false; if (["not-allowed", "service-not-allowed", "audio-capture"].includes(e.error)) { markBlocked(); dictate(); } };
       rec.onend = () => { listening = false; ui(); applyV(); const t = finalText.trim(); if (mode === "talk" || armed) $("#chatIn").value = "";
         if (mode === "off") return; if (!handle(t)) setTimeout(listen, 250); };
       rec.start();
-    } catch { stop(); toast(fallback); }
+    } catch { markBlocked(); dictate(); }
   }
-  function stop() { mode = "off"; armed = false; try { rec && rec.abort(); } catch {} listening = false; ui(); applyV(); }
+  function stop() { mode = "off"; armed = false; clearTimeout(dictT); $("#chatIn").placeholder = "e.g. Log a full detail for Tech 2, customer Jake's F-150"; try { rec && rec.abort(); } catch {} listening = false; ui(); applyV(); }
   function start(m) {
-    if (!SR) { toast(fallback); $("#chatIn").focus(); return; }
+    if (!SR || blocked) { if (m === "talk") dictate(); else toast("“Hey Jarvis” needs the mic, which this page can't use. Use the 🎤 button for Dictate mode."); return; }
     try { rec && rec.abort(); } catch {} listening = false;
     mode = m; stopSpeaking(); if (!V.on && canSpeak) { V.on = true; saveV(); } ui(); listen();
     if (m === "wake") toast("Listening for “Hey Jarvis”. Keep this page open with the screen on.");
   }
-  btn.addEventListener("click", () => { if (mode === "talk") { stop(); stopSpeaking(); } else start("talk"); });
+  btn.addEventListener("click", () => { if (mode === "talk" || mode === "dictate") { stop(); stopSpeaking(); } else start("talk"); });
   wbtn.addEventListener("click", () => { if (mode === "wake") stop(); else start("wake"); });
-  wbtn.hidden = !SR;
+  wbtn.hidden = !SR || blocked;
+  // Start every visit hands-free: voice on + Dictate mode (no tap needed).
+  setTimeout(() => { if (!V.on && canSpeak) { V.on = true; saveV(); } mode = "dictate"; ui(); $("#chatIn").placeholder = "Tap 🎤 on your keyboard and talk. Sends when you pause."; }, 0);
   return {
-    afterReply() { setTimeout(listen, 400); },
+    afterReply() { if (mode === "dictate") { setTimeout(() => $("#chatIn").focus(), 100); return; } setTimeout(listen, 400); },
     afterSpeech() { setTimeout(listen, 350); },
   };
 })();
