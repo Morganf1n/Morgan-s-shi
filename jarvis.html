@@ -210,6 +210,10 @@ input[type=range]{padding:0;accent-color:var(--accent)}
 .jarvis textarea::placeholder{color:color-mix(in srgb,var(--bg) 55%,transparent)}
 
 #toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-size:13px;box-shadow:var(--shadow);z-index:10;max-width:calc(100vw - 32px)}
+.mic{min-width:44px;font-size:18px;line-height:1;padding:8px 12px}
+.mic.on{background:#ff3b30;border-color:#ff3b30;color:#fff;animation:micpulse 1.2s ease-in-out infinite}
+@keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(255,59,48,.6)}50%{box-shadow:0 0 0 8px rgba(255,59,48,0)}}
+@media (prefers-reduced-motion:reduce){.mic.on{animation:none}}
 </style>
 
 <header class="top">
@@ -544,12 +548,14 @@ input[type=range]{padding:0;accent-color:var(--accent)}
     <header>
       <div><h2 id="jName">JARVIS</h2><p id="jStatus">Online. Ask me anything about the business.</p></div>
       <button type="button" class="vbtn" id="viewBtn" title="Switch between the full-screen core and the tracker with chat">Open tracker</button>
+      <button type="button" class="vbtn" id="wakeBtn" aria-pressed="false" title="Always listening while Jarvis is open. Say “Hey Jarvis” and then your question.">Hey Jarvis: off</button>
       <button type="button" class="vbtn" id="voiceBtn" aria-pressed="false" title="Read Jarvis's replies out loud">Voice off</button>
     </header>
     <div class="core" id="core"><canvas id="coreCanvas" aria-hidden="true"></canvas><div class="caption" id="caption" aria-live="polite"></div></div>
     <div class="msgs" id="msgs" aria-live="polite"></div>
     <form id="chatForm">
       <textarea id="chatIn" rows="1" placeholder="e.g. Log a full detail for Tech 2, customer Jake's F-150"></textarea>
+      <button class="btn mic" type="button" id="micBtn" aria-pressed="false" title="Talk to Jarvis (hands-free: tap once, talk, he answers out loud, then listens again)" aria-label="Talk to Jarvis">🎤</button>
       <button class="btn" type="submit" id="chatSend">Send</button>
     </form>
   </aside>
@@ -1399,7 +1405,58 @@ async function ask(text) {
   S.chat = [...S.chat, { role: "user", content: text }, { role: "assistant", content: reply }].slice(-40);
   pending = null;
   const d = currentDay(); d.chat = S.chat; saveDay(d); renderChat();
+  Talk.afterReply();
 }
+/* ---------- talk mode + "Hey Jarvis" wake word ---------- */
+const Talk = (() => {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let mode = "off", rec = null, listening = false, finalText = "", armed = false, armT = 0;
+  const btn = $("#micBtn"), wbtn = $("#wakeBtn"), WAKE = /\b(hey|hi|okay|ok|yo)?[\s,]*(jarvis|jervis|jarvas|travis|ultron)\b[\s,.!?]*/i;
+  const fallback = "Your mic is blocked here. Tap the text box and use the 🎤 on your keyboard to talk, then hit Send. Jarvis will still answer out loud.";
+  function ui() {
+    btn.classList.toggle("on", mode === "talk"); btn.setAttribute("aria-pressed", mode === "talk");
+    btn.textContent = mode === "talk" ? (listening ? "● Listening" : "● Talk on") : "🎤";
+    wbtn.setAttribute("aria-pressed", mode === "wake"); wbtn.textContent = mode === "wake" ? (armed ? "Hey Jarvis: go ahead…" : "Hey Jarvis: on") : "Hey Jarvis: off";
+  }
+  function arm() { armed = true; clearTimeout(armT); armT = setTimeout(() => { armed = false; ui(); }, 8000); ui(); }
+  function handle(t) {
+    t = t.trim(); if (!t) return false;
+    if (mode === "talk") { ask(t); return true; }
+    const m = t.match(WAKE);
+    if (m) { const cmd = t.slice(m.index + m[0].length).trim(); if (cmd.length > 1) { armed = false; ask(cmd); return true; }
+      arm(); speak("Yes, Morgan?"); return true; }
+    if (armed) { armed = false; ask(t); return true; }
+    return false;
+  }
+  function listen() {
+    if (mode === "off" || listening || ctl) return;
+    if (canSpeak && (speechSynthesis.speaking || speechSynthesis.pending)) return;
+    try {
+      rec = new SR(); rec.lang = "en-US"; rec.interimResults = true; rec.continuous = false; finalText = "";
+      rec.onstart = () => { listening = true; ui(); if (mode === "talk") $("#jStatus").textContent = "Listening…"; };
+      rec.onresult = e => { let interim = ""; for (let i = e.resultIndex; i < e.results.length; i++) { const t = e.results[i][0].transcript; if (e.results[i].isFinal) finalText += t; else interim += t; }
+        if (mode === "talk" || armed) { $("#chatIn").value = (finalText + interim).trim(); Core.pulse(0.3); } };
+      rec.onerror = e => { listening = false; if (["not-allowed", "service-not-allowed", "audio-capture"].includes(e.error)) { stop(); toast(fallback); } };
+      rec.onend = () => { listening = false; ui(); applyV(); const t = finalText.trim(); if (mode === "talk" || armed) $("#chatIn").value = "";
+        if (mode === "off") return; if (!handle(t)) setTimeout(listen, 250); };
+      rec.start();
+    } catch { stop(); toast(fallback); }
+  }
+  function stop() { mode = "off"; armed = false; try { rec && rec.abort(); } catch {} listening = false; ui(); applyV(); }
+  function start(m) {
+    if (!SR) { toast(fallback); $("#chatIn").focus(); return; }
+    try { rec && rec.abort(); } catch {} listening = false;
+    mode = m; stopSpeaking(); if (!V.on && canSpeak) { V.on = true; saveV(); } ui(); listen();
+    if (m === "wake") toast("Listening for “Hey Jarvis”. Keep this page open with the screen on.");
+  }
+  btn.addEventListener("click", () => { if (mode === "talk") { stop(); stopSpeaking(); } else start("talk"); });
+  wbtn.addEventListener("click", () => { if (mode === "wake") stop(); else start("wake"); });
+  wbtn.hidden = !SR;
+  return {
+    afterReply() { setTimeout(listen, 400); },
+    afterSpeech() { setTimeout(listen, 350); },
+  };
+})();
 $("#chatForm").addEventListener("submit", e => { e.preventDefault(); if (ctl) { ctl.abort(); stopSpeaking(); return; } const v = $("#chatIn").value; $("#chatIn").value = ""; ask(v); });
 $("#chatIn").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("#chatForm").requestSubmit(); } });
 
@@ -1525,7 +1582,7 @@ function speak(text) {
     const u = new SpeechSynthesisUtterance(String(text).replace(/[*_#`>]/g, "").trim());
     const v = pickVoice(); if (v) { u.voice = v; u.lang = v.lang; }
     u.pitch = +vPitch(); u.rate = +vRate();
-    u.onstart = () => Core.set("speaking"); u.onend = u.onerror = () => Core.set("idle");
+    u.onstart = () => Core.set("speaking"); u.onend = u.onerror = () => { Core.set("idle"); Talk.afterSpeech(); };
     u.onboundary = () => Core.pulse(0.45);
     speechSynthesis.speak(u);
   } catch {}
