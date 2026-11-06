@@ -32,7 +32,7 @@ Three packages (Essential was dropped Nov 1 to keep it simple): **Basic $185** (
 
 ## Van + money order (Nov 6)
 
-Goal: buy a cash work van ($2,500–3,000 on Facebook Marketplace / Car Genesis, ~$3,000–3,500 all-in) by **Dec 12**; PPF wrap in 2027, magnetic door signs until then. Order: **November profit funds the van** ($750/week into a separate account: calendar reminders Sundays 7:15 PM Nov 8, 15, 22, 29; targets $750 / $1,500 / $2,250 / $3,000); van shopping starts Dec 1 (red all-day event). **December profit funds the $2,000 PPC set-aside** (Dec 14) for the Jan 4 launch. Camaro is a later goal (April at the earliest, after the van, if Jan–Mar each net ~$3k+). Wells Fargo was at $188 on Nov 6.
+Goal: buy a cash work van ($2,500–3,000 on Facebook Marketplace / Car Genesis, ~$3,000–3,500 all-in) by **Dec 12**; PPF wrap in 2027, magnetic door signs until then. Order: **November profit funds the van** ($750/week into a separate account: calendar reminders Sundays 7:15 PM Nov 8, 15, 22, 29; targets $750 / $1,500 / $2,250 / $3,000); van shopping starts Dec 1 (red all-day event). **December profit funds the $2,000 PPC set-aside** (Dec 14) for the Jan 4 launch. **Pending: Rapid Reach invoice** (Morgan, Nov 6): he will send the amount Rapid Reach charges ($25/job LSA fees, plus the PPC $500/mo once it starts). When he does, log it as an expense (Jarvis + Goals sheet), subtract it from November profit, and recheck the van fund math. Camaro is a later goal (April at the earliest, after the van, if Jan–Mar each net ~$3k+). Wells Fargo was at $188 on Nov 6.
 
 ## Specials (Nov 6)
 
