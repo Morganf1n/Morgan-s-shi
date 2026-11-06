@@ -26,9 +26,13 @@ Morgan wants every file you make or update uploaded to Google Drive as soon as i
 
 Three packages (Essential was dropped Nov 1 to keep it simple): **Basic $185** (car-wash crowd: exterior hand wash, wheels/tire shine, quick vacuum, wipe-down, windows), **Standard $250** (the full detail: full interior incl. trunk, seats/carpets spot-treated, dash/console/vents, door jambs, mats, inside windows + hand wash, wheels & wells, tire shine, bug & tar, windows, spray sealant), **Luxury $330** (Standard + shampoo of seats/carpets/mats, leather, hand wax, trim, engine bay). **One price for every vehicle** (confirmed Nov 1). Drive menus, price sheet, sub doc, pricing strategy, closing scripts and Jarvis are all on this lineup. Subs (Austin, Mo): $25 Rapid Reach fee off the top, then 60% sub / 40% Morgan (keep $64 / $90 / $122). **The $25 Rapid Reach fee applies only to jobs from Rapid Reach ads**; website, direct, referral and Meta bookings have no fee, so the sub gets 60% of the full price (Morgan, Nov 2). Jarvis has a "Lead source" field on each job for this. Christina (Nov 1, $425, Mo 65%) was a direct booking: Mo $276.25, Morgan $148.75. Morgan also details jobs himself (keeps price − $25 − ~$15–20 supplies). Pitch Luxury first for "detail" callers; Basic for "car wash" callers with "for $65 more, Standard does the full detail." $10k ≈ 38 jobs at the usual mix. **Thanksgiving Special $225 (through Nov 25, the Meta ad offer):** Standard detail + leather clean/condition, spray wax, streak-free glass, tire shine + trim dressing, holiday scent (premium touches that add ~20–30 min, no full shampoo); shampoo +$75 and pet hair +$50 as on-site upsells. Keep $80 on a sub job, ~$183 on Morgan's own job. Add-ons: fixed list, sold on site after a walk-around, approved before work starts, never charged after.
 
-## Ads (Nov 1)
+## Ads (updated Nov 6)
 
-**All Google advertising (LSA + Search) is run by Rapid Reach** ($25 per completed job); Morgan doesn't manage Google ads himself. Morgan runs **Meta (Facebook/Instagram) ads at $30/day, launching Nov 5**: one Leads campaign with 3 ad sets at $10/day each (GA: Loganville +20 mi; DE: Wilmington +12 mi; PA: Glen Mills +12 mi; radii kept apart so DE/PA don't overlap), Thanksgiving Special $225 offer, leads tagged by state in GoHighLevel and routed to the local sub. Meta leads carry no Rapid Reach fee, so subs split the full price 60/40 (red all-day calendar event with the launch checklist) (Morgan's call, replacing the earlier "no Meta until 2027" plan). Calendar check on Nov 19 7:30 PM (2 weeks after launch), judged per state: keep if cost per booked job is under $60, pause if fewer than 3 bookings after ~$400. Nov 1: Morgan's Meta ad account showed as restricted (he fixed it the same day); told him not to open a new profile to get around it (Meta bans for circumvention) and to check facebook.com/accountquality, request review, verify ID, or ask Rapid Reach to run Meta through their agency account.
+**Meta ads are dropped** (Morgan, Nov 6). **All Google advertising is run by Rapid Reach**: LSA ($25 per completed job, only on Rapid Reach leads) plus, from Nov 6, **Google PPC for ceramic coatings and paint correction at $50/day ad spend (~$1,500/mo) + $500/mo management (~$2,000/mo total)**. Break-even is ~5 coatings a month at ~$1,000 (Morgan keeps ~$400 on a sub job). Suggested high-ticket prices (not final): 1-step paint correction $450–600, ceramic coating $899–1,200, bundle $1,299–1,599. 30-day PPC check on the calendar Dec 7, 7:30 PM: keep at 5+ high-ticket jobs/month, cut or lower under 2. Meta history: account was restricted Nov 1 (fixed); never open a new profile to get around a restriction.
+
+## Specials (Nov 6)
+
+A seasonal special is always running (Doc 15). **Target average ticket $250–285.** Thanksgiving Special $225 through Nov 25 is the only one under $249; after it: Black Friday gift cards, Holiday Road Trip $249, New Year Reset $259, Date Night $259, Spring Pollen Reset $275, Mother's Day $259, Summer Road Trip $285, Back to School $259, Fall Ready $265, Thanksgiving 2027 $249. Pitch: "We have our special option right now, and it's selling fast" (only when true). Morgan is closing most deals himself now.
 
 ## Scheduled agents (updated Nov 1)
 
@@ -37,7 +41,7 @@ All agent prompts carry the three packages, Austin + Mo at 60/40, the $10k Novem
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `1jVAW_w8-mdsjdw1I97ab6ESX2eNIpyZffahgM9cEhdI`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `1QSEw0Ev-9SiK7EE_anfz-R8Z9J1nu_f-Jju_hLRsgt4`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
@@ -72,5 +76,6 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | (Oct 21, in 4 – Team & Techs) | [Google Doc: 12 Subcontractor Expansion Plan – 20 Subs by May](https://docs.google.com/document/d/1Ead9SsqFaDHKkce1hyOHq7e9aYPlrJbDUAEmQDAflEI/edit) |
 | `REVIEW_PLAN.md` | [Google Doc: 13 Review Plan: 120 Google Reviews by New Year (Oct 31)](https://docs.google.com/document/d/1Fq-zXKpVRV91O8rr410V8H10llJNtZBMA67O_PXaxQA/edit), in 1 – Goals & Plans |
 | `NOVEMBER_10K_PLAN.md` | [Google Doc: 14 November $10k Plan (Nov 1)](https://docs.google.com/document/d/1HtHOVT8KSaD5DwRzXyNRUrZqIV12HigdF4XYeBMgL_A/edit), in 1 – Goals & Plans. Daily red all-day calendar event Nov 1–30 plus Nov 2 10:30 AM past-customer text. |
+| (Nov 6) | [Google Doc: 15 Seasonal Specials Calendar 2026–2027 (avg ticket $250–285)](https://docs.google.com/document/d/1iU57Wz6gOuxOAR1YEck1eqCP5U18wtW1lZeksvZj8_U/edit), in 1 – Goals & Plans. Also covers the Rapid Reach PPC (coatings + paint correction) budget and break-even. |
 
 Add a row here whenever you upload a new file.
