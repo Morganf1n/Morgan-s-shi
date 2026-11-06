@@ -30,6 +30,10 @@ Three packages (Essential was dropped Nov 1 to keep it simple): **Basic $185** (
 
 **Meta ads are dropped** (Morgan, Nov 6). **All Google advertising is run by Rapid Reach**: LSA ($25 per completed job, only on Rapid Reach leads) plus, **starting Mon Jan 4, 2027** (Morgan, Nov 6: not now, cash is tight), **Google PPC for ceramic coatings and paint correction at $50/day ad spend (~$1,500/mo) + $500/mo management (~$2,000/mo total)**. Break-even is ~5 coatings a month at ~$1,000 (Morgan keeps ~$400 on a sub job). Suggested high-ticket prices (not final): 1-step paint correction $450–600, ceramic coating $899–1,200, bundle $1,299–1,599. Calendar: Dec 14 7:30 PM prep (set aside $2,000, confirm start, final coating prices, photos); Jan 4 red all-day launch; 30-day PPC check Feb 4, 7:30 PM: keep at 5+ high-ticket jobs/month, cut or lower under 2. Meta history: account was restricted Nov 1 (fixed); never open a new profile to get around a restriction.
 
+## Van + money order (Nov 6)
+
+Goal: buy a cash work van ($2,500–3,000 on Facebook Marketplace / Car Genesis, ~$3,000–3,500 all-in) by **Dec 12**; PPF wrap in 2027, magnetic door signs until then. Order: **November profit funds the van** ($750/week into a separate account: calendar reminders Sundays 7:15 PM Nov 8, 15, 22, 29; targets $750 / $1,500 / $2,250 / $3,000); van shopping starts Dec 1 (red all-day event). **December profit funds the $2,000 PPC set-aside** (Dec 14) for the Jan 4 launch. Camaro is a later goal (April at the earliest, after the van, if Jan–Mar each net ~$3k+). Wells Fargo was at $188 on Nov 6.
+
 ## Specials (Nov 6)
 
 A seasonal special is always running (Doc 15). **Target average ticket $250–285.** Thanksgiving Special $225 through Nov 25 is the only one under $249; after it: Black Friday gift cards, Holiday Road Trip $249, New Year Reset $259, Date Night $259, Spring Pollen Reset $275, Mother's Day $259, Summer Road Trip $285, Back to School $259, Fall Ready $265, Thanksgiving 2027 $249. Pitch: "We have our special option right now, and it's selling fast" (only when true). Morgan is closing most deals himself now.
