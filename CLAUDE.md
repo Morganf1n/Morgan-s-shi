@@ -28,7 +28,7 @@ Three packages (Essential was dropped Nov 1 to keep it simple): **Basic $185** (
 
 ## Ads (updated Nov 6)
 
-**Meta ads are dropped** (Morgan, Nov 6). **All Google advertising is run by Rapid Reach**: LSA ($25 per completed job, only on Rapid Reach leads) plus, from Nov 6, **Google PPC for ceramic coatings and paint correction at $50/day ad spend (~$1,500/mo) + $500/mo management (~$2,000/mo total)**. Break-even is ~5 coatings a month at ~$1,000 (Morgan keeps ~$400 on a sub job). Suggested high-ticket prices (not final): 1-step paint correction $450–600, ceramic coating $899–1,200, bundle $1,299–1,599. 30-day PPC check on the calendar Dec 7, 7:30 PM: keep at 5+ high-ticket jobs/month, cut or lower under 2. Meta history: account was restricted Nov 1 (fixed); never open a new profile to get around a restriction.
+**Meta ads are dropped** (Morgan, Nov 6). **All Google advertising is run by Rapid Reach**: LSA ($25 per completed job, only on Rapid Reach leads) plus, **starting Mon Jan 4, 2027** (Morgan, Nov 6: not now, cash is tight), **Google PPC for ceramic coatings and paint correction at $50/day ad spend (~$1,500/mo) + $500/mo management (~$2,000/mo total)**. Break-even is ~5 coatings a month at ~$1,000 (Morgan keeps ~$400 on a sub job). Suggested high-ticket prices (not final): 1-step paint correction $450–600, ceramic coating $899–1,200, bundle $1,299–1,599. Calendar: Dec 14 7:30 PM prep (set aside $2,000, confirm start, final coating prices, photos); Jan 4 red all-day launch; 30-day PPC check Feb 4, 7:30 PM: keep at 5+ high-ticket jobs/month, cut or lower under 2. Meta history: account was restricted Nov 1 (fixed); never open a new profile to get around a restriction.
 
 ## Specials (Nov 6)
 
