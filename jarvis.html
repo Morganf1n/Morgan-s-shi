@@ -1,7 +1,7 @@
 <title>Morgan&#39;s Daily Sheet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
 <style>
 :root{
   --bg:#EAF0F2; --surface:#FFFFFF; --surface-2:#F3F7F8; --ink:#0F2330; --ink-2:#44606F; --muted:#768C98;
@@ -214,6 +214,59 @@ input[type=range]{padding:0;accent-color:var(--accent)}
 .mic.on{background:#ff3b30;border-color:#ff3b30;color:#fff;animation:micpulse 1.2s ease-in-out infinite}
 @keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(255,59,48,.6)}50%{box-shadow:0 0 0 8px rgba(255,59,48,0)}}
 @media (prefers-reduced-motion:reduce){.mic.on{animation:none}}
+
+/* ---------- Luxury theme: black, champagne gold, serif display ---------- */
+:root, :root[data-theme="light"]{
+  --bg:#F6F2EA; --surface:#FFFDF8; --surface-2:#F1EBDF; --ink:#141210; --ink-2:#5B5346; --muted:#8C8270;
+  --line:#E2D8C4; --accent:#A8843E; --accent-ink:#FFFFFF; --accent-soft:#F1E6CC; --buoy:#A8843E;
+  --good:#2F6E4A; --good-soft:#DDEBDF; --warn:#9A6412; --warn-soft:#F4E9D2; --bad:#9E2F25; --bad-soft:#F3DCD8;
+  --shadow:0 1px 2px rgba(20,18,16,.05),0 10px 30px rgba(20,18,16,.06);
+  --display:"Cormorant Garamond","Didot","Bodoni 72",Georgia,serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B0A08; --surface:#141210; --surface-2:#1B1815; --ink:#F2ECDF; --ink-2:#BDB29C; --muted:#8A8070;
+    --line:#2B261F; --accent:#D4AF6A; --accent-ink:#14110A; --accent-soft:#2E2617; --buoy:#D4AF6A;
+    --good:#7FC79A; --good-soft:#14281C; --warn:#E3B062; --warn-soft:#30250F; --bad:#E07A6E; --bad-soft:#341815;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B0A08; --surface:#141210; --surface-2:#1B1815; --ink:#F2ECDF; --ink-2:#BDB29C; --muted:#8A8070;
+  --line:#2B261F; --accent:#D4AF6A; --accent-ink:#14110A; --accent-soft:#2E2617; --buoy:#D4AF6A;
+  --good:#7FC79A; --good-soft:#14281C; --warn:#E3B062; --warn-soft:#30250F; --bad:#E07A6E; --bad-soft:#341815;
+}
+body{font-size:14.5px;letter-spacing:.005em}
+h1,h2,h3{font-weight:600;letter-spacing:.02em}
+h2{font-size:21px;letter-spacing:.14em;font-weight:600}
+.mark{font-weight:600;letter-spacing:.42em;font-size:28px}
+.mark b{color:var(--accent);font-weight:700}
+.hello h1{font-size:46px;font-weight:500;letter-spacing:.005em}
+.hello h1 em{font-style:italic}
+.hello .quote{font-size:20px;font-weight:500}
+.card{border-radius:4px;border-color:var(--line);box-shadow:var(--shadow);padding:22px;position:relative}
+.card::before{content:"";position:absolute;left:22px;right:22px;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.55}
+.kpis{border-radius:4px}
+.kpi .lab{letter-spacing:.16em;font-size:10.5px}
+.kpi .val{font-weight:500;font-size:34px}
+.big .n{font-weight:500}
+.tabs button{font-size:17px;letter-spacing:.14em;border-radius:2px;font-weight:600}
+.tabs button[aria-selected="true"]{background:transparent;color:var(--accent);border-color:transparent;box-shadow:inset 0 -1px 0 var(--accent)}
+.btn{border-radius:2px;letter-spacing:.08em;text-transform:uppercase;font-size:12px;padding:9px 16px;background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 88%,#fff),var(--accent));}
+.btn.ghost{background:transparent}
+input,select,textarea{border-radius:2px}
+.chip{border-radius:2px;letter-spacing:.06em}
+.progress{height:4px;border-radius:0}
+.progress > i{border-radius:0;background:linear-gradient(90deg,#8C6B2E,var(--accent),#F1DCA4)}
+.top{border-bottom-color:var(--line)}
+.jarvis{background:#0B0A08;color:#F2ECDF;border-radius:4px;border:1px solid #2B261F;--bg:#F2ECDF}
+.jarvis header h2{letter-spacing:.38em;color:#D4AF6A}
+.core,.jarvis.corefull{background:#070604}
+.msgs{background:linear-gradient(#14110C,#080705)}
+.vbtn{border-radius:2px;letter-spacing:.06em}
+.mic.on{background:#D4AF6A;border-color:#D4AF6A;color:#14110A}
+@keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(212,175,106,.6)}50%{box-shadow:0 0 0 8px rgba(212,175,106,0)}}
 </style>
 
 <header class="top">
@@ -1509,7 +1562,7 @@ const Core = (() => {
   function pal() {
     return V.persona === "ultron"
       ? { mid: "rgba(176,58,52,1)", edge: "rgba(78,20,22,1)", line: "255,110,84", ray: "255,200,188", glow: ["255,255,255", "255,222,214", "255,104,84"], mark: "#ff3b30" }
-      : { mid: "rgba(150,30,30,1)", edge: "rgba(40,6,6,1)", line: "255,120,110", ray: "255,210,205", glow: ["255,255,255", "255,225,220", "235,70,60"], mark: "#ff6b5e" };
+      : { mid: "rgba(46,36,18,1)", edge: "rgba(6,5,3,1)", line: "222,190,120", ray: "245,225,180", glow: ["255,252,240", "246,226,178", "201,162,86"], mark: "#D4AF6A" };
   }
   function frame(now) {
     const t = (now - t0) / 1000; const p = pal(); const full = $("#jarvis").classList.contains("corefull");
