@@ -1542,17 +1542,24 @@ const vPitch = () => V.pitch ?? persona().pitch, vRate = () => V.rate ?? persona
 const canSpeak = "speechSynthesis" in window && typeof SpeechSynthesisUtterance === "function";
 function saveV() { try { localStorage.setItem(VKEY, JSON.stringify(V)); } catch {} applyV(); }
 function voices() { try { return canSpeak ? speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang)) : []; } catch { return []; } }
-const BRIT_MALE = /Daniel|Arthur|Oliver|Google UK English Male|Ryan|George|Thomas|Alfie|Elliot|Harry|Malcolm|Noah|Ethan/i;
+const MALE = /Daniel|Arthur|Oliver|Google UK English Male|Ryan|George|Thomas|Alfie|Elliot|Harry|Malcolm|Noah|Ethan|Reed|Rocko|Eddy|Grandpa|Aaron|Fred|Alex|Tom|Nathan|Evan|Gordon|Rishi|Lee|Guy|Christopher|Davis|Eric|Andrew|Brian|Roger|Steffan|Jacob|Tony|Male|Man\b/i;
+const FEMALE = /female|woman|Samantha|Serena|Kate|Martha|Stephanie|Libby|Sonia|Hazel|Susan|Amy|Emma|Fiona|Moira|Karen|Tessa|Victoria|Allison|Ava|Zoe|Nicky|Siri|Catherine|Veena|Sandy|Shelley|Flo|Grandma|Aria|Jenny|Michelle|Joanna|Salli|Kimberly|Ivy|Olivia|Natasha|Clara|Maisie|Bella/i;
+const isMale = v => MALE.test(v.name) && !FEMALE.test(v.name);
+const isGB = v => /en[-_]GB/i.test(v.lang);
 function pickVoice() {
   const vs = voices(); if (!vs.length) return null;
-  const gb = vs.filter(v => /en[-_]GB/i.test(v.lang));
   const chosen = vs.find(v => v.name === V.voice);
-  if (chosen) return chosen;
-  if (V.persona === "ultron") return vs.find(v => /Daniel|UK English Male|Fred|Alex|Aaron|Guy|Ryan|Christopher|Davis|Eric/i.test(v.name)) || vs[0];
-  return gb.find(v => BRIT_MALE.test(v.name)) || vs.find(v => /Daniel|Arthur|UK English Male/i.test(v.name)) || gb.find(v => !/female|Serena|Kate|Martha|Stephanie|Libby|Sonia|Hazel|Susan|Amy|Emma|Fiona|Moira/i.test(v.name)) || gb[0] || vs[0];
+  if (chosen && !(V.persona !== "ultron" && FEMALE.test(chosen.name))) return chosen;
+  return vs.find(v => isGB(v) && isMale(v))        // British man (Arthur, Daniel, Reed UK...)
+    || vs.find(v => isMale(v))                      // any English man
+    || vs.find(v => isGB(v) && !FEMALE.test(v.name))
+    || vs.find(v => !FEMALE.test(v.name))
+    || vs[0];
 }
+// Deeper pitch if the device only has a female voice.
+const vPitchFor = v => (v && FEMALE.test(v.name) && !isMale(v)) ? Math.min(+vPitch(), 0.7) : +vPitch();
 // One-time switch to a British voice for JARVIS (Nov 7): clear any older non-British pick.
-try { if (!localStorage.getItem(LSKEY + ":britVoice")) { if (V.persona !== "ultron") { V.voice = ""; V.pitch = null; V.rate = null; } localStorage.setItem(LSKEY + ":britVoice", "1"); localStorage.setItem(VKEY, JSON.stringify(V)); } } catch {}
+try { if (!localStorage.getItem(LSKEY + ":maleVoice")) { if (V.persona !== "ultron") { V.voice = ""; V.pitch = null; V.rate = null; } localStorage.setItem(LSKEY + ":maleVoice", "1"); localStorage.setItem(VKEY, JSON.stringify(V)); } } catch {}
 /* ---------- animated core ---------- */
 const Core = (() => {
   const cv = $("#coreCanvas"), ctx = cv.getContext("2d");
@@ -1655,7 +1662,7 @@ function speak(text) {
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(String(text).replace(/[*_#`>]/g, "").trim());
     const v = pickVoice(); if (v) { u.voice = v; u.lang = v.lang; }
-    u.pitch = +vPitch(); u.rate = +vRate();
+    u.pitch = vPitchFor(v); u.rate = +vRate();
     u.onstart = () => Core.set("speaking"); u.onend = u.onerror = () => { Core.set("idle"); Talk.afterSpeech(); };
     u.onboundary = () => Core.pulse(0.45);
     speechSynthesis.speak(u);
