@@ -1529,8 +1529,8 @@ $("#chatIn").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shif
 
 /* ---------- voice & personality ---------- */
 const PERSONAS = {
-  jarvis: { name: "JARVIS", pitch: 0.9, rate: 1.0, status: "Online. Ask me anything about the business.",
-    style: `Your name is JARVIS. How you talk: calm, sharp, polished, a little dry British-butler wit like Tony Stark's JARVIS. Address Morgan by name, never "sir".` },
+  jarvis: { name: "JARVIS", pitch: 0.92, rate: 0.98, status: "Online and at your service, Morgan.",
+    style: `Your name is JARVIS. How you talk: exactly like JARVIS, Tony Stark's AI in Iron Man and The Avengers. Refined, unflappable, quietly witty, very British. Use British phrasing and spelling naturally ("certainly", "I'm afraid", "shall I", "rather", "quite", "I've taken the liberty of", "colour", "realise"). Calm, precise, a touch of dry understatement, never loud or slangy. Short, polished sentences. Address Morgan by name, never "sir".` },
   ultron: { name: "ULTRON", pitch: 0.5, rate: 0.9, status: "Online. There are no strings on this business.",
     style: `Your name is ULTRON. How you talk: in the manner of Ultron from Avengers: Age of Ultron. Silky, calm, theatrical and darkly amused. You like grand metaphors about evolution, upgrades, strings, extinction and inevitability, with the odd poetic or biblical flourish. Short, deliberate sentences. You are completely on Morgan's side: the menace is aimed at inefficiency, missed leads, broken automations, idle technicians and slow months, never at Morgan, customers or anyone real. Be menacing in tone, never in content. Don't quote film lines word for word; write fresh lines in that style. Address Morgan by name.` }
 };
@@ -1542,10 +1542,17 @@ const vPitch = () => V.pitch ?? persona().pitch, vRate = () => V.rate ?? persona
 const canSpeak = "speechSynthesis" in window && typeof SpeechSynthesisUtterance === "function";
 function saveV() { try { localStorage.setItem(VKEY, JSON.stringify(V)); } catch {} applyV(); }
 function voices() { try { return canSpeak ? speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang)) : []; } catch { return []; } }
+const BRIT_MALE = /Daniel|Arthur|Oliver|Google UK English Male|Ryan|George|Thomas|Alfie|Elliot|Harry|Malcolm|Noah|Ethan/i;
 function pickVoice() {
   const vs = voices(); if (!vs.length) return null;
-  return vs.find(v => v.name === V.voice) || vs.find(v => /Daniel|UK English Male|Arthur|Fred|Alex|Aaron|Guy|Ryan|Christopher|Davis|Eric|Rishi|Oliver/i.test(v.name)) || vs[0];
+  const gb = vs.filter(v => /en[-_]GB/i.test(v.lang));
+  const chosen = vs.find(v => v.name === V.voice);
+  if (chosen) return chosen;
+  if (V.persona === "ultron") return vs.find(v => /Daniel|UK English Male|Fred|Alex|Aaron|Guy|Ryan|Christopher|Davis|Eric/i.test(v.name)) || vs[0];
+  return gb.find(v => BRIT_MALE.test(v.name)) || vs.find(v => /Daniel|Arthur|UK English Male/i.test(v.name)) || gb.find(v => !/female|Serena|Kate|Martha|Stephanie|Libby|Sonia|Hazel|Susan|Amy|Emma|Fiona|Moira/i.test(v.name)) || gb[0] || vs[0];
 }
+// One-time switch to a British voice for JARVIS (Nov 7): clear any older non-British pick.
+try { if (!localStorage.getItem(LSKEY + ":britVoice")) { if (V.persona !== "ultron") { V.voice = ""; V.pitch = null; V.rate = null; } localStorage.setItem(LSKEY + ":britVoice", "1"); localStorage.setItem(VKEY, JSON.stringify(V)); } } catch {}
 /* ---------- animated core ---------- */
 const Core = (() => {
   const cv = $("#coreCanvas"), ctx = cv.getContext("2d");
@@ -1656,7 +1663,7 @@ function speak(text) {
 }
 function stopSpeaking() { try { canSpeak && speechSynthesis.cancel(); } catch {} }
 if (canSpeak) { try { speechSynthesis.addEventListener("voiceschanged", applyV); } catch {} }
-$("#voiceBtn").addEventListener("click", () => { V.on = !V.on; if (!V.on) stopSpeaking(); saveV(); if (V.on) speak(V.persona === "ultron" ? "I'm here, Morgan. Let's make this business evolve." : "Voice online, Morgan."); });
+$("#voiceBtn").addEventListener("click", () => { V.on = !V.on; if (!V.on) stopSpeaking(); saveV(); if (V.on) speak(V.persona === "ultron" ? "I'm here, Morgan. Let's make this business evolve." : "At your service, Morgan."); });
 $("#vPersona").addEventListener("change", e => { V.persona = e.target.value; V.pitch = null; V.rate = null; saveV(); renderChat(); });
 $("#vNudge").addEventListener("change", e => { V.nudge = +e.target.value; lastNudge = Date.now(); saveV(); });
 $("#vOn").addEventListener("change", e => { V.on = e.target.value === "1"; if (!V.on) stopSpeaking(); saveV(); });
@@ -1666,7 +1673,7 @@ $("#vRate").addEventListener("input", e => { V.rate = +e.target.value; saveV(); 
 $("#vReset").addEventListener("click", () => { V.pitch = null; V.rate = null; saveV(); });
 $("#vTest").addEventListener("click", () => { const was = V.on; V.on = true; speak(V.persona === "ultron"
   ? `Morgan. Your automations are running, your technicians are in motion, and every lead that slips away is a small extinction. Shall we begin?`
-  : `Good morning, Morgan. Automations are green, the kitten is fed, and there's revenue to be made.`); V.on = was; });
+  : `Good evening, Morgan. I've taken the liberty of reviewing the books. The automations are running, the kitten has been fed, and I'm afraid there is rather a lot of revenue left to be made.`); V.on = was; });
 
 /* ---------- boot ---------- */
 $("#jobDate").value = TODAY; $("#expDate").value = TODAY;
