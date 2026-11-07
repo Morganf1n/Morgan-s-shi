@@ -268,23 +268,8 @@ input,select,textarea{border-radius:2px}
 .mic.on{background:#D4AF6A;border-color:#D4AF6A;color:#14110A}
 @keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(212,175,106,.6)}50%{box-shadow:0 0 0 8px rgba(212,175,106,0)}}
 
-/* red touches on black + gold */
-:root{--red:#B3201C;--red-deep:#7A1210}
-.btn{background:linear-gradient(180deg,#C42A24,var(--red-deep));border-color:#D4AF6A;color:#F6E7C1}
-.btn.ghost{background:transparent;color:var(--accent);border-color:var(--accent)}
-.mark b{color:var(--red)}
-.hello .quote{color:#C9392F}
-.tabs button[aria-selected="true"]{box-shadow:inset 0 -2px 0 var(--red);color:var(--accent)}
-.card::before{background:linear-gradient(90deg,transparent,var(--red) 30%,var(--accent) 50%,var(--red) 70%,transparent)}
-.checks input[type=checkbox]:checked{background:var(--red);border-color:var(--accent)}
-.jarvis{border-color:#3A1512}
-.jarvis header{border-bottom-color:#3A1512}
-.msgs{background:linear-gradient(#1A0D0B,#080605)}
-.vbtn[aria-pressed="true"]{background:var(--red-deep);border-color:#D4AF6A;color:#F6E7C1}
-.mic.on{background:var(--red);border-color:#D4AF6A;color:#fff}
-@keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(196,40,36,.6)}50%{box-shadow:0 0 0 8px rgba(196,40,36,0)}}
 .mark{color:#050403;-webkit-text-stroke:1px #D4AF6A;text-shadow:0 0 10px rgba(212,175,106,.25);font-weight:700}
-.mark b{-webkit-text-stroke:0}
+.mark b{-webkit-text-stroke:0;color:#D4AF6A}
 .jarvis header h2{color:#050403;-webkit-text-stroke:1px #D4AF6A;text-shadow:0 0 12px rgba(212,175,106,.35);font-weight:700;font-size:20px;letter-spacing:.28em;white-space:nowrap}
 @media (max-width:520px){.jarvis header h2{letter-spacing:.16em;font-size:19px}.jarvis header{flex-wrap:wrap}.jarvis header > div:first-child{flex:1 0 100%}}
 </style>
@@ -1582,7 +1567,7 @@ const Core = (() => {
   function pal() {
     return V.persona === "ultron"
       ? { mid: "rgba(176,58,52,1)", edge: "rgba(78,20,22,1)", line: "255,110,84", ray: "255,200,188", glow: ["255,255,255", "255,222,214", "255,104,84"], mark: "#ff3b30" }
-      : { mid: "rgba(70,14,14,1)", edge: "rgba(6,4,3,1)", line: "222,190,120", ray: "245,225,180", glow: ["255,250,238", "246,220,170", "196,40,36"], mark: "#D4AF6A" };
+      : { mid: "rgba(46,36,18,1)", edge: "rgba(6,5,3,1)", line: "222,190,120", ray: "245,225,180", glow: ["255,252,240", "246,226,178", "201,162,86"], mark: "#D4AF6A" };
   }
   function frame(now) {
     const t = (now - t0) / 1000; const p = pal(); const full = $("#jarvis").classList.contains("corefull");
