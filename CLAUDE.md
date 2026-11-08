@@ -45,7 +45,7 @@ All agent prompts carry the three packages, Austin + Mo at 60/40, the $10k Novem
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `1QSEw0Ev-9SiK7EE_anfz-R8Z9J1nu_f-Jju_hLRsgt4`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `19kPJccrWBN9FO6wRAPbB-Vfb8DRC8Q_y357qy2Rvmng`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
