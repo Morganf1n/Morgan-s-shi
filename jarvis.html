@@ -644,7 +644,7 @@ const DEFAULTS = {
   subShare: 60,
   techs: ["Austin", "Mo"],
   kittenName: "Kitten", kittenBirth: "2026-07-30",
-  calGoal: 2000, reviewGoal: 1, reviewStretch: 2, reviewLink: "", jobFee: 25, jobFeeLabel: "Rapid Reach",
+  calGoal: 2000, reviewGoal: 1, reviewStretch: 2, reviewLink: "https://g.page/r/CWfqjUxoPJuREBM/review", jobFee: 25, jobFeeLabel: "Rapid Reach",
   moneySplit: { tax: 25, emergency: 10, emergencyTarget: 3000, personal: 150 },
   routine: [
     "Test the automations (booking, reminders, review requests)",
@@ -685,7 +685,7 @@ const LEGACY_LABELS = { full: "Full detail", interior: "Interior detail", exteri
 const tier = t => t === "basic" ? "basic" : (t === "standard" || String(t).startsWith("std")) ? "std" : (t === "luxury" || String(t).startsWith("lux")) ? "lux" : "other";
 // Only the current packages show up; saved prices override the defaults, older service types stay readable through LEGACY_LABELS.
 const settings = () => { const saved = (S.settings && S.settings.services) || {};
-  return { ...DEFAULTS, ...S.settings, services: Object.fromEntries(Object.entries(DEFAULTS.services).map(([k, v]) => [k, { label: v.label, price: saved[k] && saved[k].price != null ? +saved[k].price : v.price }])), moneySplit: { ...DEFAULTS.moneySplit, ...(S.settings.moneySplit || {}) } }; };
+  return { ...DEFAULTS, ...S.settings, services: Object.fromEntries(Object.entries(DEFAULTS.services).map(([k, v]) => [k, { label: v.label, price: saved[k] && saved[k].price != null ? +saved[k].price : v.price }])), moneySplit: { ...DEFAULTS.moneySplit, ...(S.settings.moneySplit || {}) }, reviewLink: (S.settings && S.settings.reviewLink) || DEFAULTS.reviewLink }; };
 const serviceLabel = t => (settings().services[t] || {}).label || LEGACY_LABELS[t] || t;
 // Sub's pay: the lead fee comes off the top, then the sub gets their share of what's left.
 function subPay(price, src = "rr") { const s = settings(); const fee = src === "rr" ? (+s.jobFee || 0) : 0; return Math.round(Math.max(0, (+price || 0) - fee) * (+s.subShare || 0)) / 100; }
@@ -1207,7 +1207,7 @@ document.addEventListener("click", e => {
   if (t.matches("#revPlus")) { const n = setReviews((+currentDay().reviews || 0) + 1); toast(n >= (+settings().reviewGoal || 1) ? `${n} review${n === 1 ? "" : "s"} today. Goal met.` : `${n} review today.`); }
   if (t.matches("#revMinus")) setReviews((+currentDay().reviews || 0) - 1);
   if (t.matches("#copyRev")) {
-    const s = settings(); const msg = `Hi! Thanks for choosing ${s.business}. If you're happy with how your car came out, a quick Google review would mean a lot to us: ${s.reviewLink}`;
+    const s = settings(); const msg = `Hey, thank you for choosing us today. If you were happy with your detail, a quick Google review would mean a lot to our small business: ${s.reviewLink} Thank you!`;
     navigator.clipboard.writeText(msg).then(() => toast("Review text copied."), () => toast(msg));
   }
   if (t.matches("#addTech")) { const f = $("#techFields"); const n = f.querySelectorAll("input").length; f.lastElementChild.insertAdjacentHTML("beforebegin", `<label class="field"><span>Tech ${n + 1}</span><input id="sTech${n}" placeholder="Name"></label>`); }

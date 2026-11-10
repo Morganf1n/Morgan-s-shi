@@ -36,6 +36,8 @@ Goal: buy a cash work van ($2,500–3,000 on Facebook Marketplace / Car Genesis,
 
 **Miami goal (Morgan, Nov 10):** move to a Miami high-rise at $3–4k/month rent (not a 3–4 month stay). Needs ~$10–12k/month provable income (landlords want 3x rent), little upfront if renting furnished monthly or a no-deposit building (first month + small fee), and filed tax returns / bank statements. Order: van (Jan) → PPC (Jan 4) → Miami fund. Plan (Nov 10): once the van is bought, Morgan does ~3 jobs/day himself (DE/PA), subs take overflow; ~2–3/day × 5 days ≈ $9–13k/month profit from his own jobs alone. Leaning Fort Lauderdale first (more for $3–4k), Brickell later at $15k+. Target move-in: fall 2027 (Sep–Oct) after 6 months of $10k+ profit (Mar–Aug); stretch: summer 2027 (cheaper Miami off-season rents) if Jan–Jun hit it early.
 
+**Google review link (Nov 10):** https://g.page/r/CWfqjUxoPJuREBM/review (listing name: ZaydDetailing LLC). Saved in Jarvis (Settings + "Copy review text"). Text after every job: "Hey [Name], thank you for choosing us today. If you were happy with your detail, a quick Google review would mean a lot to our small business: https://g.page/r/CWfqjUxoPJuREBM/review Thank you!" No discounts or rewards for reviews.
+
 **Website:** paid annually (no monthly cost right now, Morgan Nov 10); renewal date unknown. Website leads (Erica Jones, Nailah Ellis) carry no Rapid Reach fee, so keep it live: get the renewal date and budget for it.
 
 **Cecilia Wolf (Nov 10):** sold a monthly plan (2 cars, $250/mo then $375), but she is near Ocean City MD, 2+ hours from the DE detailer. Not workable: refund her payment, removed from calendar and Jarvis. Revisit if a sub is found in Salisbury / Ocean City (Delmarva).
