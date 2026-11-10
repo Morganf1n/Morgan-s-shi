@@ -1207,7 +1207,7 @@ document.addEventListener("click", e => {
   if (t.matches("#revPlus")) { const n = setReviews((+currentDay().reviews || 0) + 1); toast(n >= (+settings().reviewGoal || 1) ? `${n} review${n === 1 ? "" : "s"} today. Goal met.` : `${n} review today.`); }
   if (t.matches("#revMinus")) setReviews((+currentDay().reviews || 0) - 1);
   if (t.matches("#copyRev")) {
-    const s = settings(); const msg = `Hey, thank you for choosing us today. If you were happy with your detail, a quick Google review would mean a lot to our small business: ${s.reviewLink} Thank you!`;
+    const s = settings(); const msg = `Hey, thank you for choosing Zay Detailing LLC today. If you were happy with your detail, a quick Google review would mean a lot to our small business: ${s.reviewLink} Thank you!`;
     navigator.clipboard.writeText(msg).then(() => toast("Review text copied."), () => toast(msg));
   }
   if (t.matches("#addTech")) { const f = $("#techFields"); const n = f.querySelectorAll("input").length; f.lastElementChild.insertAdjacentHTML("beforebegin", `<label class="field"><span>Tech ${n + 1}</span><input id="sTech${n}" placeholder="Name"></label>`); }
