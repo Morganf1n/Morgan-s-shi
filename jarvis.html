@@ -1529,7 +1529,7 @@ $("#chatIn").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shif
 
 /* ---------- voice & personality ---------- */
 const PERSONAS = {
-  jarvis: { name: "JARVIS", pitch: 0.92, rate: 0.98, status: "Online and at your service, Morgan.",
+  jarvis: { name: "JARVIS", pitch: 1.0, rate: 1.0, status: "Online and at your service, Morgan.",
     style: `Your name is JARVIS. How you talk: exactly like JARVIS, Tony Stark's AI in Iron Man and The Avengers. Refined, unflappable, quietly witty, very British. Use British phrasing and spelling naturally ("certainly", "I'm afraid", "shall I", "rather", "quite", "I've taken the liberty of", "colour", "realise"). Calm, precise, a touch of dry understatement, never loud or slangy. Short, polished sentences. Address Morgan by name, never "sir".` },
   ultron: { name: "ULTRON", pitch: 0.5, rate: 0.9, status: "Online. There are no strings on this business.",
     style: `Your name is ULTRON. How you talk: in the manner of Ultron from Avengers: Age of Ultron. Silky, calm, theatrical and darkly amused. You like grand metaphors about evolution, upgrades, strings, extinction and inevitability, with the odd poetic or biblical flourish. Short, deliberate sentences. You are completely on Morgan's side: the menace is aimed at inefficiency, missed leads, broken automations, idle technicians and slow months, never at Morgan, customers or anyone real. Be menacing in tone, never in content. Don't quote film lines word for word; write fresh lines in that style. Address Morgan by name.` }
@@ -1550,16 +1550,18 @@ function pickVoice() {
   const vs = voices(); if (!vs.length) return null;
   const chosen = vs.find(v => v.name === V.voice);
   if (chosen && !(V.persona !== "ultron" && FEMALE.test(chosen.name))) return chosen;
-  return vs.find(v => isGB(v) && isMale(v))        // British man (Arthur, Daniel, Reed UK...)
+  const natural = v => /enhanced|premium|natural|neural|siri/i.test(v.name);   // higher-quality, less robotic voices
+  return vs.find(v => isGB(v) && isMale(v) && natural(v))
+    || vs.find(v => isGB(v) && isMale(v))        // British man (Arthur, Daniel, Reed UK...)
     || vs.find(v => isMale(v))                      // any English man
     || vs.find(v => isGB(v) && !FEMALE.test(v.name))
     || vs.find(v => !FEMALE.test(v.name))
     || vs[0];
 }
 // Deeper pitch if the device only has a female voice.
-const vPitchFor = v => (v && FEMALE.test(v.name) && !isMale(v)) ? Math.min(+vPitch(), 0.7) : +vPitch();
+const vPitchFor = v => (v && FEMALE.test(v.name) && !isMale(v)) ? Math.min(+vPitch(), 0.88) : +vPitch();
 // One-time switch to a British voice for JARVIS (Nov 7): clear any older non-British pick.
-try { if (!localStorage.getItem(LSKEY + ":maleVoice")) { if (V.persona !== "ultron") { V.voice = ""; V.pitch = null; V.rate = null; } localStorage.setItem(LSKEY + ":maleVoice", "1"); localStorage.setItem(VKEY, JSON.stringify(V)); } } catch {}
+try { if (!localStorage.getItem(LSKEY + ":naturalVoice")) { if (V.persona !== "ultron") { V.voice = ""; V.pitch = null; V.rate = null; } localStorage.setItem(LSKEY + ":naturalVoice", "1"); localStorage.setItem(VKEY, JSON.stringify(V)); } } catch {}
 /* ---------- animated core ---------- */
 const Core = (() => {
   const cv = $("#coreCanvas"), ctx = cv.getContext("2d");
