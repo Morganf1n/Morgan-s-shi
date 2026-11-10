@@ -36,7 +36,7 @@ Goal: buy a cash work van ($2,500–3,000 on Facebook Marketplace / Car Genesis,
 
 **Website:** paid annually (no monthly cost right now, Morgan Nov 10); renewal date unknown. Website leads (Erica Jones, Nailah Ellis) carry no Rapid Reach fee, so keep it live: get the renewal date and budget for it.
 
-**Recurring (Nov 10): Cecilia Wolf, Maryland, monthly maintenance plan for 2 cars: $250/month Nov–Jan, $375/month from Feb 2027.** Detailer 60% ($150, then $225), Morgan $100, then $150. Placeholder visits on the calendar Nov 21, Dec 19, Jan 16, Feb 20 (10 AM); confirm real day, phone, address. Logged in Jarvis for November.
+**Cecilia Wolf (Nov 10):** sold a monthly plan (2 cars, $250/mo then $375), but she is near Ocean City MD, 2+ hours from the DE detailer. Not workable: refund her payment, removed from calendar and Jarvis. Revisit if a sub is found in Salisbury / Ocean City (Delmarva).
 
 ## Specials (Nov 6)
 
