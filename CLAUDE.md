@@ -36,6 +36,8 @@ Goal: buy a cash work van ($2,500–3,000 on Facebook Marketplace / Car Genesis,
 
 **Website:** paid annually (no monthly cost right now, Morgan Nov 10); renewal date unknown. Website leads (Erica Jones, Nailah Ellis) carry no Rapid Reach fee, so keep it live: get the renewal date and budget for it.
 
+**Recurring (Nov 10): Cecilia Wolf, Maryland, monthly maintenance plan for 2 cars: $250/month Nov–Jan, $375/month from Feb 2027.** Detailer 60% ($150, then $225), Morgan $100, then $150. Placeholder visits on the calendar Nov 21, Dec 19, Jan 16, Feb 20 (10 AM); confirm real day, phone, address. Logged in Jarvis for November.
+
 ## Specials (Nov 6)
 
 A seasonal special is always running (Doc 15). **Target average ticket $250–285.** Thanksgiving Special $249 through Nov 25 (was $225 until Nov 8); after it: Black Friday gift cards, Holiday Road Trip $249, New Year Reset $259, Date Night $259, Spring Pollen Reset $275, Mother's Day $259, Summer Road Trip $285, Back to School $259, Fall Ready $265, Thanksgiving 2027 $249. Pitch: "We have our special option right now, and it's selling fast" (only when true). Morgan is closing most deals himself now.
