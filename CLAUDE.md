@@ -53,7 +53,7 @@ All agent prompts carry the three packages, Austin + Mo at 60/40, the $10k Novem
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `19kPJccrWBN9FO6wRAPbB-Vfb8DRC8Q_y357qy2Rvmng`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `1_930hgX93SSXKSJtnl05y4d_ox4iUFXMH7lYITaoLLw`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
@@ -89,5 +89,6 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `REVIEW_PLAN.md` | [Google Doc: 13 Review Plan: 120 Google Reviews by New Year (Oct 31)](https://docs.google.com/document/d/1Fq-zXKpVRV91O8rr410V8H10llJNtZBMA67O_PXaxQA/edit), in 1 – Goals & Plans |
 | `NOVEMBER_10K_PLAN.md` | [Google Doc: 14 November $10k Plan (Nov 1)](https://docs.google.com/document/d/1HtHOVT8KSaD5DwRzXyNRUrZqIV12HigdF4XYeBMgL_A/edit), in 1 – Goals & Plans. Daily red all-day calendar event Nov 1–30 plus Nov 2 10:30 AM past-customer text. |
 | (Nov 6) | [Google Doc: 15 Seasonal Specials Calendar 2026–2027 (Thanksgiving $249), latest](https://docs.google.com/document/d/1FWs3ni2un7ZOZ_sbMO1kjZjg5VlE6PlqWHNLORKH7Js/edit), in 1 – Goals & Plans. Also covers the Rapid Reach PPC (coatings + paint correction) budget and break-even. |
+| (Nov 11) | [Google Doc: 16 2027 Roadmap: Van, Tesla, Fort Lauderdale High-Rise](https://docs.google.com/document/d/1DgkeSKFLmr9PgUMktOFHvceS5lqB78dASRd-VrM1vec/edit), in 1 – Goals & Plans. Savings by month, van + setup, PPC, Tesla (May 1 checkpoint), July move. |
 
 Add a row here whenever you upload a new file.
