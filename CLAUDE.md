@@ -59,7 +59,7 @@ All agent prompts carry the three packages, Austin + Mo at 60/40, the $10k Novem
 ## Drive folder layout
 
 Inside the main folder:
-- `00 START HERE – Coastline Index` (Google Doc, id `1ahRf65R7NX8AeC2-2XomBssLGdGa6Vqyd1-3ON1W8HM`): links to every file. Add a link here when you upload a new file.
+- `00 START HERE – Coastline Index` (Google Doc, id `1PHENNG7goKIH77978BDVUBmXRmcMee9DoKx_SYUAmdY`): links to every file. Add a link here when you upload a new file.
 - `1 – Goals & Plans` (id `1in_g-Gjbc0RusUmNo-3aPeWv4Fg5TSrG`): goals, monthly/seasonal plans, growth plan.
 - `2 – Sales & Scripts` (id `1s_lC7XjS8tqpHAm3dULYPBGyWvfscL2i`): pitches, objection scripts, research.
 - `3 – Glen Mills PA (2028)` (id `1aGEOXCNVPkcJVQNOnzta0BcEl2rFYmre`).
@@ -95,7 +95,7 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | `REVIEW_PLAN.md` | [Google Doc: 13 Review Plan: 120 Google Reviews by New Year (Oct 31)](https://docs.google.com/document/d/1Fq-zXKpVRV91O8rr410V8H10llJNtZBMA67O_PXaxQA/edit), in 1 – Goals & Plans |
 | `NOVEMBER_10K_PLAN.md` | [Google Doc: 14 November $10k Plan (Nov 1)](https://docs.google.com/document/d/1HtHOVT8KSaD5DwRzXyNRUrZqIV12HigdF4XYeBMgL_A/edit), in 1 – Goals & Plans. Daily red all-day calendar event Nov 1–30 plus Nov 2 10:30 AM past-customer text. |
 | (Nov 6) | [Google Doc: 15 Seasonal Specials Calendar 2026–2027 (Thanksgiving $235), latest Nov 11](https://docs.google.com/document/d/1s4q9XMSWJQpEJ4z924Fum5vHDX2Ilgz7-XIWFyDip44/edit), in 1 – Goals & Plans. Also covers the Rapid Reach PPC (coatings + paint correction) budget and break-even. |
-| (Nov 11) | [Google Doc: 16 Road to September 2027: Month-by-Month Steps (Van, Model Y, Miami), latest Nov 12](https://docs.google.com/document/d/1dREFcE4CjbThoqacm0Ofqi-6ytfTVTwWHyj_7U8B4ac/edit), in 1 – Goals & Plans. Nov–Sept steps: daily habits, savings/revenue/review targets per month, specials, van in Jan, PPC Feb, taxes Apr, Model Y Jul/Oct, August move checklist. Older roadmap copies in Archive. |
+| (Nov 11) | [Google Doc: 16 Road to September 2027: Month-by-Month Steps (Van, Model Y, Miami + Apartment Setup), latest Nov 12 2:15 AM](https://docs.google.com/document/d/1EiGoFgT0FmouQrspeJ5iHRVjRdjfG_TEfww4gglAels/edit), in 1 – Goals & Plans. Nov–Sept steps: daily habits, savings/revenue/review targets per month, specials, van in Jan, PPC Feb, taxes Apr, Model Y Jul/Oct, August move checklist. Older roadmap copies in Archive. |
 
 | (Nov 12, artifact) | [Coastline Tesla Mockups](https://claude.ai/artifact/Y4M2ReDMdUPcDkUedjCXpJ): Model Y in the van wrap (white front, black rear, blue stripes, dog mascot, We Come To You!, 470-712-3847, @coastlineautodetailing); partial wrap on a white Model Y ~$1,200–2,000, full ~$2,500–3,500. |
 Add a row here whenever you upload a new file.
