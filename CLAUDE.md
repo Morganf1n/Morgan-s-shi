@@ -94,5 +94,5 @@ Upload new files straight into the right subfolder and number them to match (e.g
 | (Nov 6) | [Google Doc: 15 Seasonal Specials Calendar 2026–2027 (Thanksgiving $235), latest Nov 11](https://docs.google.com/document/d/1s4q9XMSWJQpEJ4z924Fum5vHDX2Ilgz7-XIWFyDip44/edit), in 1 – Goals & Plans. Also covers the Rapid Reach PPC (coatings + paint correction) budget and break-even. |
 | (Nov 11) | [Google Doc: 16 2027 Roadmap: Tesla Work Setup, PPC, Fort Lauderdale (no van), latest Nov 12](https://docs.google.com/document/d/1rx8EkX-jFpNirnVQCbErlwEoihSdN6YK7blksw0t5A8/edit), in 1 – Goals & Plans. No van; Tesla (Model Y preferred) as work + personal car with removable setup, PPC Feb 1, Sept 1 move with Amelia. Older van-plan copies in Archive. |
 
-| (Nov 12, artifact) | [Coastline Tesla Mockups](https://claude.ai/artifact/Y4M2ReDMdUPcDkUedjCXpJ): 3 branding options (A white + door logos $150–300, B satin black wrap + gold logo $2,500–3,500 recommended, C factory color + window decal $100–200). |
+| (Nov 12, artifact) | [Coastline Tesla Mockups](https://claude.ai/artifact/Y4M2ReDMdUPcDkUedjCXpJ): Model Y in the van wrap (white front, black rear, blue stripes, dog mascot, We Come To You!, 470-712-3847, @coastlineautodetailing); partial wrap on a white Model Y ~$1,200–2,000, full ~$2,500–3,500. |
 Add a row here whenever you upload a new file.
