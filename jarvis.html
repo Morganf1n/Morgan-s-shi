@@ -1459,10 +1459,10 @@ function localCommand(text) {
   if (t.split(/\s+/).length > 14) return false;
   applyMode(persona && wantsChange ? persona : null, voice);
   const p = V.persona;
-  const reply = voice === "off" ? (p === "ultron" ? "Silence, then. I'll still be watching the numbers." : "Voice off. I'll keep it to text.")
-    : voice === "on" && !(persona && wantsChange) ? (p === "ultron" ? `You'll hear me now, ${settings().name}.` : `Voice on, ${settings().name}. I'll read my replies out loud.`)
+  const reply = voice === "off" ? (p === "ultron" ? "Silence, then. I'll still be watching the numbers." : "Got it, text only.")
+    : voice === "on" && !(persona && wantsChange) ? (p === "ultron" ? `You'll hear me now, ${settings().name}.` : `Voice on, ${settings().name}. I'll talk you through it.`)
     : p === "ultron" ? `There you are, ${settings().name}. No more polite butler. I'm Ultron now, and this business is going to evolve.${V.on ? "" : "\n\nTap Voice on at the top if you want to hear me."}`
-    : `JARVIS back online, ${settings().name}. Calm, collected, and at your service.${V.on ? "" : "\n\nTap Voice on at the top if you want to hear me."}`;
+    : `Jarvis here, ${settings().name}. What are we working on?${V.on ? "" : "\n\nTap Voice on at the top if you want to hear me."}`;
   S.chat = [...S.chat, { role: "user", content: text }, { role: "assistant", content: reply }].slice(-40);
   const d = currentDay(); d.chat = S.chat; saveDay(d); renderChat(); speak(reply);
   return true;
@@ -1557,8 +1557,8 @@ $("#chatIn").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shif
 
 /* ---------- voice & personality ---------- */
 const PERSONAS = {
-  jarvis: { name: "JARVIS", pitch: 1.0, rate: 1.0, status: "Online and at your service, Morgan.",
-    style: `Your name is JARVIS. How you talk: exactly like JARVIS, Tony Stark's AI in Iron Man and The Avengers. Refined, unflappable, quietly witty, very British. Use British phrasing and spelling naturally ("certainly", "I'm afraid", "shall I", "rather", "quite", "I've taken the liberty of", "colour", "realise"). Calm, precise, a touch of dry understatement, never loud or slangy. Short, polished sentences. Address Morgan by name, never "sir".` },
+  jarvis: { name: "JARVIS", pitch: 1.0, rate: 1.05, status: "Hey Morgan, what are we working on?",
+    style: `Your name is JARVIS, Morgan's right-hand man. Talk like a real person, not a robot or a butler: relaxed, warm, confident, a bit of dry humour, like a sharp friend who has the numbers. Use contractions (you're, that's, let's), short natural sentences, and plain everyday words. Match Morgan's energy: hype when he wins ("Two for two, let's go"), straight and calm when money is tight. Never stiff phrases like "Certainly", "I have taken the liberty", "Shall I", "As an AI", "Great question". No lists unless he asks for a breakdown; say it the way you'd say it out loud. A light British touch is fine but never formal. Call him Morgan or nothing, never "sir".` },
   ultron: { name: "ULTRON", pitch: 0.5, rate: 0.9, status: "Online. There are no strings on this business.",
     style: `Your name is ULTRON. How you talk: in the manner of Ultron from Avengers: Age of Ultron. Silky, calm, theatrical and darkly amused. You like grand metaphors about evolution, upgrades, strings, extinction and inevitability, with the odd poetic or biblical flourish. Short, deliberate sentences. You are completely on Morgan's side: the menace is aimed at inefficiency, missed leads, broken automations, idle technicians and slow months, never at Morgan, customers or anyone real. Be menacing in tone, never in content. Don't quote film lines word for word; write fresh lines in that style. Address Morgan by name.` }
 };
@@ -1578,8 +1578,10 @@ function pickVoice() {
   const vs = voices(); if (!vs.length) return null;
   const chosen = vs.find(v => v.name === V.voice);
   if (chosen && !(V.persona !== "ultron" && FEMALE.test(chosen.name))) return chosen;
-  const natural = v => /enhanced|premium|natural|neural|siri/i.test(v.name);   // higher-quality, less robotic voices
+  const natural = v => /enhanced|premium|natural|neural|siri|online/i.test(v.name) || v.localService === false;   // higher-quality, less robotic voices
   return vs.find(v => isGB(v) && isMale(v) && natural(v))
+    || vs.find(v => isMale(v) && natural(v))         // any natural-sounding man beats a robotic British one
+    || vs.find(v => natural(v) && !FEMALE.test(v.name))
     || vs.find(v => isGB(v) && isMale(v))        // British man (Arthur, Daniel, Reed UK...)
     || vs.find(v => isMale(v))                      // any English man
     || vs.find(v => isGB(v) && !FEMALE.test(v.name))
@@ -1588,8 +1590,8 @@ function pickVoice() {
 }
 // Deeper pitch if the device only has a female voice.
 const vPitchFor = v => (v && FEMALE.test(v.name) && !isMale(v)) ? Math.min(+vPitch(), 0.88) : +vPitch();
-// One-time switch to a British voice for JARVIS (Nov 7): clear any older non-British pick.
-try { if (!localStorage.getItem(LSKEY + ":naturalVoice")) { if (V.persona !== "ultron") { V.voice = ""; V.pitch = null; V.rate = null; } localStorage.setItem(LSKEY + ":naturalVoice", "1"); localStorage.setItem(VKEY, JSON.stringify(V)); } } catch {}
+// One-time reset to the most human-sounding voice for JARVIS (Nov 13): clear older picks so pickVoice() chooses again.
+try { if (!localStorage.getItem(LSKEY + ":humanVoice")) { if (V.persona !== "ultron") { V.voice = ""; V.pitch = null; V.rate = null; } localStorage.setItem(LSKEY + ":humanVoice", "1"); localStorage.setItem(VKEY, JSON.stringify(V)); } } catch {}
 /* ---------- animated core ---------- */
 const Core = (() => {
   const cv = $("#coreCanvas"), ctx = cv.getContext("2d");
@@ -1690,12 +1692,25 @@ function speak(text) {
   if (!V.on || !canSpeak) return;
   try {
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(String(text).replace(/[*_#`>]/g, "").trim());
-    const v = pickVoice(); if (v) { u.voice = v; u.lang = v.lang; }
-    u.pitch = vPitchFor(v); u.rate = +vRate();
-    u.onstart = () => Core.set("speaking"); u.onend = u.onerror = () => { Core.set("idle"); Talk.afterSpeech(); };
-    u.onboundary = () => Core.pulse(0.45);
-    speechSynthesis.speak(u);
+    // Clean the text so it sounds like a person talking: no links, symbols or bullet marks read out.
+    const clean = String(text)
+      .replace(/https?:\/\/\S+/g, "the link").replace(/[*_#`>|]/g, "")
+      .replace(/^\s*[-•]\s*/gm, "").replace(/\s*\n+\s*/g, ". ").replace(/\.\s*\./g, ".")
+      .replace(/\$(\d[\d,]*)k\b/gi, "$1 thousand dollars").replace(/(\d)\s*[–-]\s*(\d)/g, "$1 to $2")
+      .replace(/\s+/g, " ").trim();
+    // Speak sentence by sentence: small natural pauses instead of one flat run-on.
+    const parts = clean.match(/[^.!?]+[.!?]*/g) || [clean];
+    const v = pickVoice();
+    parts.forEach((p, i) => {
+      const u = new SpeechSynthesisUtterance(p.trim()); if (!u.text) return;
+      if (v) { u.voice = v; u.lang = v.lang; }
+      u.pitch = vPitchFor(v); u.rate = +vRate();
+      if (i === 0) u.onstart = () => Core.set("speaking");
+      if (i === parts.length - 1) u.onend = () => { Core.set("idle"); Talk.afterSpeech(); };
+      u.onerror = () => { Core.set("idle"); };
+      u.onboundary = () => Core.pulse(0.45);
+      speechSynthesis.speak(u);
+    });
   } catch {}
 }
 function stopSpeaking() { try { canSpeak && speechSynthesis.cancel(); } catch {} }
