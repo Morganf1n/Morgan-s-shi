@@ -4,6 +4,7 @@
 
 Morgan wants follow-through without check-ins (Oct 31). When a change obviously implies follow-up work (updating Drive copies, the index, Jarvis, CLAUDE.md, calendar), just do it and report what was done. Only ask when Morgan's intent is genuinely unclear (e.g. which price is right). Morgan repeated this Nov 1: don't end replies with "want me to…?" offers. If a detail is missing (a date, a time), pick the most likely option, do it, and say what you assumed so he can correct it.
 When Morgan says "add this to the calendar / Drive / Jarvis" (or anything like it), do it immediately; never ask first or ask him to confirm.
+**Always update Jarvis with everything Morgan says** (Morgan, Nov 11): every job, payment, tip, deposit, expense, bank balance, savings transfer and plan change goes into the Jarvis artifact db right away (jobs, expenses, finance/main = checking/savings/goals/note shown on the Today tab's Bank & goals card). Don't wait to be asked.
 **No emojis in customer texts** (Morgan, Nov 2): every text, pitch or reply written for Morgan to send to a customer or lead must have zero emojis.
 **Never ask permission to optimize anything, ever** (Morgan, Nov 1, said three times). No "tell me and I'll…", no "want me to…", no confirmation questions. Make the best call, do it, report it in one line, and note any assumption so he can correct it.
 

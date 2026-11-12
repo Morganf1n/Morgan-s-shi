@@ -304,6 +304,12 @@ input,select,textarea{border-radius:2px}
         <p class="quote" id="quoteOfDay"></p>
       </div>
       <div class="kpis" id="todayKpis"></div>
+      <div class="card" id="bankCard">
+        <div class="card-head"><h2>Bank &amp; goals</h2><span class="hint" id="bankUpdated"></span></div>
+        <div class="kpis" id="bankKpis" style="grid-template-columns:repeat(3,minmax(0,1fr));margin:10px 0"></div>
+        <div id="bankGoals"></div>
+        <p class="muted small" id="bankNote"></p>
+      </div>
       <div class="grid2">
         <div class="card">
           <div class="card-head"><h2>Morning routine</h2><span class="hint" id="routineCount"></span></div>
@@ -707,6 +713,27 @@ const ready = (async () => {
   chip.title = db ? "Saved to your Jarvis database; open it from any device." : "Cloud sync is unavailable in this view, so data is kept in this browser.";
 })();
 
+function renderBank(f) {
+  const card = document.getElementById("bankCard"); if (!card) return;
+  const money = n => "$" + (+n || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const chk = +f.checking || 0, sav = +f.savings || 0;
+  const kp = document.getElementById("bankKpis"); kp.textContent = "";
+  [["Checking", chk], ["Savings", sav], ["Total", chk + sav]].forEach(([label, v]) => {
+    const d = document.createElement("div"); d.className = "kpi";
+    const s = document.createElement("span"); s.className = "lab"; s.textContent = label;
+    const b = document.createElement("span"); b.className = "val"; b.textContent = money(v);
+    d.append(s, b); kp.append(d);
+  });
+  const g = document.getElementById("bankGoals"); g.textContent = "";
+  (Array.isArray(f.goals) ? f.goals : []).forEach(x => {
+    const row = document.createElement("div"); row.className = "row small";
+    const pct = Math.max(0, Math.min(100, Math.round(sav / (+x.target || 1) * 100)));
+    row.textContent = (x.label || "Goal") + ": " + money(sav) + " of " + money(x.target) + " (" + pct + "%)" + (x.by ? " by " + x.by : "");
+    g.append(row);
+  });
+  document.getElementById("bankUpdated").textContent = f.updated ? "Updated " + f.updated : "";
+  document.getElementById("bankNote").textContent = f.note || "";
+}
 function sub(path, coll, cb) {
   if (db) {
     const onErr = e => { if (e.code !== "revoked") toast("Sync stopped (" + e.code + "). Reload to reconnect."); };
@@ -752,6 +779,7 @@ ready.then(() => {
   sub("jobs", true, list => { S.jobs = list; renderAll(); });
   sub("expenses", true, list => { S.expenses = list; renderAll(); });
   sub("goals", true, list => { S.goals = list; renderGoals(); renderToday(); });
+  sub("finance/main", false, d => renderBank(d || {}));
   sub("stats/daily", false, d => { S.stats = { cal: {}, reviews: {}, ...(d || {}) }; renderToday(); });
   sub("learning/list", false, d => { S.learning = d; renderGrow(); });
   sub("kitten/health", false, d => { S.health = (d && d.done) || {}; renderKitten(); renderToday(); });
