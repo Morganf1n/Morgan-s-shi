@@ -6,6 +6,7 @@ Morgan wants follow-through without check-ins (Oct 31). When a change obviously 
 When Morgan says "add this to the calendar / Drive / Jarvis" (or anything like it), do it immediately; never ask first or ask him to confirm.
 **Always update Jarvis with everything Morgan says** (Morgan, Nov 11): every job, payment, tip, deposit, expense, bank balance, savings transfer and plan change goes into the Jarvis artifact db right away (jobs, expenses, finance/main = checking/savings/goals/note shown on the Today tab's Bank & goals card). Don't wait to be asked.
 **No emojis in customer texts** (Morgan, Nov 2): every text, pitch or reply written for Morgan to send to a customer or lead must have zero emojis.
+**Keep track of the time** (Morgan, Nov 12): before any time-based advice (bedtime, "tonight", "tomorrow", when to text or post), run `TZ=America/New_York date` and use that clock; Morgan is on Eastern time.
 **Never ask permission to optimize anything, ever** (Morgan, Nov 1, said three times). No "tell me and I'll…", no "want me to…", no confirmation questions. Make the best call, do it, report it in one line, and note any assumption so he can correct it.
 
 ## Always upload new files to Google Drive
