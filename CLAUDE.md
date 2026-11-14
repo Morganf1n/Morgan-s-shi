@@ -1,6 +1,6 @@
 # Working in this repo
 
-**About Morgan:** 18, birthday Jan 14 (turns 19 on Jan 14, 2027). Started Coastline Oct 13, 2025.
+**About Morgan:** 18, birthday Jan 14 (turns 19 on Jan 14, 2027). From Lansdowne, Pennsylvania (hometown); lives in Georgia now. Started Coastline Oct 13, 2025.
 
 ## Don't ask permission
 
